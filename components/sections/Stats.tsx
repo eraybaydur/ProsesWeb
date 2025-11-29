@@ -11,8 +11,18 @@ const stats = [
 
 export default function Stats() {
     return (
-        <section className="py-10 border-y border-black/5 dark:border-white/5 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm">
-            <div className="container mx-auto px-6">
+        <section className="py-10 relative overflow-hidden bg-slate-50 dark:bg-deep-space">
+            {/* Grid Background - consistent with TechFlow */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+            {/* Gradient Overlay - starts crimson (from Hero), ends purple for smooth transition to Services */}
+            <div className="absolute inset-0 bg-gradient-to-b from-crimson/5 via-transparent to-purple-500/5" />
+
+            {/* Subtle border lines */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-burgundy/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
+
+            <div className="container mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                     {stats.map((stat, index) => (
                         <motion.div

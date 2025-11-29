@@ -32,7 +32,13 @@ export default function FAQ() {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
     return (
-        <section className="py-24 bg-white dark:bg-deep-space relative overflow-hidden">
+        <section className="py-24 bg-slate-50 dark:bg-deep-space relative overflow-hidden">
+            {/* Grid Background - consistent with TechFlow */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+            {/* Gradient Overlay - burgundy to purple transition */}
+            <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-purple-500/5" />
+
             <div className="container mx-auto px-6 max-w-4xl relative z-10">
                 <div className="text-center mb-16">
                     <motion.div

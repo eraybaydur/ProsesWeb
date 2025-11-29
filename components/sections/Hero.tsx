@@ -12,8 +12,14 @@ export default function Hero() {
         <section className="relative min-h-screen w-full flex items-center pt-20 overflow-hidden bg-dot">
             {/* Modern Gradient Background */}
             <div className="absolute inset-0 -z-10">
-                {/* Animated gradient mesh */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-deep-space dark:via-slate-900 dark:to-deep-space" />
+                {/* Base background */}
+                <div className="absolute inset-0 bg-slate-50 dark:bg-deep-space" />
+
+                {/* Grid pattern - consistent with TechFlow */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+                {/* Gradient Overlay - starts burgundy, ends crimson for smooth transition to Stats */}
+                <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-crimson/5" />
 
                 {/* Glowing orbs */}
                 <motion.div
@@ -40,9 +46,6 @@ export default function Hero() {
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                     className="absolute top-1/2 right-1/4 w-64 h-64 bg-accent-red/10 dark:bg-accent-red/20 rounded-full blur-[80px]"
                 />
-
-                {/* Grid pattern overlay */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] mask-image-gradient-b" />
             </div>
 
             {/* Subtle wave animation - above background, below content */}

@@ -8,9 +8,13 @@ export default function CTA() {
     return (
         <section className="py-24 relative overflow-hidden">
             {/* Background with Gradient and Noise */}
-            <div className="absolute inset-0 bg-slate-900 dark:bg-black">
-                <div className="absolute inset-0 bg-gradient-to-br from-burgundy/20 via-slate-900 to-slate-900 dark:from-burgundy/20 dark:via-black dark:to-black" />
-                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-slate-900 dark:bg-deep-space">
+                {/* Grid Background - consistent with TechFlow but for dark bg */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+                {/* Gradient Overlay - purple to crimson transition */}
+                <div className="absolute inset-0 bg-gradient-to-b from-purple-500/10 via-transparent to-crimson/10" />
+                <div className="absolute inset-0 bg-gradient-to-br from-burgundy/20 via-transparent to-transparent" />
 
                 {/* Glowing Orbs */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-crimson/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />

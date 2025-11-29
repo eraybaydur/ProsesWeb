@@ -27,8 +27,18 @@ const features = [
 
 export default function Features() {
     return (
-        <section className="py-24 bg-slate-50 dark:bg-slate-900/30 border-y border-slate-200 dark:border-white/5">
-            <div className="container mx-auto px-6">
+        <section id="features" className="py-24 relative overflow-hidden bg-slate-50 dark:bg-deep-space">
+            {/* Grid Background - consistent with TechFlow */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+            {/* Gradient Overlay - purple to crimson transition */}
+            <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-crimson/5" />
+
+            {/* Subtle border lines */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-crimson/20 to-transparent" />
+
+            <div className="container mx-auto px-6 relative z-10">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-12">
                     <div className="md:w-1/2">
                         <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">

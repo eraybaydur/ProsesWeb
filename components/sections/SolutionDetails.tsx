@@ -239,17 +239,23 @@ function FloatingShapes({ colors, index }: { colors: string[]; index: number }) 
     );
 }
 
+import { useIsMobile } from '@/hooks/use-mobile';
+
 export default function SolutionDetails() {
+    const isMobile = useIsMobile();
     return (
         <div className="relative">
             {solutions.map((solution, index) => (
                 <section
                     key={solution.id}
                     id={solution.id}
-                    className={`relative py-24 overflow-hidden ${index % 2 === 0 ? 'bg-white dark:bg-deep-space' : 'bg-slate-50 dark:bg-slate-900/50'}`}
+                    className={`relative py-24 overflow-hidden bg-slate-50 dark:bg-deep-space`}
                 >
-                    {/* Animated background */}
-                    <FloatingShapes colors={solution.blobColors} index={index} />
+                    {/* Grid Background - consistent with TechFlow */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+                    {/* Animated background - Only on desktop */}
+                    {!isMobile && <FloatingShapes colors={solution.blobColors} index={index} />}
 
                     {/* Gradient overlay */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${solution.bgGradient} pointer-events-none`} />

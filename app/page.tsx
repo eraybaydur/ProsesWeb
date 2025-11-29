@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import Stats from '@/components/sections/Stats';
 import Services from '@/components/sections/Services';
+import TechFlow from '@/components/sections/TechFlow';
 import LogoSolutions from '@/components/sections/LogoSolutions';
 import SolutionDetails from '@/components/sections/SolutionDetails';
 import Features from '@/components/sections/Features';
@@ -23,6 +24,7 @@ export default function Home() {
       <Hero />
       <Stats />
       <Services />
+      <TechFlow />
       <LogoSolutions />
       <ProcessTimeline />
       <SolutionDetails />

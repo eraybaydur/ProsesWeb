@@ -42,6 +42,12 @@ const steps = [
 export default function ProcessTimeline() {
     return (
         <section className="py-24 relative overflow-hidden bg-slate-50 dark:bg-deep-space">
+            {/* Grid Background - consistent with TechFlow */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+            {/* Gradient Overlay - starts crimson (from LogoSolutions), ends purple for smooth transition */}
+            <div className="absolute inset-0 bg-gradient-to-b from-crimson/5 via-transparent to-purple-500/5" />
+
             {/* Background Decorations */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-crimson/5 rounded-full blur-[120px]" />

@@ -57,15 +57,15 @@ export default function Footer() {
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 text-slate-700 dark:text-gray-400 text-sm">
                                 <MapPin className="w-5 h-5 text-crimson shrink-0" />
-                                <span>Central Balat, Sanayi Cad. No:123<br />Nilüfer, Bursa, Türkiye</span>
+                                <span>Ahmet Yesevi Mah. Hudut Sk. No:1A/A Central Balat Sitesi A Blok K:35 D:305<br />Nilüfer, Bursa, Türkiye</span>
                             </li>
                             <li className="flex items-center gap-3 text-slate-700 dark:text-gray-400 text-sm">
                                 <Phone className="w-5 h-5 text-crimson shrink-0" />
-                                <span>+90 (224) 123 45 67</span>
+                                <span>+90 532 138 78 68</span>
                             </li>
                             <li className="flex items-center gap-3 text-slate-700 dark:text-gray-400 text-sm">
                                 <Mail className="w-5 h-5 text-crimson shrink-0" />
-                                <span>info@prosesyazilim.com</span>
+                                <span>destek@prosesyazilim.com</span>
                             </li>
                         </ul>
                     </div>
