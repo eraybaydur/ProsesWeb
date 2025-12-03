@@ -1,7 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import FloatingProductCards from '@/components/ui/FloatingProductCards';
+import GlassCard from '@/components/ui/GlassCard';
+import TypingAnimation from '@/components/ui/TypingAnimation';
 
 // Logo Tiger/Go3 & Web Service pseudo-code
 const codeLines = [
@@ -33,201 +37,406 @@ const mobileCodeLines = [
     { text: 'createOrder()', color: 'text-violet-400' },
 ];
 
-// Data flow particles
-const dataParticles = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 4 + 2,
-    x: Math.random() * 100,
-    duration: Math.random() * 3 + 2,
-    delay: Math.random() * 2,
-}));
+// Typing animation words
+const typingWords = ['Tam Entegre', 'Süper Hızlı', 'Güvenli', 'Ölçeklenebilir'];
 
-// Tiger/Go3 & B2B Status strings
-const dataStrings = [
-    'TIGER 3 REST API: ACTIVE',
-    'GO 3 WEB SERVICE: LISTENING',
-    '{ "b2b_status": "ORDER_SYNCED" }',
-    'WEB → REST API → TIGER 3',
-    '█▀▀ █▄█ █▄░█ █▀▀   █▀▄ ▄▀█ ▀█▀ ▄▀█',
-    'ORDER#B2B-999 → TIGER SALES ✓',
-    '◉ B2B Portal ◉ Mobil Saha ◉ Pazaryeri',
-    'LOBJECTS.DLL → JSON SERVICE',
-];
+// Advanced Particle System Component
+function AdvancedParticleSystem({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
+    const particles = Array.from({ length: 50 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 4 + 1,
+        duration: Math.random() * 15 + 10,
+        delay: Math.random() * 5,
+        type: i % 3, // 0: circle, 1: square, 2: diamond
+    }));
+
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {particles.map((particle) => {
+                // Calculate distance from mouse for reaction effect
+                const dx = particle.x - mouseX;
+                const dy = particle.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDistance = 30;
+                const influence = Math.max(0, 1 - distance / maxDistance);
+                const offsetX = dx * influence * 0.5;
+                const offsetY = dy * influence * 0.5;
+
+                return (
+                    <motion.div
+                        key={particle.id}
+                        className={`absolute ${
+                            particle.type === 0 ? 'rounded-full' :
+                            particle.type === 1 ? 'rounded-sm' : 'rotate-45'
+                        } bg-burgundy/20 dark:bg-burgundy/30`}
+                        style={{
+                            left: `${particle.x}%`,
+                            top: `${particle.y}%`,
+                            width: particle.size,
+                            height: particle.size,
+                        }}
+                        animate={{
+                            y: [0, -50 - Math.random() * 50, 0],
+                            x: [offsetX, offsetX + (Math.random() * 30 - 15), offsetX],
+                            opacity: [0.1, 0.4 + influence * 0.3, 0.1],
+                            scale: [0.8, 1.2 + influence * 0.5, 0.8],
+                        }}
+                        transition={{
+                            duration: particle.duration,
+                            delay: particle.delay,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    />
+                );
+            })}
+
+            {/* Connecting lines between nearby particles */}
+            <svg className="absolute inset-0 w-full h-full opacity-10 dark:opacity-20">
+                <defs>
+                    <linearGradient id="particleLine" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+                        <stop offset="50%" stopColor="#10b981" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                    </linearGradient>
+                </defs>
+                {particles.slice(0, 15).map((p1, i) =>
+                    particles.slice(i + 1, i + 4).map((p2, j) => (
+                        <motion.line
+                            key={`${i}-${j}`}
+                            x1={`${p1.x}%`}
+                            y1={`${p1.y}%`}
+                            x2={`${p2.x}%`}
+                            y2={`${p2.y}%`}
+                            stroke="url(#particleLine)"
+                            strokeWidth="0.5"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: [0, 1, 0] }}
+                            transition={{
+                                duration: 8 + i * 0.5,
+                                delay: i * 0.3,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            }}
+                        />
+                    ))
+                )}
+            </svg>
+        </div>
+    );
+}
+
+// Enhanced Scroll Indicator
+function ScrollIndicator() {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.6 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 cursor-pointer z-20"
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        >
+            <motion.span
+                className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+            >
+                Keşfet
+            </motion.span>
+            <motion.div
+                className="relative w-7 h-12 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-start justify-center p-1.5 overflow-hidden"
+                whileHover={{ borderColor: '#10b981', scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400 }}
+            >
+                {/* Glowing background on hover */}
+                <motion.div
+                    className="absolute inset-0 bg-burgundy/10 rounded-full"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                />
+                <motion.div
+                    className="w-2 h-2 rounded-full bg-burgundy"
+                    animate={{ y: [0, 20, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+            </motion.div>
+            <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+                <ChevronDown className="w-5 h-5 text-slate-400" />
+            </motion.div>
+        </motion.div>
+    );
+}
 
 export default function TechFlow() {
     const sectionRef = useRef<HTMLDivElement>(null);
+    const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
-    // For parallax movement - starts when section enters viewport
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end end"]
-    });
+    // Mouse tracking
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (sectionRef.current) {
+                const rect = sectionRef.current.getBoundingClientRect();
+                setMousePosition({
+                    x: ((e.clientX - rect.left) / rect.width) * 100,
+                    y: ((e.clientY - rect.top) / rect.height) * 100,
+                });
+            }
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
-    // For content visibility - starts when section top hits viewport top
-    const { scrollYProgress: contentProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start start", "end end"]
-    });
+    // Scroll-based parallax
+    const { scrollY } = useScroll();
+    const smoothScrollY = useSpring(scrollY, { stiffness: 100, damping: 30 });
 
-    // Smooth spring for parallax
-    const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
-
-    // Different parallax speeds for layers - starts early when entering viewport
-    const y1 = useTransform(smoothProgress, [0, 1], ['20%', '-80%']);
-    const y2 = useTransform(smoothProgress, [0, 1], ['10%', '-50%']);
-    const y3 = useTransform(smoothProgress, [0, 1], ['30%', '-100%']);
-    const y4 = useTransform(smoothProgress, [0, 1], ['15%', '-60%']);
-
-    // Code columns opacity - smooth fade in
-    const codeOpacityRaw = useTransform(scrollYProgress, [0, 0.2, 0.85, 0.95], [0, 0.6, 0.5, 0]);
-    const codeOpacity = useSpring(codeOpacityRaw, { stiffness: 30, damping: 20 });
-
-    // Center content - smooth fade in
-    const centerOpacityRaw = useTransform(scrollYProgress, [0.05, 0.25, 0.8, 0.92], [0, 1, 1, 0]);
-    const centerOpacity = useSpring(centerOpacityRaw, { stiffness: 30, damping: 20 });
-
-    // Background blur effect - only at the very end for transition
-    const bgBlur = useTransform(contentProgress, [0.7, 0.95], [0, 12]);
+    // Parallax transforms
+    const backgroundY = useTransform(smoothScrollY, [0, 500], [0, 100]);
+    const codeLeftY = useTransform(smoothScrollY, [0, 500], [0, -150]);
+    const codeRightY = useTransform(smoothScrollY, [0, 500], [0, 150]);
+    const contentY = useTransform(smoothScrollY, [0, 500], [0, -30]);
+    const contentOpacity = useTransform(smoothScrollY, [0, 400], [1, 0]);
+    const contentScale = useTransform(smoothScrollY, [0, 500], [1, 0.95]);
+    const orbsY = useTransform(smoothScrollY, [0, 500], [0, 80]);
 
     return (
         <section
             id="techflow"
             ref={sectionRef}
-            className="relative h-[120vh] md:h-[200vh] bg-slate-50 dark:bg-deep-space overflow-hidden"
+            className="relative min-h-screen w-full bg-slate-50 dark:bg-deep-space overflow-hidden flex items-center pt-20"
         >
-            {/* Grid Background */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+            {/* Parallax Background Layer */}
+            <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
+                {/* Grid Background */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-crimson/5" />
+                {/* Gradient Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-crimson/5" />
+            </motion.div>
 
-            {/* Sticky Container */}
-            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-                {/* Blur overlay that increases on scroll */}
+            {/* Interactive Mouse Gradient Spotlight */}
+            <motion.div
+                className="absolute inset-0 pointer-events-none z-0"
+                style={{
+                    background: `radial-gradient(800px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(16, 185, 129, 0.08), transparent 40%)`,
+                }}
+            />
+
+            {/* Advanced Particle System */}
+            <AdvancedParticleSystem mouseX={mousePosition.x} mouseY={mousePosition.y} />
+
+            {/* Parallax Glowing Orbs */}
+            <motion.div className="absolute inset-0 pointer-events-none" style={{ y: orbsY }}>
                 <motion.div
-                    style={{ backdropFilter: useTransform(bgBlur, (b) => `blur(${b}px)`) }}
-                    className="absolute inset-0 z-[5] pointer-events-none"
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-1/4 -left-32 w-96 h-96 bg-burgundy/15 dark:bg-burgundy/25 rounded-full blur-[120px]"
                 />
-
-                {/* Left Code Column */}
                 <motion.div
-                    style={{ y: y1, opacity: codeOpacity }}
-                    className="hidden md:flex absolute left-[5%] top-0 h-[200%] w-[280px] flex-col gap-3 font-mono text-sm"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.35, 0.15] }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                    className="absolute bottom-1/4 -right-32 w-96 h-96 bg-crimson/10 dark:bg-crimson/20 rounded-full blur-[120px]"
+                />
+            </motion.div>
+
+            {/* Background Animation Layer - Code Columns with Parallax */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {/* Left Code Column - with scroll parallax */}
+                <motion.div
+                    style={{ y: codeLeftY }}
+                    className="hidden md:block absolute left-[2%] top-0 h-[200%] w-[280px]"
                 >
-                    {[...codeLines, ...codeLines, ...codeLines].map((line, i) => (
-                        <div
-                            key={i}
-                            className={`${line.color} whitespace-nowrap`}
-                        >
-                            <span className="text-slate-500 dark:text-slate-600 mr-3">{String(i + 1).padStart(2, '0')}</span>
-                            {line.text}
-                        </div>
-                    ))}
+                    <motion.div
+                        animate={{ y: ['0%', '-50%'] }}
+                        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                        className="flex flex-col gap-3 font-mono text-sm opacity-20 dark:opacity-15"
+                    >
+                        {[...codeLines, ...codeLines, ...codeLines, ...codeLines].map((line, i) => (
+                            <div key={i} className={`${line.color} whitespace-nowrap`}>
+                                <span className="text-slate-500 dark:text-slate-600 mr-3">{String(i % 16 + 1).padStart(2, '0')}</span>
+                                {line.text}
+                            </div>
+                        ))}
+                    </motion.div>
                 </motion.div>
 
-                {/* Right Code Column */}
+                {/* Right Code Column - with scroll parallax (opposite direction) */}
                 <motion.div
-                    style={{ y: y3, opacity: codeOpacity }}
-                    className="hidden md:flex absolute right-[5%] top-0 h-[200%] w-[280px] flex-col gap-3 font-mono text-sm text-right"
+                    style={{ y: codeRightY }}
+                    className="hidden md:block absolute right-[2%] top-0 h-[200%] w-[280px]"
                 >
-                    {[...codeLines].reverse().concat([...codeLines, ...codeLines]).map((line, i) => (
-                        <div
-                            key={i}
-                            className={`${line.color} whitespace-nowrap`}
-                        >
-                            {line.text}
-                            <span className="text-slate-500 dark:text-slate-600 ml-3">{String(i + 1).padStart(2, '0')}</span>
-                        </div>
-                    ))}
+                    <motion.div
+                        animate={{ y: ['-50%', '0%'] }}
+                        transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+                        className="flex flex-col gap-3 font-mono text-sm text-right opacity-20 dark:opacity-15"
+                    >
+                        {[...codeLines, ...codeLines, ...codeLines, ...codeLines].map((line, i) => (
+                            <div key={i} className={`${line.color} whitespace-nowrap`}>
+                                {line.text}
+                                <span className="text-slate-500 dark:text-slate-600 ml-3">{String(i % 16 + 1).padStart(2, '0')}</span>
+                            </div>
+                        ))}
+                    </motion.div>
                 </motion.div>
 
                 {/* Data Flow Lines - Left Side */}
-                <motion.div
-                    style={{ y: y2, opacity: codeOpacity }}
-                    className="hidden md:block absolute left-[25%] top-0 h-[200%] w-px"
-                >
-                    <div className="h-full w-full bg-gradient-to-b from-transparent via-burgundy/30 to-transparent" />
-                    {dataParticles.slice(0, 15).map((particle) => (
+                <div className="hidden md:block absolute left-[20%] top-0 h-full w-px">
+                    <div className="h-full w-full bg-gradient-to-b from-transparent via-burgundy/15 to-transparent" />
+                    {Array.from({ length: 10 }).map((_, i) => (
                         <motion.div
-                            key={particle.id}
-                            className="absolute w-2 h-2 rounded-full bg-burgundy/60"
+                            key={i}
+                            className="absolute w-2 h-2 rounded-full bg-burgundy/50"
                             style={{ left: -4 }}
                             animate={{
-                                y: ['0%', '100%'],
+                                y: ['0%', '1000%'],
                                 opacity: [0, 1, 1, 0],
+                                scale: [0.5, 1, 1, 0.5],
                             }}
                             transition={{
-                                duration: particle.duration,
-                                delay: particle.delay,
+                                duration: 4 + Math.random() * 3,
+                                delay: i * 0.5,
                                 repeat: Infinity,
                                 ease: 'linear',
                             }}
                         />
                     ))}
-                </motion.div>
+                </div>
 
                 {/* Data Flow Lines - Right Side */}
-                <motion.div
-                    style={{ y: y4, opacity: codeOpacity }}
-                    className="hidden md:block absolute right-[25%] top-0 h-[200%] w-px"
-                >
-                    <div className="h-full w-full bg-gradient-to-b from-transparent via-crimson/30 to-transparent" />
-                    {dataParticles.slice(15).map((particle) => (
+                <div className="hidden md:block absolute right-[20%] top-0 h-full w-px">
+                    <div className="h-full w-full bg-gradient-to-b from-transparent via-crimson/15 to-transparent" />
+                    {Array.from({ length: 10 }).map((_, i) => (
                         <motion.div
-                            key={particle.id}
-                            className="absolute w-2 h-2 rounded-full bg-crimson/60"
+                            key={i}
+                            className="absolute w-2 h-2 rounded-full bg-crimson/50"
                             style={{ left: -4 }}
                             animate={{
-                                y: ['100%', '0%'],
+                                y: ['100%', '-100%'],
                                 opacity: [0, 1, 1, 0],
+                                scale: [0.5, 1, 1, 0.5],
                             }}
                             transition={{
-                                duration: particle.duration,
-                                delay: particle.delay,
+                                duration: 4 + Math.random() * 3,
+                                delay: i * 0.5,
                                 repeat: Infinity,
                                 ease: 'linear',
                             }}
                         />
                     ))}
-                </motion.div>
+                </div>
+            </div>
 
-                {/* Floating Data Strings - Left */}
+            {/* Main Content Container with Parallax */}
+            <motion.div
+                className="container mx-auto px-6 relative z-10 h-full flex flex-col items-center justify-center text-center"
+                style={{ y: contentY, opacity: contentOpacity, scale: contentScale }}
+            >
+                {/* Floating Product Cards - Centered & Absolute */}
                 <motion.div
-                    style={{ y: y2, opacity: codeOpacity }}
-                    className="hidden md:block absolute left-[15%] top-[10%] font-mono text-xs text-slate-400 dark:text-slate-600"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                    className="hidden lg:flex absolute inset-0 items-center justify-center z-0 pointer-events-none"
                 >
-                    {dataStrings.slice(0, 4).map((str, i) => (
-                        <motion.div
-                            key={i}
-                            className="mb-8"
-                            animate={{ opacity: [0.3, 0.7, 0.3] }}
-                            transition={{ duration: 3, delay: i * 0.5, repeat: Infinity }}
-                        >
-                            {str}
-                        </motion.div>
-                    ))}
+                    <div className="scale-100 origin-center pointer-events-auto">
+                        <FloatingProductCards />
+                    </div>
                 </motion.div>
 
-                {/* Floating Data Strings - Right */}
+                {/* Text Content - Centered */}
                 <motion.div
-                    style={{ y: y4, opacity: codeOpacity }}
-                    className="hidden md:block absolute right-[15%] bottom-[10%] font-mono text-xs text-slate-400 dark:text-slate-600 text-right"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "circOut" }}
+                    className="relative z-10 max-w-3xl flex flex-col items-center"
                 >
-                    {dataStrings.slice(4).map((str, i) => (
-                        <motion.div
-                            key={i}
-                            className="mb-8"
-                            animate={{ opacity: [0.3, 0.7, 0.3] }}
-                            transition={{ duration: 3, delay: i * 0.5, repeat: Infinity }}
-                        >
-                            {str}
-                        </motion.div>
-                    ))}
+                    {/* Glowing Orb Background for Text */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-burgundy/10 rounded-full blur-[100px] -z-10" />
+
+                    {/* Glassmorphism Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        <GlassCard className="px-4 py-2 rounded-full !bg-white/50 dark:!bg-white/5 !border-burgundy/20 mb-6">
+                            <div className="flex items-center gap-2 font-mono text-xs md:text-sm text-burgundy dark:text-crimson">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                                LOGO ÇÖZÜM ORTAĞI
+                            </div>
+                        </GlassCard>
+                    </motion.div>
+
+                    {/* Main Title with Typing Animation */}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-[1.1]"
+                    >
+                        Tiger 3 & Go Wings ile{' '}
+                        <span className="block mt-2">
+                            <TypingAnimation
+                                words={typingWords}
+                                typingSpeed={80}
+                                deletingSpeed={40}
+                                delayBetweenWords={2500}
+                            />
+                        </span>
+                    </motion.h1>
+
+                    {/* Subtitle */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl leading-relaxed"
+                    >
+                        Özel Web Servisler, B2B Portalları ve Mobil Çözümler.
+                        <span className="block mt-2 text-burgundy dark:text-crimson font-medium">
+                            Logo verilerinizi web dünyasına taşıyoruz.
+                        </span>
+                    </motion.p>
+
+                    {/* Stats Row */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex justify-center gap-8 sm:gap-12 font-mono"
+                    >
+                        {[
+                            { value: 'REST API', label: 'Web Servis' },
+                            { value: 'B2B', label: 'Bayi Portalı' },
+                            { value: 'Mobil', label: 'Saha Satış' },
+                        ].map((stat, i) => (
+                            <motion.div
+                                key={i}
+                                className="text-center"
+                                whileHover={{ scale: 1.05, y: -2 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                            >
+                                <div className="text-xl sm:text-2xl font-bold text-burgundy dark:text-crimson">
+                                    {stat.value}
+                                </div>
+                                <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-500">
+                                    {stat.label}
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
                 </motion.div>
 
-                {/* Mobile floating code snippets - visible only on mobile */}
-                <div className="md:hidden absolute inset-0 overflow-hidden pointer-events-none">
-                    {/* Top left code */}
+                {/* Mobile Floating Code Snippets */}
+                <div className="lg:hidden absolute inset-0 overflow-hidden pointer-events-none z-0">
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.4 }}
@@ -244,7 +453,6 @@ export default function TechFlow() {
                             </motion.div>
                         ))}
                     </motion.div>
-                    {/* Bottom right code */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.4 }}
@@ -261,105 +469,11 @@ export default function TechFlow() {
                             </motion.div>
                         ))}
                     </motion.div>
-                    {/* Mobile data flow line */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-burgundy/20 to-transparent" />
                 </div>
+            </motion.div>
 
-                {/* Center Content - Fixed position, only opacity changes */}
-                <motion.div
-                    style={{ opacity: centerOpacity }}
-                    className="relative z-10 text-center px-4 sm:px-6 max-w-4xl"
-                >
-                    {/* Glowing Orb Background - Responsive sizes */}
-                    <div className="absolute inset-0 -z-10">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[500px] md:h-[500px] bg-burgundy/20 rounded-full blur-[80px] md:blur-[100px]" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[180px] md:w-[300px] md:h-[300px] bg-crimson/20 rounded-full blur-[60px] md:blur-[80px]" />
-                    </div>
-
-                    {/* Badge */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-burgundy/10 border border-burgundy/20 text-burgundy dark:text-crimson mb-4 md:mb-6 font-mono text-xs md:text-sm"
-                    >
-                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        LOGO ÇÖZÜM ORTAĞI
-                    </motion.div>
-
-                    {/* Main Title */}
-                    <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-4 md:mb-6 tracking-tight leading-tight"
-                    >
-                        Tiger 3 & Go Wings ile{' '}
-                        <span className="text-transparent block bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">
-                            Tam Entegre
-                        </span>
-                    </motion.h2>
-
-                    {/* Subtitle */}
-                    <motion.p
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-600 dark:text-slate-400 mb-6 md:mb-8 max-w-2xl mx-auto"
-                    >
-                        <span className="hidden sm:inline">Özel Web Servisler, B2B Portalları ve Mobil Çözümler.</span>
-                        <span className="sm:hidden">Web Servisler, B2B ve Mobil Çözümler.</span>
-                        <br />
-                        <span className="text-burgundy dark:text-crimson font-medium">Logo verilerinizi web dünyasına taşıyoruz.</span>
-                    </motion.p>
-
-                    {/* Stats Row */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 }}
-                        className="flex justify-center gap-4 sm:gap-8 md:gap-16 font-mono"
-                    >
-                        {[
-                            { value: 'REST API', label: 'Web Servis' },
-                            { value: 'B2B', label: 'Bayi Portalı' },
-                            { value: 'Mobil', label: 'Saha Satış' },
-                        ].map((stat, i) => (
-                            <div key={i} className="text-center">
-                                <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-burgundy dark:text-crimson">
-                                    {stat.value}
-                                </div>
-                                <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-500">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </motion.div>
-                </motion.div>
-
-                {/* Scroll Indicator */}
-                <motion.div
-                    style={{ opacity: useTransform(scrollYProgress, [0, 0.15], [1, 0]) }}
-                    className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 md:gap-2 text-slate-400"
-                >
-                    <span className="text-xs md:text-sm font-mono">scroll</span>
-                    <motion.div
-                        animate={{ y: [0, 6, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="w-4 h-6 md:w-5 md:h-8 rounded-full border-2 border-slate-400 flex items-start justify-center p-0.5 md:p-1"
-                    >
-                        <motion.div
-                            animate={{ y: [0, 10, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                            className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-burgundy"
-                        />
-                    </motion.div>
-                </motion.div>
-            </div>
-
+            {/* Enhanced Scroll Indicator */}
+            <ScrollIndicator />
         </section>
     );
 }

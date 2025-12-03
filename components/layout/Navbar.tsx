@@ -331,13 +331,13 @@ export default function Navbar() {
                 <Link href="/" className="text-2xl font-bold tracking-tighter flex items-center gap-3">
                     {/* Desktop Dark Mode Logo */}
                     <img
-                        src="/proseslogoswhite.png"
+                        src="/proseslogoslogan.png"
                         alt="Proses Yazılım"
                         className="h-10 w-auto hidden dark:md:block"
                     />
                     {/* Desktop Light Mode Logo */}
                     <img
-                        src="/proseslogo2.png"
+                        src="/proseslogoslogan.png"
                         alt="Proses Yazılım"
                         className="h-10 w-auto hidden md:block dark:hidden"
                     />

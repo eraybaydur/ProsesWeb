@@ -2,7 +2,6 @@
 
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import Hero from '@/components/sections/Hero';
 import Stats from '@/components/sections/Stats';
 import Services from '@/components/sections/Services';
 import TechFlow from '@/components/sections/TechFlow';
@@ -21,10 +20,9 @@ export default function Home() {
     <main className="relative min-h-screen w-full bg-white dark:bg-deep-space text-slate-900 dark:text-white selection:bg-crimson/20 selection:text-crimson dark:selection:bg-crimson/30 dark:selection:text-white">
       <Navbar />
 
-      <Hero />
+      <TechFlow />
       <Stats />
       <Services />
-      <TechFlow />
       <LogoSolutions />
       <ProcessTimeline />
       <SolutionDetails />

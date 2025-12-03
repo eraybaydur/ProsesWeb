@@ -1,8 +1,10 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import { Check, ArrowRight } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const solutions = [
     {
@@ -131,312 +133,216 @@ const solutions = [
 function FloatingShapes({ colors, index }: { colors: string[]; index: number }) {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Animated gradient blobs */}
             <motion.div
                 className={`absolute w-[500px] h-[500px] rounded-full ${colors[0]} blur-3xl`}
                 style={{ top: '-10%', right: index % 2 === 0 ? '-10%' : 'auto', left: index % 2 === 0 ? 'auto' : '-10%' }}
-                animate={{
-                    x: [0, 30, 0],
-                    y: [0, -20, 0],
-                    scale: [1, 1.1, 1],
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
+                animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
             />
             <motion.div
                 className={`absolute w-[400px] h-[400px] rounded-full ${colors[1]} blur-3xl`}
                 style={{ bottom: '-5%', left: index % 2 === 0 ? '10%' : 'auto', right: index % 2 === 0 ? 'auto' : '10%' }}
-                animate={{
-                    x: [0, -20, 0],
-                    y: [0, 30, 0],
-                    scale: [1, 1.15, 1],
-                }}
-                transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: 1,
-                }}
-            />
-
-            {/* Floating geometric shapes */}
-            <motion.div
-                className="absolute w-20 h-20 border border-current opacity-10 rounded-2xl"
-                style={{ top: '20%', left: '15%' }}
-                animate={{
-                    rotate: [0, 90, 180, 270, 360],
-                    y: [0, -15, 0],
-                }}
-                transition={{
-                    rotate: { duration: 20, repeat: Infinity, ease: 'linear' },
-                    y: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
-                }}
-            />
-            <motion.div
-                className="absolute w-12 h-12 border border-current opacity-10 rounded-full"
-                style={{ top: '60%', right: '20%' }}
-                animate={{
-                    scale: [1, 1.2, 1],
-                    y: [0, 10, 0],
-                }}
-                transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: 0.5,
-                }}
-            />
-            <motion.div
-                className="absolute w-16 h-16 border border-current opacity-10"
-                style={{ bottom: '25%', left: '25%', transform: 'rotate(45deg)' }}
-                animate={{
-                    rotate: [45, 135, 225, 315, 405],
-                    x: [0, 10, 0],
-                }}
-                transition={{
-                    rotate: { duration: 15, repeat: Infinity, ease: 'linear' },
-                    x: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-                }}
-            />
-
-            {/* Small floating dots */}
-            {[...Array(5)].map((_, i) => (
-                <motion.div
-                    key={i}
-                    className={`absolute w-2 h-2 rounded-full ${colors[0]}`}
-                    style={{
-                        top: `${20 + i * 15}%`,
-                        left: `${10 + i * 18}%`,
-                    }}
-                    animate={{
-                        y: [0, -20, 0],
-                        opacity: [0.3, 0.6, 0.3],
-                    }}
-                    transition={{
-                        duration: 3 + i,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                        delay: i * 0.5,
-                    }}
-                />
-            ))}
-
-            {/* Subtle grid pattern */}
-            <div
-                className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
-                style={{
-                    backgroundImage: `
-                        linear-gradient(to right, currentColor 1px, transparent 1px),
-                        linear-gradient(to bottom, currentColor 1px, transparent 1px)
-                    `,
-                    backgroundSize: '60px 60px',
-                }}
+                animate={{ x: [0, -20, 0], y: [0, 30, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
             />
         </div>
     );
 }
 
-import { useIsMobile } from '@/hooks/use-mobile';
+// Individual Solution Section with Parallax
+function SolutionSection({ solution, index }: { solution: typeof solutions[0]; index: number }) {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
+
+    // Scroll-based parallax
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+    // Parallax transforms - daha güçlü efektler
+    const backgroundY = useTransform(smoothProgress, [0, 1], ['-15%', '15%']);
+    const orbsY = useTransform(smoothProgress, [0, 1], ['40%', '-40%']);
+    const contentY = useTransform(smoothProgress, [0, 1], ['8%', '-8%']);
+    const imageY = useTransform(smoothProgress, [0, 1], ['12%', '-12%']);
+    const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
+    const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.6, 1, 1, 0.6]);
+
+    return (
+        <section
+            ref={sectionRef}
+            id={solution.id}
+            className="relative py-32 overflow-hidden bg-slate-50 dark:bg-deep-space"
+        >
+            {/* Parallax Background Layer */}
+            <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
+                {/* Grid Background */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${solution.bgGradient} pointer-events-none`} />
+            </motion.div>
+
+            {/* Parallax Floating Shapes - Only on desktop */}
+            <motion.div className="absolute inset-0 pointer-events-none" style={{ y: orbsY }}>
+                {!isMobile && <FloatingShapes colors={solution.blobColors} index={index} />}
+            </motion.div>
+
+            {/* Section number indicator */}
+            <motion.div
+                className="absolute top-24 left-6 lg:left-12 hidden md:block"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+            >
+                <span className="text-7xl lg:text-8xl font-bold text-slate-200/50 dark:text-white/5 select-none">
+                    {String(index + 1).padStart(2, '0')}
+                </span>
+            </motion.div>
+
+            {/* Main Content with Parallax */}
+            <motion.div
+                className="container mx-auto px-6 relative z-10"
+                style={{ y: contentY, scale, opacity }}
+            >
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.6 }}
+                    className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 lg:gap-20`}
+                >
+                    {/* Image/Logo Side with Parallax */}
+                    <motion.div className="w-full lg:w-1/2" style={{ y: imageY }}>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className={`relative p-12 rounded-3xl bg-gradient-to-br ${solution.gradient} border border-slate-200 dark:border-white/10 backdrop-blur-sm`}
+                        >
+                            {/* Animated background decoration */}
+                            <div className="absolute inset-0 rounded-3xl overflow-hidden">
+                                <motion.div
+                                    className={`absolute top-0 right-0 w-64 h-64 ${solution.blobColors[0]} rounded-full blur-3xl`}
+                                    animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                                />
+                                <motion.div
+                                    className={`absolute bottom-0 left-0 w-64 h-64 ${solution.blobColors[1]} rounded-full blur-3xl`}
+                                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.8, 0.5, 0.8] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                                />
+                            </div>
+
+                            <div className="relative flex items-center justify-center">
+                                <motion.div
+                                    animate={{ y: [0, -8, 0] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                                >
+                                    <Image
+                                        src={solution.logo}
+                                        alt={solution.name}
+                                        width={280}
+                                        height={200}
+                                        className="object-contain drop-shadow-xl"
+                                    />
+                                </motion.div>
+                            </div>
+
+                            {/* Benefits badges */}
+                            <div className="relative mt-8 flex flex-wrap justify-center gap-3">
+                                {solution.benefits.map((benefit, i) => (
+                                    <motion.span
+                                        key={i}
+                                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 0.3 + i * 0.1, type: 'spring', stiffness: 200 }}
+                                        whileHover={{ scale: 1.05, y: -2 }}
+                                        className="px-4 py-2 rounded-full bg-white/90 dark:bg-slate-800/90 text-sm font-medium text-slate-700 dark:text-gray-300 shadow-lg shadow-black/5 border border-slate-200 dark:border-white/10 backdrop-blur-sm cursor-default"
+                                    >
+                                        {benefit}
+                                    </motion.span>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Content Side */}
+                    <div className="w-full lg:w-1/2">
+                        <motion.div
+                            initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                            <span className={`text-sm font-semibold ${solution.accentColor} uppercase tracking-wider`}>
+                                {solution.headline}
+                            </span>
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mt-3 mb-6">
+                                {solution.name}
+                            </h2>
+                            <p className="text-lg text-slate-700 dark:text-gray-400 leading-relaxed mb-8">
+                                {solution.description}
+                            </p>
+
+                            {/* Features list */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                                {solution.features.map((feature, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 0.4 + i * 0.05 }}
+                                        whileHover={{ x: 4 }}
+                                        className="flex items-center gap-3 p-2 -ml-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-white/5 transition-colors cursor-default group"
+                                    >
+                                        <motion.div
+                                            className="flex-shrink-0 w-7 h-7 rounded-lg bg-gradient-to-br from-burgundy to-crimson flex items-center justify-center shadow-md shadow-burgundy/20"
+                                            whileHover={{ scale: 1.1, rotate: 5 }}
+                                            transition={{ type: 'spring', stiffness: 300 }}
+                                        >
+                                            <Check className="w-4 h-4 text-white" />
+                                        </motion.div>
+                                        <span className="text-slate-700 dark:text-gray-300 text-sm group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                                            {feature}
+                                        </span>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            {/* CTA Button */}
+                            <motion.button
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.6 }}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-burgundy to-crimson text-white font-medium overflow-hidden shadow-lg shadow-burgundy/20 hover:shadow-xl hover:shadow-burgundy/30 transition-shadow"
+                            >
+                                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                                <span className="relative">Detaylı Bilgi Al</span>
+                                <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </motion.div>
+                    </div>
+                </motion.div>
+            </motion.div>
+        </section>
+    );
+}
 
 export default function SolutionDetails() {
-    const isMobile = useIsMobile();
     return (
         <div className="relative">
             {solutions.map((solution, index) => (
-                <section
-                    key={solution.id}
-                    id={solution.id}
-                    className={`relative py-24 overflow-hidden bg-slate-50 dark:bg-deep-space`}
-                >
-                    {/* Grid Background - consistent with TechFlow */}
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-                    {/* Animated background - Only on desktop */}
-                    {!isMobile && <FloatingShapes colors={solution.blobColors} index={index} />}
-
-                    {/* Gradient overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${solution.bgGradient} pointer-events-none`} />
-
-                    {/* Section divider line */}
-                    <motion.div
-                        className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-slate-300 dark:via-white/20 to-transparent"
-                        initial={{ scaleY: 0 }}
-                        whileInView={{ scaleY: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    />
-
-                    {/* Section number indicator */}
-                    <motion.div
-                        className="absolute top-24 left-6 lg:left-12 hidden md:block"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                        <span className="text-7xl lg:text-8xl font-bold text-slate-200/50 dark:text-white/5 select-none">
-                            {String(index + 1).padStart(2, '0')}
-                        </span>
-                    </motion.div>
-
-                    <div className="container mx-auto px-6 relative z-10">
-                        <motion.div
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: '-100px' }}
-                            transition={{ duration: 0.6 }}
-                            className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 lg:gap-20`}
-                        >
-                            {/* Image/Logo Side */}
-                            <div className="w-full lg:w-1/2">
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.2 }}
-                                    className={`relative p-12 rounded-3xl bg-gradient-to-br ${solution.gradient} border border-slate-200 dark:border-white/10 backdrop-blur-sm`}
-                                >
-                                    {/* Animated background decoration */}
-                                    <div className="absolute inset-0 rounded-3xl overflow-hidden">
-                                        <motion.div
-                                            className={`absolute top-0 right-0 w-64 h-64 ${solution.blobColors[0]} rounded-full blur-3xl`}
-                                            animate={{
-                                                scale: [1, 1.2, 1],
-                                                opacity: [0.5, 0.8, 0.5],
-                                            }}
-                                            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                                        />
-                                        <motion.div
-                                            className={`absolute bottom-0 left-0 w-64 h-64 ${solution.blobColors[1]} rounded-full blur-3xl`}
-                                            animate={{
-                                                scale: [1.2, 1, 1.2],
-                                                opacity: [0.8, 0.5, 0.8],
-                                            }}
-                                            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                                        />
-                                    </div>
-
-                                    {/* Subtle shimmer effect */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                                        animate={{
-                                            x: ['-100%', '100%'],
-                                        }}
-                                        transition={{
-                                            duration: 3,
-                                            repeat: Infinity,
-                                            ease: 'linear',
-                                            repeatDelay: 2,
-                                        }}
-                                    />
-
-                                    <div className="relative flex items-center justify-center">
-                                        <motion.div
-                                            animate={{
-                                                y: [0, -8, 0],
-                                            }}
-                                            transition={{
-                                                duration: 4,
-                                                repeat: Infinity,
-                                                ease: 'easeInOut',
-                                            }}
-                                        >
-                                            <Image
-                                                src={solution.logo}
-                                                alt={solution.name}
-                                                width={280}
-                                                height={200}
-                                                className="object-contain drop-shadow-xl"
-                                            />
-                                        </motion.div>
-                                    </div>
-
-                                    {/* Benefits badges */}
-                                    <div className="relative mt-8 flex flex-wrap justify-center gap-3">
-                                        {solution.benefits.map((benefit, i) => (
-                                            <motion.span
-                                                key={i}
-                                                initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: 0.3 + i * 0.1, type: 'spring', stiffness: 200 }}
-                                                whileHover={{ scale: 1.05, y: -2 }}
-                                                className="px-4 py-2 rounded-full bg-white/90 dark:bg-slate-800/90 text-sm font-medium text-slate-700 dark:text-gray-300 shadow-lg shadow-black/5 border border-slate-200 dark:border-white/10 backdrop-blur-sm cursor-default transition-shadow hover:shadow-xl"
-                                            >
-                                                {benefit}
-                                            </motion.span>
-                                        ))}
-                                    </div>
-                                </motion.div>
-                            </div>
-
-                            {/* Content Side */}
-                            <div className="w-full lg:w-1/2">
-                                <motion.div
-                                    initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.3 }}
-                                >
-                                    <span className={`text-sm font-semibold ${solution.accentColor} uppercase tracking-tightr`}>
-                                        {solution.headline}
-                                    </span>
-                                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mt-3 mb-6">
-                                        {solution.name}
-                                    </h2>
-                                    <p className="text-lg text-slate-700 dark:text-gray-400 leading-relaxed mb-8">
-                                        {solution.description}
-                                    </p>
-
-                                    {/* Features list */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                                        {solution.features.map((feature, i) => (
-                                            <motion.div
-                                                key={i}
-                                                initial={{ opacity: 0, x: -10 }}
-                                                whileInView={{ opacity: 1, x: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{ delay: 0.4 + i * 0.05 }}
-                                                whileHover={{ x: 4 }}
-                                                className="flex items-center gap-3 p-2 -ml-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-white/5 transition-colors cursor-default group"
-                                            >
-                                                <motion.div
-                                                    className="flex-shrink-0 w-7 h-7 rounded-lg bg-gradient-to-br from-burgundy to-crimson flex items-center justify-center shadow-md shadow-burgundy/20"
-                                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                                    transition={{ type: 'spring', stiffness: 300 }}
-                                                >
-                                                    <Check className="w-4 h-4 text-white" />
-                                                </motion.div>
-                                                <span className="text-slate-700 dark:text-gray-300 text-sm group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                                                    {feature}
-                                                </span>
-                                            </motion.div>
-                                        ))}
-                                    </div>
-
-                                    {/* CTA Button */}
-                                    <motion.button
-                                        initial={{ opacity: 0, y: 10 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: 0.6 }}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-burgundy to-crimson text-white font-medium overflow-hidden shadow-lg shadow-burgundy/20 hover:shadow-xl hover:shadow-burgundy/30 transition-shadow"
-                                    >
-                                        {/* Button shine effect */}
-                                        <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                                        <span className="relative">Detaylı Bilgi Al</span>
-                                        <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </motion.button>
-                                </motion.div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </section>
+                <SolutionSection key={solution.id} solution={solution} index={index} />
             ))}
         </div>
     );

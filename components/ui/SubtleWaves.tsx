@@ -13,19 +13,19 @@ export default function SubtleWaves() {
             >
                 <defs>
                     <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#8B0000" stopOpacity="0.5" />
-                        <stop offset="50%" stopColor="#DC143C" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="#8B0000" stopOpacity="0.5" />
+                        <stop offset="0%" stopColor="#059669" stopOpacity="0.5" />
+                        <stop offset="50%" stopColor="#10b981" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#059669" stopOpacity="0.5" />
                     </linearGradient>
                     <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#DC143C" stopOpacity="0.4" />
-                        <stop offset="50%" stopColor="#FF2D2D" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="#DC143C" stopOpacity="0.4" />
+                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.4" />
+                        <stop offset="50%" stopColor="#34d399" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#10b981" stopOpacity="0.4" />
                     </linearGradient>
                     <linearGradient id="waveGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#6B0000" stopOpacity="0.3" />
-                        <stop offset="50%" stopColor="#8B0000" stopOpacity="0.25" />
-                        <stop offset="100%" stopColor="#6B0000" stopOpacity="0.3" />
+                        <stop offset="0%" stopColor="#047857" stopOpacity="0.3" />
+                        <stop offset="50%" stopColor="#059669" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#047857" stopOpacity="0.3" />
                     </linearGradient>
                 </defs>
 

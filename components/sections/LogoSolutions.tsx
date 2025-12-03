@@ -1,12 +1,10 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
-import { ArrowRight, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { ArrowRight, Cpu, Zap, Database, Shield, BarChart3, Workflow } from 'lucide-react';
 import { usePageTransition } from '@/components/ui/PageTransition';
-import GlassCard from '@/components/ui/GlassCard';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 const solutions = [
     {
@@ -14,519 +12,869 @@ const solutions = [
         name: 'Logo Tiger 3',
         logo: '/tiger.png',
         description: 'Orta ve büyük ölçekli işletmeler için kapsamlı ERP çözümü.',
-        color: 'from-orange-400 to-amber-600',
-        features: ['Üretim Yönetimi', 'Finans', 'Satış & Dağıtım']
+        color: '#f97316',
+        gradient: 'from-orange-500 via-amber-500 to-yellow-500',
+        icon: Database,
+        features: ['Üretim Yönetimi', 'Finans', 'Satış & Dağıtım'],
+        depth: 0 // En önde
     },
     {
         id: 'go3',
         name: 'Logo Go 3',
         logo: '/gowings.png',
         description: "KOBİ'ler için kullanımı kolay ve ekonomik ERP çözümü.",
-        color: 'from-blue-400 to-indigo-600',
-        features: ['Stok Takibi', 'Fatura Yönetimi', 'Raporlama']
+        color: '#6366f1',
+        gradient: 'from-blue-500 via-indigo-500 to-violet-500',
+        icon: Zap,
+        features: ['Stok Takibi', 'Fatura Yönetimi', 'Raporlama'],
+        depth: 1
     },
     {
         id: 'crm',
         name: 'Logo CRM',
         logo: '/logocrm.png',
         description: 'Müşteri ilişkilerinizi ve satış süreçlerinizi profesyonelce yönetin.',
-        color: 'from-purple-400 to-pink-600',
-        features: ['Müşteri Takibi', 'Satış Pipeline', 'Analitik']
+        color: '#ec4899',
+        gradient: 'from-purple-500 via-pink-500 to-rose-500',
+        icon: BarChart3,
+        features: ['Müşteri Takibi', 'Satış Pipeline', 'Analitik'],
+        depth: 2
     },
     {
         id: 'flow',
         name: 'Logo Flow',
         logo: '/logoflow.png',
         description: 'İş süreçlerinizi, onay mekanizmalarınızı ve akışlarınızı otomatikleştirin.',
-        color: 'from-emerald-400 to-teal-600',
-        features: ['İş Akışları', 'Onay Süreçleri', 'Otomasyon']
+        color: '#10b981',
+        gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
+        icon: Workflow,
+        features: ['İş Akışları', 'Onay Süreçleri', 'Otomasyon'],
+        depth: 0
     },
     {
         id: 'mind',
         name: 'Logo Mind',
         logo: '/logomind.png',
         description: 'İş zekası çözümleri ile verilerinizi analiz edip anlamlandırın.',
-        color: 'from-cyan-400 to-blue-600',
-        features: ['Dashboard', 'Veri Analizi', 'Raporlama']
+        color: '#06b6d4',
+        gradient: 'from-cyan-500 via-blue-500 to-indigo-500',
+        icon: Cpu,
+        features: ['Dashboard', 'Veri Analizi', 'Raporlama'],
+        depth: 1
     },
     {
         id: 'budget',
         name: 'Logo Budget',
         logo: '/logobudget.png',
         description: 'Bütçe planlama ve yönetim süreçlerinizi hatasız gerçekleştirin.',
-        color: 'from-rose-400 to-red-600',
-        features: ['Bütçe Planlama', 'Maliyet Takibi', 'Tahminleme']
+        color: '#f43f5e',
+        gradient: 'from-rose-500 via-red-500 to-orange-500',
+        icon: Shield,
+        features: ['Bütçe Planlama', 'Maliyet Takibi', 'Tahminleme'],
+        depth: 2
     }
 ];
 
-interface SpotlightCardProps {
-    solution: typeof solutions[0];
-    index: number;
-    activeIndex: MotionValue<number>;
-    totalCards: number;
-    onNavigate: (id: string) => void;
+// Tech Background with parallax support
+interface TechBackgroundProps {
+    scrollProgress: number;
 }
 
-// Spring config for smooth animations
-const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
+// Tech Background - Circuit nodes representing ERP modules
+function TechCircuitBackground({ scrollProgress }: TechBackgroundProps) {
+    const nodes = [
+        { x: 10, y: 20 }, { x: 25, y: 15 }, { x: 40, y: 25 }, { x: 55, y: 10 },
+        { x: 70, y: 30 }, { x: 85, y: 20 }, { x: 15, y: 50 }, { x: 30, y: 45 },
+        { x: 45, y: 55 }, { x: 60, y: 40 }, { x: 75, y: 60 }, { x: 90, y: 45 },
+        { x: 20, y: 75 }, { x: 35, y: 80 }, { x: 50, y: 70 }, { x: 65, y: 85 },
+        { x: 80, y: 75 }, { x: 95, y: 80 }, { x: 5, y: 35 }, { x: 95, y: 55 }
+    ];
 
-function SpotlightCard({ solution, index, activeIndex, totalCards, onNavigate }: SpotlightCardProps) {
-    // X position - spread cards horizontally based on distance from active
-    const xRaw = useTransform(activeIndex, (active) => {
-        const diff = index - active;
-        return diff * 350;
-    });
-    const x = useSpring(xRaw, springConfig);
+    const connections = [
+        [0, 1], [1, 2], [2, 3], [3, 4], [4, 5],
+        [6, 7], [7, 8], [8, 9], [9, 10], [10, 11],
+        [12, 13], [13, 14], [14, 15], [15, 16], [16, 17],
+        [0, 6], [1, 7], [2, 8], [3, 9], [4, 10], [5, 11],
+        [6, 12], [7, 13], [8, 14], [9, 15], [10, 16], [11, 17],
+        [18, 0], [18, 6], [19, 5], [19, 11]
+    ];
 
-    // Scale - active card is larger (smooth interpolation)
-    const scaleRaw = useTransform(activeIndex, (active) => {
-        const distance = Math.abs(index - active);
-        // Smooth interpolation instead of step function
-        if (distance < 1) return 1 - (distance * 0.15);
-        return 0.85 - ((distance - 1) * 0.1);
-    });
-    const scale = useSpring(scaleRaw, springConfig);
-
-    // Opacity - fade distant cards (smooth interpolation)
-    const opacityRaw = useTransform(activeIndex, (active) => {
-        const distance = Math.abs(index - active);
-        // Smooth falloff
-        return Math.max(0.1, 1 - (distance * 0.3));
-    });
-    const opacity = useSpring(opacityRaw, springConfig);
-
-    // Z-index based on distance from active
-    const zIndex = useTransform(activeIndex, (active) => {
-        const distance = Math.abs(index - active);
-        return Math.round(totalCards - distance);
-    });
-
-    // Blur for non-active cards (smooth)
-    const blurRaw = useTransform(activeIndex, (active) => {
-        const distance = Math.abs(index - active);
-        return Math.min(4, distance * 2);
-    });
-    const blur = useSpring(blurRaw, springConfig);
-
-    // Rotation for 3D effect (smooth)
-    const rotateYRaw = useTransform(activeIndex, (active) => {
-        const diff = index - active;
-        // Smooth rotation based on position
-        return diff * -12;
-    });
-    const rotateY = useSpring(rotateYRaw, springConfig);
-
-    // Glow opacity - smooth transition based on distance
-    const glowOpacityRaw = useTransform(activeIndex, (active) => {
-        const distance = Math.abs(index - active);
-        // Smooth falloff: 0.6 at center, fading to 0 at distance 1
-        return Math.max(0, 0.6 - distance * 0.6);
-    });
-    const glowOpacity = useSpring(glowOpacityRaw, springConfig);
-
-    // Glow scale - grows when active
-    const glowScaleRaw = useTransform(activeIndex, (active) => {
-        const distance = Math.abs(index - active);
-        return Math.max(0.8, 1.1 - distance * 0.3);
-    });
-    const glowScale = useSpring(glowScaleRaw, springConfig);
+    const offsetX = scrollProgress * -15;
 
     return (
         <motion.div
-            style={{
-                x,
-                scale,
-                opacity,
-                zIndex,
-                rotateY,
-                filter: useTransform(blur, (b) => `blur(${b}px)`),
-            }}
-            className="absolute left-1/2 -translate-x-1/2 w-[420px] cursor-pointer"
-            onClick={() => onNavigate(solution.id)}
+            className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 dark:opacity-35"
+            style={{ x: `${offsetX}%` }}
         >
-            {/* Dynamic Glow Effect - smooth transition */}
+            <svg className="w-[120%] h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <linearGradient id="dataFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="transparent" />
+                        <stop offset="40%" stopColor="rgba(16, 185, 129, 0.8)">
+                            <animate attributeName="offset" values="0;1;0" dur="3s" repeatCount="indefinite" />
+                        </stop>
+                        <stop offset="60%" stopColor="rgba(52, 211, 153, 0.8)">
+                            <animate attributeName="offset" values="0.2;1.2;0.2" dur="3s" repeatCount="indefinite" />
+                        </stop>
+                        <stop offset="100%" stopColor="transparent" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="0.3" result="coloredBlur" />
+                        <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                {connections.map(([from, to], i) => (
+                    <g key={`conn-${i}`}>
+                        <line
+                            x1={nodes[from].x}
+                            y1={nodes[from].y}
+                            x2={nodes[to].x}
+                            y2={nodes[to].y}
+                            stroke="rgba(16, 185, 129, 0.15)"
+                            strokeWidth="0.12"
+                        />
+                        <line
+                            x1={nodes[from].x}
+                            y1={nodes[from].y}
+                            x2={nodes[to].x}
+                            y2={nodes[to].y}
+                            stroke="url(#dataFlow)"
+                            strokeWidth="0.2"
+                            filter="url(#glow)"
+                            opacity="0.5"
+                        />
+                    </g>
+                ))}
+
+                {nodes.map((node, i) => (
+                    <g key={`node-${i}`}>
+                        <circle
+                            cx={node.x}
+                            cy={node.y}
+                            r="0.8"
+                            fill="none"
+                            stroke="rgba(16, 185, 129, 0.25)"
+                            strokeWidth="0.1"
+                        >
+                            <animate
+                                attributeName="r"
+                                values="0.6;1;0.6"
+                                dur={`${2.5 + i * 0.2}s`}
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+                        <circle
+                            cx={node.x}
+                            cy={node.y}
+                            r="0.35"
+                            fill="rgba(16, 185, 129, 0.5)"
+                            filter="url(#glow)"
+                        >
+                            <animate
+                                attributeName="opacity"
+                                values="0.3;0.8;0.3"
+                                dur={`${1.5 + i * 0.15}s`}
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+                    </g>
+                ))}
+            </svg>
+        </motion.div>
+    );
+}
+
+// Hexagon Grid Background
+function HexagonGrid({ scrollProgress }: TechBackgroundProps) {
+    const offsetX = scrollProgress * -8;
+
+    return (
+        <motion.div
+            className="absolute inset-0 overflow-hidden pointer-events-none opacity-25 dark:opacity-20"
+            style={{ x: `${offsetX}%` }}
+        >
+            <svg className="w-[120%] h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <pattern id="hexagons" width="8" height="14" patternUnits="userSpaceOnUse" patternTransform="scale(1.5)">
+                        <path
+                            d="M4 0 L8 2 L8 6 L4 8 L0 6 L0 2 Z M4 8 L8 10 L8 14 L4 16 L0 14 L0 10 Z M8 2 L12 4 L12 8 L8 10 L4 8 L4 4 Z"
+                            fill="none"
+                            stroke="rgba(16, 185, 129, 0.2)"
+                            strokeWidth="0.25"
+                        />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#hexagons)" />
+            </svg>
+        </motion.div>
+    );
+}
+
+// Data Stream Animation - vertical data flow
+function DataStream({ scrollProgress }: TechBackgroundProps) {
+    const streams = [
+        { x: 12, duration: 8, delay: 0 },
+        { x: 28, duration: 10, delay: 2 },
+        { x: 45, duration: 7, delay: 1 },
+        { x: 62, duration: 9, delay: 3 },
+        { x: 78, duration: 11, delay: 0.5 },
+        { x: 92, duration: 8, delay: 2.5 },
+    ];
+
+    const offsetX = scrollProgress * -20;
+
+    return (
+        <motion.div
+            className="absolute inset-0 overflow-hidden pointer-events-none"
+            style={{ x: `${offsetX}%` }}
+        >
+            {streams.map((stream, i) => (
+                <motion.div
+                    key={i}
+                    className="absolute w-[2px]"
+                    style={{ left: `${stream.x}%`, height: '30%' }}
+                    initial={{ top: '-30%', opacity: 0 }}
+                    animate={{
+                        top: ['130%', '-30%'],
+                        opacity: [0, 0.5, 0.5, 0]
+                    }}
+                    transition={{
+                        duration: stream.duration,
+                        delay: stream.delay,
+                        repeat: Infinity,
+                        ease: "linear",
+                    }}
+                >
+                    <div className="w-full h-full bg-gradient-to-b from-transparent via-burgundy/60 to-crimson/40 rounded-full" />
+                </motion.div>
+            ))}
+        </motion.div>
+    );
+}
+
+// ERP Module Icons floating
+function FloatingERPIcons({ scrollProgress }: TechBackgroundProps) {
+    // ERP-themed icons using SVG paths
+    const modules = [
+        { icon: 'chart', x: 8, y: 25, size: 32, duration: 20, speed: 0.8 },
+        { icon: 'database', x: 85, y: 35, size: 28, duration: 25, speed: 1.2 },
+        { icon: 'gear', x: 42, y: 78, size: 34, duration: 18, speed: 0.6 },
+        { icon: 'graph', x: 70, y: 18, size: 30, duration: 22, speed: 1.0 },
+        { icon: 'cube', x: 22, y: 62, size: 26, duration: 28, speed: 0.9 },
+        { icon: 'flow', x: 92, y: 68, size: 30, duration: 24, speed: 0.7 },
+    ];
+
+    const iconPaths: Record<string, string> = {
+        chart: 'M3 3v18h18M9 17V9m4 8V5m4 12v-5',
+        database: 'M12 2C6.5 2 2 4 2 6.5V17.5C2 20 6.5 22 12 22s10-2 10-4.5V6.5C22 4 17.5 2 12 2zm0 4c5.5 0 8-1.5 8-2.5S17.5 2 12 2 4 3.5 4 4.5 6.5 6 12 6z',
+        gear: 'M12 15a3 3 0 100-6 3 3 0 000 6z M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z',
+        graph: 'M18 20V10M12 20V4M6 20v-6',
+        cube: 'M21 16.5V7.5L12 2L3 7.5v9l9 5.5 9-5.5zM12 12L3 7.5M12 12v10M12 12l9-4.5',
+        flow: 'M5 3v4M3 5h4M6 17v4m-2-2h4M13 3l7 7-7 7',
+    };
+
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {modules.map((mod, i) => {
+                const offsetX = scrollProgress * -35 * mod.speed;
+                return (
+                    <motion.div
+                        key={i}
+                        className="absolute"
+                        style={{
+                            left: `${mod.x}%`,
+                            top: `${mod.y}%`,
+                            x: `${offsetX}%`,
+                        }}
+                        animate={{
+                            y: [0, -25, 0],
+                            rotate: [0, 5, -5, 0],
+                            opacity: [0.15, 0.35, 0.15],
+                        }}
+                        transition={{
+                            duration: mod.duration,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <svg
+                            width={mod.size}
+                            height={mod.size}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-burgundy/30 dark:text-burgundy/40"
+                        >
+                            <path d={iconPaths[mod.icon]} />
+                        </svg>
+                    </motion.div>
+                );
+            })}
+        </div>
+    );
+}
+
+// Animated wave forms - representing data flow
+function DataWaves({ scrollProgress }: TechBackgroundProps) {
+    const offsetX = scrollProgress * -12;
+
+    return (
+        <motion.div
+            className="absolute inset-0 overflow-hidden pointer-events-none opacity-30 dark:opacity-25"
+            style={{ x: `${offsetX}%` }}
+        >
+            <svg className="absolute bottom-0 w-[150%] h-[40%]" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="rgba(16, 185, 129, 0.3)" />
+                        <stop offset="100%" stopColor="transparent" />
+                    </linearGradient>
+                    <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="rgba(52, 211, 153, 0.2)" />
+                        <stop offset="100%" stopColor="transparent" />
+                    </linearGradient>
+                </defs>
+
+                {/* Wave 1 - slower */}
+                <path fill="url(#waveGradient1)">
+                    <animate
+                        attributeName="d"
+                        dur="8s"
+                        repeatCount="indefinite"
+                        values="
+                            M0,160L48,170.7C96,181,192,203,288,197.3C384,192,480,160,576,165.3C672,171,768,213,864,218.7C960,224,1056,192,1152,181.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
+                            M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,218.7C672,213,768,171,864,165.3C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
+                            M0,160L48,170.7C96,181,192,203,288,197.3C384,192,480,160,576,165.3C672,171,768,213,864,218.7C960,224,1056,192,1152,181.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z
+                        "
+                    />
+                </path>
+
+                {/* Wave 2 - faster */}
+                <path fill="url(#waveGradient2)">
+                    <animate
+                        attributeName="d"
+                        dur="5s"
+                        repeatCount="indefinite"
+                        values="
+                            M0,224L48,213.3C96,203,192,181,288,186.7C384,192,480,224,576,229.3C672,235,768,213,864,202.7C960,192,1056,192,1152,197.3C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
+                            M0,256L48,245.3C96,235,192,213,288,218.7C384,224,480,256,576,261.3C672,267,768,245,864,234.7C960,224,1056,224,1152,229.3C1248,235,1344,245,1392,250.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
+                            M0,224L48,213.3C96,203,192,181,288,186.7C384,192,480,224,576,229.3C672,235,768,213,864,202.7C960,192,1056,192,1152,197.3C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z
+                        "
+                    />
+                </path>
+            </svg>
+        </motion.div>
+    );
+}
+
+// Glowing Orbs with parallax
+function GlowingOrbs({ scrollProgress }: TechBackgroundProps) {
+    const orbs = [
+        { x: 15, y: 25, size: 400, color: 'burgundy', delay: 0, speed: 0.5 },
+        { x: 75, y: 20, size: 320, color: 'indigo', delay: 1, speed: 0.8 },
+        { x: 45, y: 65, size: 280, color: 'emerald', delay: 2, speed: 0.6 },
+        { x: 90, y: 55, size: 200, color: 'purple', delay: 1.5, speed: 0.7 },
+    ];
+
+    const colorMap: Record<string, string> = {
+        burgundy: 'from-burgundy/15 via-burgundy/5',
+        indigo: 'from-indigo-500/12 via-indigo-500/4',
+        emerald: 'from-emerald-500/12 via-emerald-500/4',
+        purple: 'from-purple-500/12 via-purple-500/4',
+    };
+
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {orbs.map((orb, i) => {
+                const offsetX = scrollProgress * -30 * orb.speed;
+                return (
+                    <motion.div
+                        key={i}
+                        className={`absolute rounded-full bg-gradient-radial ${colorMap[orb.color]} to-transparent blur-3xl`}
+                        style={{
+                            left: `${orb.x}%`,
+                            top: `${orb.y}%`,
+                            width: orb.size,
+                            height: orb.size,
+                            x: `${offsetX}%`,
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.25, 0.45, 0.25],
+                        }}
+                        transition={{
+                            duration: 5 + i * 1.5,
+                            delay: orb.delay,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    />
+                );
+            })}
+        </div>
+    );
+}
+
+// Combined Tech Background with parallax
+function TechBackground({ scrollProgress }: TechBackgroundProps) {
+    return (
+        <>
+            <HexagonGrid scrollProgress={scrollProgress} />
+            <TechCircuitBackground scrollProgress={scrollProgress} />
+            <DataWaves scrollProgress={scrollProgress} />
+            <DataStream scrollProgress={scrollProgress} />
+            <FloatingERPIcons scrollProgress={scrollProgress} />
+            <GlowingOrbs scrollProgress={scrollProgress} />
+        </>
+    );
+}
+
+// Card with mouse parallax and inner parallax
+interface ParallaxCardProps {
+    solution: typeof solutions[0];
+    index: number;
+    scrollProgress: number;
+    totalCards: number;
+    onNavigate: (id: string) => void;
+    mouseX: number;
+    mouseY: number;
+}
+
+function ParallaxCard({ solution, index, scrollProgress, totalCards, onNavigate, mouseX, mouseY }: ParallaxCardProps) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [cardBounds, setCardBounds] = useState({ x: 0, y: 0, width: 0, height: 0 });
+    const Icon = solution.icon;
+
+    // Calculate card visibility for scale and opacity effects
+    const cardPosition = index / totalCards;
+    const distanceFromCenter = Math.abs(scrollProgress - cardPosition);
+    const isInFocus = distanceFromCenter < 0.2;
+    const scaleAmount = 1 - distanceFromCenter * 0.1;
+    const opacityAmount = 1 - distanceFromCenter * 0.3;
+
+    // Mouse parallax for card rotation
+    useEffect(() => {
+        if (cardRef.current) {
+            const rect = cardRef.current.getBoundingClientRect();
+            setCardBounds({ x: rect.x, y: rect.y, width: rect.width, height: rect.height });
+        }
+    }, [scrollProgress]);
+
+    // Calculate rotation based on mouse position relative to card
+    const centerX = cardBounds.x + cardBounds.width / 2;
+    const centerY = cardBounds.y + cardBounds.height / 2;
+    const rotateY = ((mouseX - centerX) / (typeof window !== 'undefined' ? window.innerWidth : 1)) * 10;
+    const rotateX = ((centerY - mouseY) / (typeof window !== 'undefined' ? window.innerHeight : 1)) * 10;
+
+    // Inner parallax offsets
+    const logoOffsetX = ((mouseX - centerX) / (typeof window !== 'undefined' ? window.innerWidth : 1)) * 20;
+    const logoOffsetY = ((mouseY - centerY) / (typeof window !== 'undefined' ? window.innerHeight : 1)) * 20;
+    const contentOffsetX = ((mouseX - centerX) / (typeof window !== 'undefined' ? window.innerWidth : 1)) * 10;
+    const contentOffsetY = ((mouseY - centerY) / (typeof window !== 'undefined' ? window.innerHeight : 1)) * 10;
+    const bgOffsetX = ((mouseX - centerX) / (typeof window !== 'undefined' ? window.innerWidth : 1)) * 5;
+    const bgOffsetY = ((mouseY - centerY) / (typeof window !== 'undefined' ? window.innerHeight : 1)) * 5;
+
+    return (
+        <motion.div
+            ref={cardRef}
+            onClick={() => onNavigate(solution.id)}
+            className="group relative flex-shrink-0 w-[340px] md:w-[420px] cursor-pointer"
+            style={{
+                scale: scaleAmount,
+                opacity: opacityAmount,
+                transformStyle: 'preserve-3d',
+                perspective: '1000px',
+            }}
+            whileHover={{ scale: scaleAmount * 1.02 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+            {/* Card glow */}
             <motion.div
+                className="absolute -inset-4 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
                 style={{
-                    opacity: glowOpacity,
-                    scale: glowScale,
+                    background: `linear-gradient(135deg, ${solution.color}40, transparent)`,
+                    transform: `translate(${bgOffsetX * 0.5}px, ${bgOffsetY * 0.5}px)`,
                 }}
-                className={`absolute -inset-4 bg-gradient-to-br ${solution.color} rounded-[2.5rem] blur-2xl`}
             />
 
-            <GlassCard className="relative h-full p-8 !bg-white/10 dark:!bg-black/30 backdrop-blur-xl border border-white/20 dark:border-white/10 overflow-hidden rounded-[2rem]">
-                {/* Animated border gradient */}
-                <div className={`absolute inset-0 rounded-[2rem] bg-gradient-to-br ${solution.color} opacity-10`} />
+            {/* Card with 3D rotation */}
+            <motion.div
+                className="relative h-[480px] md:h-[540px] rounded-3xl overflow-hidden
+                           bg-white/80 dark:bg-white/5
+                           backdrop-blur-xl
+                           border border-slate-200 dark:border-white/10
+                           shadow-xl shadow-slate-200/50 dark:shadow-black/20
+                           group-hover:border-slate-300 dark:group-hover:border-white/20
+                           transition-colors duration-500"
+                style={{
+                    transform: isInFocus
+                        ? `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`
+                        : 'rotateY(0deg) rotateX(0deg)',
+                    transformStyle: 'preserve-3d',
+                }}
+            >
+                {/* Top gradient bar */}
+                <div className={`h-1.5 w-full bg-gradient-to-r ${solution.gradient}`} />
 
-                <div className="flex flex-col h-full items-center text-center relative z-10">
-                    {/* Logo Container */}
-                    <div className="relative w-full h-48 mb-6 p-6 rounded-2xl bg-white/5 border border-white/10 overflow-hidden">
-                        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${solution.color} opacity-10`} />
-                        <Image
-                            src={solution.logo}
-                            alt={solution.name}
-                            fill
-                            className="object-contain p-4 drop-shadow-xl"
-                        />
+                {/* Background pattern with parallax */}
+                <motion.div
+                    className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]"
+                    style={{
+                        backgroundImage: `radial-gradient(${solution.color} 1px, transparent 1px)`,
+                        backgroundSize: '20px 20px',
+                        transform: `translate(${bgOffsetX}px, ${bgOffsetY}px)`,
+                    }}
+                />
+
+                {/* Animated gradient background */}
+                <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                    style={{
+                        background: `radial-gradient(circle at ${50 + rotateY * 3}% ${50 - rotateX * 3}%, ${solution.color}15, transparent 50%)`,
+                    }}
+                />
+
+                {/* Content with inner parallax */}
+                <div className="relative h-full flex flex-col p-6 md:p-8" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Header - Logo has most parallax */}
+                    <div className="flex items-start justify-between mb-8">
+                        <motion.div
+                            className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center bg-gradient-to-br shadow-lg"
+                            style={{
+                                background: `linear-gradient(135deg, ${solution.color}20, ${solution.color}05)`,
+                                boxShadow: `0 8px 32px ${solution.color}20`,
+                                transform: `translate(${logoOffsetX}px, ${logoOffsetY}px) translateZ(40px)`,
+                            }}
+                        >
+                            <div className="relative w-10 h-10 md:w-12 md:h-12">
+                                <Image
+                                    src={solution.logo}
+                                    alt={solution.name}
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
+                        </motion.div>
+                        <motion.div
+                            className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-white/5"
+                            style={{
+                                transform: `translate(${-logoOffsetX * 0.5}px, ${logoOffsetY * 0.5}px) translateZ(20px)`,
+                            }}
+                        >
+                            <Icon className="w-5 h-5" style={{ color: solution.color }} />
+                        </motion.div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
-                        {solution.name}
-                    </h3>
+                    {/* Title & Description - Medium parallax */}
+                    <motion.div
+                        style={{
+                            transform: `translate(${contentOffsetX}px, ${contentOffsetY}px) translateZ(20px)`,
+                        }}
+                    >
+                        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">
+                            {solution.name}
+                        </h3>
+                        <p className="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-8">
+                            {solution.description}
+                        </p>
+                    </motion.div>
 
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6 text-base">
-                        {solution.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="flex flex-wrap justify-center gap-2 mb-6">
-                        {solution.features.map((feature) => (
-                            <span
-                                key={feature}
-                                className={`px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r ${solution.color} text-white`}
-                            >
-                                {feature}
-                            </span>
+                    {/* Features - Less parallax */}
+                    <motion.div
+                        className="space-y-3 mt-auto mb-6"
+                        style={{
+                            transform: `translate(${contentOffsetX * 0.5}px, ${contentOffsetY * 0.5}px) translateZ(10px)`,
+                        }}
+                    >
+                        {solution.features.map((feature, i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <div
+                                    className="w-1.5 h-1.5 rounded-full"
+                                    style={{ backgroundColor: solution.color }}
+                                />
+                                <span className="text-sm text-slate-500 dark:text-slate-400">
+                                    {feature}
+                                </span>
+                            </div>
                         ))}
-                    </div>
+                    </motion.div>
 
-                    <button className={`w-full py-3 rounded-xl bg-gradient-to-r ${solution.color} transition-all duration-300 flex items-center justify-center gap-2 text-white font-bold shadow-lg hover:shadow-xl hover:scale-105`}>
-                        Detaylı İncele
-                        <ArrowRight className="w-4 h-4" />
-                    </button>
+                    {/* CTA */}
+                    <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-white/10">
+                        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">
+                            0{index + 1}
+                        </span>
+                        <div
+                            className="flex items-center gap-2 font-medium group-hover:gap-3 transition-all duration-300"
+                            style={{ color: solution.color }}
+                        >
+                            <span>Detaylar</span>
+                            <ArrowRight className="w-4 h-4" />
+                        </div>
+                    </div>
                 </div>
-            </GlassCard>
+
+                {/* Large number watermark */}
+                <motion.div
+                    className="absolute -bottom-8 -right-4 text-[12rem] font-black leading-none
+                               text-slate-100 dark:text-white/[0.02] pointer-events-none select-none"
+                    style={{
+                        transform: `translate(${-bgOffsetX * 2}px, ${-bgOffsetY * 2}px)`,
+                    }}
+                >
+                    {index + 1}
+                </motion.div>
+            </motion.div>
         </motion.div>
     );
 }
 
 export default function LogoSolutions() {
     const { navigateToSection } = usePageTransition();
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const isMobile = useIsMobile();
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [scrollProgressValue, setScrollProgressValue] = useState(0);
 
-    // Single scroll progress for the entire section
+    // Mouse tracking
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
+
     const { scrollYProgress } = useScroll({
-        target: sectionRef,
+        target: containerRef,
         offset: ["start start", "end end"]
     });
 
-    // Active card index based on scroll with "sticky" stops at each card
-    // Each card gets a pause zone where it stays focused
-    const totalCards = solutions.length;
-    const pauseRatio = 0.08; // How much scroll % each card "pauses" (roughly 1 second worth)
-    const transitionRatio = 0.07; // How much scroll % for transition between cards
-
-    // Build input/output arrays for stepped animation
-    // Pattern: [pause on card 0] [transition to 1] [pause on card 1] [transition to 2] ...
-    const scrollInputs: number[] = [];
-    const cardOutputs: number[] = [];
-
-    let currentScroll = 0.05; // Start after 5% scroll
-
-    for (let i = 0; i < totalCards; i++) {
-        // Start of pause for card i
-        scrollInputs.push(currentScroll);
-        cardOutputs.push(i);
-
-        // End of pause for card i
-        currentScroll += pauseRatio;
-        scrollInputs.push(currentScroll);
-        cardOutputs.push(i);
-
-        // Transition to next card (if not last)
-        if (i < totalCards - 1) {
-            currentScroll += transitionRatio;
-        }
-    }
-
-    const activeIndex = useTransform(
-        scrollYProgress,
-        scrollInputs,
-        cardOutputs
-    );
-
-    // Discrete active index for indicators
-    const discreteActiveIndex = useTransform(activeIndex, (value) => Math.round(value));
-
-    // Track current index for button states
+    // Track scroll progress value
     useEffect(() => {
-        const unsubscribe = discreteActiveIndex.on('change', (value) => {
-            setCurrentIndex(value);
-        });
+        const unsubscribe = scrollYProgress.on('change', (v) => setScrollProgressValue(v));
         return () => unsubscribe();
-    }, [discreteActiveIndex]);
+    }, [scrollYProgress]);
 
-    // Navigate to specific card by scrolling
-    const scrollToCard = useCallback((index: number) => {
-        if (!sectionRef.current) return;
+    // Smooth spring for main horizontal movement
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
-        const sectionTop = sectionRef.current.offsetTop;
-        const sectionHeight = sectionRef.current.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        const scrollableDistance = sectionHeight - viewportHeight;
+    // Mouse motion values for background parallax
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
 
-        // Calculate target scroll position based on stepped animation
-        // Each card starts at: 0.05 + (index * (pauseRatio + transitionRatio))
-        const targetProgress = 0.05 + (index * (pauseRatio + transitionRatio)) + (pauseRatio / 2);
-        const targetScroll = sectionTop + (scrollableDistance * targetProgress);
+    useEffect(() => {
+        mouseX.set(mousePosition.x);
+        mouseY.set(mousePosition.y);
+    }, [mousePosition, mouseX, mouseY]);
 
-        window.scrollTo({
-            top: targetScroll,
-            behavior: 'smooth'
-        });
-    }, [pauseRatio, transitionRatio]);
+    // Smooth mouse values
+    const smoothMouseX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+    const smoothMouseY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
-    const goToPrevious = useCallback(() => {
-        if (currentIndex > 0) {
-            scrollToCard(currentIndex - 1);
-        }
-    }, [currentIndex, scrollToCard]);
+    // Background mouse parallax
+    const bgParallaxX = useTransform(smoothMouseX, [0, typeof window !== 'undefined' ? window.innerWidth : 1920], [-20, 20]);
+    const bgParallaxY = useTransform(smoothMouseY, [0, typeof window !== 'undefined' ? window.innerHeight : 1080], [-20, 20]);
 
-    const goToNext = useCallback(() => {
-        if (currentIndex < solutions.length - 1) {
-            scrollToCard(currentIndex + 1);
-        }
-    }, [currentIndex, scrollToCard]);
+    // Horizontal movement for cards
+    const cardsX = useTransform(smoothProgress, [0, 1], ["0%", "-65%"]);
 
-    // Get current solution color for dynamic glow
-    const currentSolution = solutions[currentIndex] || solutions[0];
+    // Progress bar animation
+    const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+    const headerY = useTransform(smoothProgress, [0, 0.3], [0, -100]);
+    const headerOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
 
     return (
-        <section id="solutions" ref={sectionRef} className="relative bg-slate-50 dark:bg-deep-space py-20 md:py-0 md:h-[400vh] -mt-[100vh]">
-            {/* Desktop Spotlight View */}
-            <div className="hidden md:block sticky top-0 h-screen overflow-hidden">
-                {/* Grid Background - Same as TechFlow */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+        <section ref={containerRef} className="relative h-[400vh]">
+            <div className="sticky top-0 h-screen overflow-hidden bg-slate-100 dark:bg-[#030303]">
 
-                {/* Gradient Overlays - Same as TechFlow */}
-                <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-crimson/5 pointer-events-none" />
+                {/* === DEEP BACKGROUND LAYER === */}
+                <motion.div
+                    className="absolute inset-0 overflow-hidden"
+                    style={{
+                        x: bgParallaxX,
+                        y: bgParallaxY,
+                    }}
+                >
+                    {/* Base gradient */}
+                    <div className="absolute inset-[-50px] bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 dark:from-[#030303] dark:via-[#0a0a0a] dark:to-[#050510]" />
 
-                {/* Central Glow Orb - Changes color based on active card */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <motion.div
-                        className={`w-[600px] h-[600px] rounded-full bg-gradient-to-br ${currentSolution.color} opacity-20 blur-[120px]`}
-                        animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    {/* Noise texture */}
+                    <div className="absolute inset-[-50px] opacity-[0.015] dark:opacity-[0.03]"
+                        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}
                     />
-                    <motion.div
-                        className="absolute w-[400px] h-[400px] rounded-full bg-burgundy/30 blur-[100px]"
-                        animate={{ scale: [1.1, 1, 1.1], opacity: [0.2, 0.3, 0.2] }}
-                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                </div>
+                </motion.div>
 
-                {/* Floating Particles */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    {Array.from({ length: 20 }).map((_, i) => (
+                {/* === TECH BACKGROUND ANIMATION === */}
+                <TechBackground scrollProgress={scrollProgressValue} />
+
+                {/* === HEADER === */}
+                <motion.div
+                    style={{ y: headerY, opacity: headerOpacity }}
+                    className="absolute top-8 left-6 md:left-12 z-30"
+                >
+                    <div className="flex items-center gap-3 mb-4">
                         <motion.div
-                            key={i}
-                            className="absolute w-1 h-1 rounded-full bg-burgundy/40"
-                            style={{
-                                left: `${10 + (i * 4.5) % 80}%`,
-                                top: `${20 + (i * 7) % 60}%`,
-                            }}
-                            animate={{
-                                y: [0, -30, 0],
-                                opacity: [0.2, 0.5, 0.2],
-                            }}
-                            transition={{
-                                duration: 3 + (i % 3),
-                                repeat: Infinity,
-                                delay: i * 0.2,
-                                ease: "easeInOut",
-                            }}
+                            className="w-2 h-2 rounded-full bg-burgundy"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
                         />
-                    ))}
-                </div>
-
-                {/* Data Flow Lines - Continuation from TechFlow */}
-                <motion.div
-                    style={{ opacity: useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]) }}
-                    className="absolute left-[15%] top-0 h-full w-px bg-gradient-to-b from-transparent via-burgundy/20 to-transparent"
-                />
-                <motion.div
-                    style={{ opacity: useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 0.3, 0.3, 0]) }}
-                    className="absolute right-[15%] top-0 h-full w-px bg-gradient-to-b from-transparent via-crimson/20 to-transparent"
-                />
-
-                <div className="container mx-auto px-6 h-full flex flex-col justify-center relative z-10">
-                    {/* Header */}
-                    <div className="text-center mb-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-burgundy/5 border border-burgundy/10 text-burgundy dark:text-crimson mb-6"
-                        >
-                            <Sparkles className="w-4 h-4" />
-                            <span className="text-sm font-semibold tracking-wide uppercase">Dijital Dönüşüm</span>
-                        </motion.div>
-
-                        <motion.h2
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight"
-                        >
-                            Logo ERP <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Çözümlerimiz</span>
-                        </motion.h2>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto"
-                        >
-                            İşletmenizin ihtiyaçlarına özel, verimliliği artıran ve büyümeyi hızlandıran entegre yazılım çözümleri.
-                        </motion.p>
+                        <span className="text-sm font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                            Çözümler
+                        </span>
                     </div>
+                    <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white tracking-tight">
+                        Logo ERP
+                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-burgundy to-crimson">
+                            Ekosistemi
+                        </span>
+                    </h2>
+                </motion.div>
 
-                    {/* Spotlight Cards Container */}
-                    <div className="relative h-[500px] flex items-center justify-center" style={{ perspective: '1500px' }}>
+                {/* === CARDS CONTAINER === */}
+                <div className="absolute inset-0 flex items-center" style={{ perspective: '1500px' }}>
+                    <motion.div
+                        style={{ x: cardsX }}
+                        className="flex gap-6 md:gap-10 pl-6 md:pl-12 lg:pl-20 pr-[50vw]"
+                    >
                         {solutions.map((solution, index) => (
-                            <SpotlightCard
+                            <ParallaxCard
                                 key={solution.id}
                                 solution={solution}
                                 index={index}
-                                activeIndex={activeIndex}
+                                scrollProgress={scrollProgressValue}
                                 totalCards={solutions.length}
                                 onNavigate={navigateToSection}
+                                mouseX={mousePosition.x}
+                                mouseY={mousePosition.y}
                             />
                         ))}
-
-                        {/* Navigation Arrows */}
-                        <button
-                            onClick={goToPrevious}
-                            disabled={currentIndex === 0}
-                            className="absolute left-8 top-1/2 -translate-y-1/2 z-20"
-                        >
-                            <motion.div
-                                whileHover={{ scale: currentIndex > 0 ? 1.1 : 1 }}
-                                whileTap={{ scale: currentIndex > 0 ? 0.95 : 1 }}
-                                className={`w-14 h-14 rounded-full bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 ${
-                                    currentIndex > 0
-                                        ? 'text-slate-700 dark:text-white cursor-pointer hover:bg-white/20 dark:hover:bg-white/10'
-                                        : 'text-slate-400 dark:text-slate-600 cursor-not-allowed'
-                                }`}
-                            >
-                                <ChevronLeft className="w-6 h-6" />
-                            </motion.div>
-                        </button>
-                        <button
-                            onClick={goToNext}
-                            disabled={currentIndex === solutions.length - 1}
-                            className="absolute right-8 top-1/2 -translate-y-1/2 z-20"
-                        >
-                            <motion.div
-                                whileHover={{ scale: currentIndex < solutions.length - 1 ? 1.1 : 1 }}
-                                whileTap={{ scale: currentIndex < solutions.length - 1 ? 0.95 : 1 }}
-                                className={`w-14 h-14 rounded-full bg-white/10 dark:bg-black/30 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 ${
-                                    currentIndex < solutions.length - 1
-                                        ? 'text-slate-700 dark:text-white cursor-pointer hover:bg-white/20 dark:hover:bg-white/10'
-                                        : 'text-slate-400 dark:text-slate-600 cursor-not-allowed'
-                                }`}
-                            >
-                                <ChevronRight className="w-6 h-6" />
-                            </motion.div>
-                        </button>
-                    </div>
-
-                    {/* Progress Indicators */}
-                    <div className="flex justify-center gap-3 mt-8">
-                        {solutions.map((solution, index) => (
-                            <button
-                                key={solution.id}
-                                onClick={() => scrollToCard(index)}
-                                className="relative p-1 group"
-                            >
-                                <motion.div
-                                    animate={{
-                                        scale: currentIndex === index ? 1.3 : 1,
-                                    }}
-                                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                                    className="relative"
-                                >
-                                    <div
-                                        className={`w-3 h-3 rounded-full bg-gradient-to-r ${solution.color} transition-opacity duration-300 ${
-                                            currentIndex === index ? 'opacity-100' : 'opacity-30 group-hover:opacity-60'
-                                        }`}
-                                    />
-                                </motion.div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Scroll hint */}
-                    <motion.div
-                        style={{ opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]) }}
-                        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400"
-                    >
-                        <span className="text-sm">Kaydırarak keşfedin</span>
-                        <motion.div
-                            animate={{ y: [0, 8, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            <ChevronRight className="w-5 h-5 rotate-90" />
-                        </motion.div>
                     </motion.div>
                 </div>
-            </div>
 
-            {/* Mobile View - Simple Grid */}
-            <div className="md:hidden container mx-auto px-6">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-burgundy/5 border border-burgundy/10 text-burgundy dark:text-crimson mb-6">
-                        <Sparkles className="w-4 h-4" />
-                        <span className="text-sm font-semibold tracking-wide uppercase">Dijital Dönüşüm</span>
-                    </div>
+                {/* === HORIZONTAL TIMELINE === */}
+                <div className="absolute bottom-8 left-6 md:left-12 right-6 md:right-12 z-20">
+                    <div className="relative flex items-center justify-between">
+                        {/* Timeline base line */}
+                        <div className="absolute left-0 right-0 top-1/2 h-[2px] bg-slate-200 dark:bg-white/10 -translate-y-1/2" />
 
-                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
-                        Logo ERP <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Çözümlerimiz</span>
-                    </h2>
-
-                    <p className="text-slate-600 dark:text-slate-400 text-base">
-                        İşletmenizin ihtiyaçlarına özel entegre yazılım çözümleri.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6">
-                    {solutions.map((solution) => (
+                        {/* Animated progress line */}
                         <motion.div
-                            key={solution.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            onClick={() => navigateToSection(solution.id)}
-                            className="cursor-pointer"
-                        >
-                            <GlassCard className="relative p-6 !bg-white/10 dark:!bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-2xl">
-                                <div className="flex items-center gap-4">
-                                    <div className="relative w-16 h-16 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex-shrink-0">
-                                        <Image
-                                            src={solution.logo}
-                                            alt={solution.name}
-                                            fill
-                                            className="object-contain p-2"
-                                        />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-                                            {solution.name}
-                                        </h3>
-                                        <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">
-                                            {solution.description}
-                                        </p>
-                                    </div>
-                                    <ArrowRight className="w-5 h-5 text-slate-400" />
-                                </div>
-                            </GlassCard>
-                        </motion.div>
-                    ))}
+                            className="absolute left-0 top-1/2 h-[2px] bg-gradient-to-r from-burgundy to-crimson -translate-y-1/2 origin-left"
+                            style={{
+                                scaleX: lineProgress,
+                                width: '100%'
+                            }}
+                        />
+
+                        {/* Timeline nodes */}
+                        {solutions.map((solution, index) => {
+                            const nodePosition = index / (solutions.length - 1);
+                            const isActive = scrollProgressValue >= nodePosition - 0.08;
+                            const isCurrent = Math.abs(scrollProgressValue - nodePosition) < 0.1;
+
+                            return (
+                                <motion.div
+                                    key={solution.id}
+                                    className="relative z-10 flex flex-col items-center"
+                                    initial={false}
+                                >
+                                    {/* Node circle */}
+                                    <motion.div
+                                        className={`relative w-4 h-4 rounded-full border-2 transition-all duration-300 ${
+                                            isActive
+                                                ? 'border-burgundy bg-burgundy'
+                                                : 'border-slate-300 dark:border-white/20 bg-slate-100 dark:bg-[#0a0a0a]'
+                                        }`}
+                                        animate={{
+                                            scale: isCurrent ? 1.3 : 1,
+                                        }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                    >
+                                        {/* Pulse effect for current node */}
+                                        {isCurrent && (
+                                            <motion.div
+                                                className="absolute inset-0 rounded-full bg-burgundy"
+                                                animate={{ scale: [1, 2, 1], opacity: [0.5, 0, 0.5] }}
+                                                transition={{ duration: 2, repeat: Infinity }}
+                                            />
+                                        )}
+
+                                        {/* Inner dot for active nodes */}
+                                        {isActive && (
+                                            <motion.div
+                                                className="absolute inset-1 rounded-full bg-white"
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                transition={{ type: "spring", stiffness: 500 }}
+                                            />
+                                        )}
+                                    </motion.div>
+
+                                    {/* Solution name label */}
+                                    <motion.span
+                                        className={`absolute -bottom-6 text-[10px] font-medium whitespace-nowrap transition-all duration-300 ${
+                                            isCurrent
+                                                ? 'text-burgundy scale-110'
+                                                : isActive
+                                                    ? 'text-slate-600 dark:text-slate-300'
+                                                    : 'text-slate-400 dark:text-slate-500'
+                                        }`}
+                                    >
+                                        {solution.name.replace('Logo ', '')}
+                                    </motion.span>
+
+                                    {/* Connection data flow animation */}
+                                    {index < solutions.length - 1 && isActive && (
+                                        <motion.div
+                                            className="absolute left-full top-1/2 -translate-y-1/2 w-2 h-2"
+                                            initial={{ x: 0, opacity: 0 }}
+                                            animate={{
+                                                x: [0, 50, 100],
+                                                opacity: [0, 1, 0]
+                                            }}
+                                            transition={{
+                                                duration: 1.5,
+                                                repeat: Infinity,
+                                                ease: "linear"
+                                            }}
+                                        >
+                                            <div
+                                                className="w-2 h-2 rounded-full"
+                                                style={{ backgroundColor: solution.color }}
+                                            />
+                                        </motion.div>
+                                    )}
+                                </motion.div>
+                            );
+                        })}
+                    </div>
                 </div>
+
+                {/* === SCROLL INDICATOR === */}
+                <motion.div
+                    style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
+                    className="absolute bottom-8 right-6 md:right-12 flex items-center gap-2 text-slate-400"
+                >
+                    <span className="text-xs font-mono uppercase tracking-wider">Kaydır</span>
+                    <motion.div
+                        animate={{ x: [0, 8, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                        <ArrowRight className="w-4 h-4" />
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
     );
