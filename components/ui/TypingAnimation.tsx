@@ -61,7 +61,7 @@ export default function TypingAnimation({
 
     return (
         <span className={cn('relative inline-flex', className)}>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">
+            <span className="text-burgundy">
                 {currentText}
             </span>
             <motion.span

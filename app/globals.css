@@ -9,40 +9,37 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Custom Colors - Proses Branded (Light) */
+  /* Matrix Theme (Light) */
   --deep-space: #f3f4f6;
-  /* Light gray background */
-  --burgundy: #10b981;
-  /* Main Brand Color - Emerald Green */
-  --crimson: #34d399;
-  /* Secondary Brand Color - Light Emerald */
-  --dark-red: #059669;
-  /* Darker Variant - Deep Emerald */
-  --accent-red: #6ee7b7;
-  /* Lighter Accent - Mint */
+  --burgundy: #FF7F00;
+  /* Matrix Medium Green */
+  --crimson: #FF7F00;
+  /* Matrix Bright Green */
+  --dark-red: #003B00;
+  /* Matrix Dark Green */
+  --accent-red: #FF7F00;
+  /* Matrix Bright Green */
   --slate-800: #1e293b;
-  /* Dark slate for text */
   --slate-900: #0f172a;
-  /* Darker slate for headings */
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #0D0208;
+  --foreground: #FF7F00;
 
-  /* Custom Colors - Proses Branded (Dark) */
-  --deep-space: #0A0A0A;
-  /* Deep Black */
-  --burgundy: #10b981;
-  /* Main Brand Color - Emerald Green */
-  --crimson: #34d399;
-  /* Secondary Brand Color - Light Emerald */
-  --dark-red: #059669;
-  /* Darker Variant - Deep Emerald */
-  --accent-red: #6ee7b7;
-  /* Lighter Accent - Mint */
-  --slate-800: #1e1616;
-  --slate-900: #0f0808;
+  /* Matrix Theme (Dark) */
+  --deep-space: #0D0208;
+  /* Matrix Black */
+  --burgundy: #FF7F00;
+  /* Matrix Medium Green */
+  --crimson: #FF7F00;
+  /* Matrix Bright Green */
+  --dark-red: #003B00;
+  /* Matrix Dark Green */
+  --accent-red: #FF7F00;
+  /* Matrix Bright Green */
+  --slate-800: #0D0208;
+  --slate-900: #0D0208;
 }
 
 @theme inline {
