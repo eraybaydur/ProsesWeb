@@ -37,15 +37,15 @@ export default function SplashScreen() {
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.4, ease: 'easeOut' }}
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0a0a]"
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-xl"
                 >
                     {/* Text with cursor */}
                     <div className="font-mono text-xl md:text-2xl flex items-center">
                         <span className="text-white/90">{displayedText}</span>
                         <motion.span
-                            animate={{ opacity: [1, 0] }}
-                            transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
-                            className="inline-block w-[3px] h-6 md:h-7 bg-burgundy ml-0.5"
+                            animate={{ opacity: [1, 1, 0, 0] }}
+                            transition={{ duration: 1, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
+                            className="inline-block w-[0.45em] h-[1.1em] bg-burgundy ml-1"
                         />
                     </div>
                 </motion.div>

@@ -31,13 +31,13 @@ function TypewriterText({ text }: { text: string }) {
             } else {
                 clearInterval(interval);
             }
-        }, 50);
+        }, 60);
 
         return () => clearInterval(interval);
     }, [text]);
 
     return (
-        <span className="text-white/90">{displayedText}</span>
+        <span className="text-white">{displayedText}</span>
     );
 }
 
@@ -55,13 +55,13 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
             if (element) {
                 element.scrollIntoView({ behavior: 'auto', block: 'start' });
             }
-        }, 600);
+        }, 800);
 
         // End transition
         setTimeout(() => {
             setIsTransitioning(false);
             setTargetSection(null);
-        }, 1000);
+        }, 1400);
     }, []);
 
     const formattedSection = targetSection
@@ -75,21 +75,29 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
             <AnimatePresence>
                 {isTransitioning && (
                     <motion.div
-                        className="fixed inset-0 z-[9998] flex items-center justify-center bg-[#0a0a0a]"
+                        className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/70 backdrop-blur-xl"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
                     >
+                        {/* Subtle glow behind text */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-burgundy/10 rounded-full blur-[100px]" />
+
                         {/* Terminal text with cursor */}
-                        <div className="font-mono text-xl md:text-2xl flex items-center">
+                        <motion.div
+                            initial={{ y: 10, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.1, duration: 0.3 }}
+                            className="relative font-mono text-2xl md:text-3xl flex items-center"
+                        >
                             <TypewriterText text={formattedSection} />
                             <motion.span
-                                animate={{ opacity: [1, 0] }}
-                                transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-                                className="inline-block w-[3px] h-6 md:h-7 bg-burgundy ml-0.5"
+                                animate={{ opacity: [1, 1, 0, 0] }}
+                                transition={{ duration: 1, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
+                                className="inline-block w-[0.5em] h-[1.15em] bg-burgundy ml-1"
                             />
-                        </div>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>

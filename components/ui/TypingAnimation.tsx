@@ -66,11 +66,11 @@ export default function TypingAnimation({
             </span>
             <motion.span
                 className={cn(
-                    'inline-block w-[3px] h-[1em] bg-burgundy ml-1 rounded-full',
+                    'inline-block w-[0.45em] h-[1.1em] bg-burgundy ml-1',
                     cursorClassName
                 )}
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                animate={{ opacity: [1, 1, 0, 0] }}
+                transition={{ duration: 1, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
             />
         </span>
     );
