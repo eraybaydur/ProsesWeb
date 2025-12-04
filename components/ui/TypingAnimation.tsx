@@ -62,7 +62,7 @@ export default function TypingAnimation({
     return (
         <span className={cn('relative inline-flex', className)}>
             <span className="text-burgundy">
-                {currentText}
+                {currentText || '\u200B'}
             </span>
             <motion.span
                 className={cn(
