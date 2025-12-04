@@ -5,41 +5,44 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light Mode Defaults */
+  /* Light Mode Defaults - Matrix Inspired */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #022c22;
+  /* Very Dark Green */
 
   /* Matrix Theme (Light) */
-  --deep-space: #f3f4f6;
-  --burgundy: #FF7F00;
-  /* Matrix Medium Green */
-  --crimson: #FF7F00;
-  /* Matrix Bright Green */
-  --dark-red: #003B00;
-  /* Matrix Dark Green */
-  --accent-red: #FF7F00;
-  /* Matrix Bright Green */
+  --deep-space: #f0fdf4;
+  /* Green 50 */
+  --burgundy: #16a34a;
+  /* Green 600 */
+  --crimson: #15803d;
+  /* Green 700 */
+  --dark-red: #14532d;
+  /* Green 900 */
+  --accent-red: #22c55e;
+  /* Green 500 */
   --slate-800: #1e293b;
   --slate-900: #0f172a;
 }
 
 .dark {
-  --background: #0D0208;
-  --foreground: #FF7F00;
+  /* Matrix Theme (Dark) - The Core Experience */
+  --background: #000500;
+  /* Deep Matrix Black */
+  --foreground: #00FF41;
+  /* Matrix Bright Green */
 
-  /* Matrix Theme (Dark) */
-  --deep-space: #0D0208;
-  /* Matrix Black */
-  --burgundy: #FF7F00;
-  /* Matrix Medium Green */
-  --crimson: #FF7F00;
-  /* Matrix Bright Green */
+  --deep-space: #000500;
+  --burgundy: #00FF41;
+  /* Primary Matrix Green */
+  --crimson: #008F11;
+  /* Darker Matrix Green */
   --dark-red: #003B00;
-  /* Matrix Dark Green */
-  --accent-red: #FF7F00;
-  /* Matrix Bright Green */
-  --slate-800: #0D0208;
-  --slate-900: #0D0208;
+  /* Deep Green */
+  --accent-red: #22c55e;
+  /* Tailwind Green 500 */
+  --slate-800: #000500;
+  --slate-900: #000500;
 }
 
 @theme inline {
