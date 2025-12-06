@@ -40,90 +40,61 @@ const mobileCodeLines = [
 // Typing animation words
 const typingWords = ['Tam Entegre', 'Süper Hızlı', 'Güvenli', 'Ölçeklenebilir'];
 
-// Advanced Particle System Component
-function AdvancedParticleSystem({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
-    const particles = Array.from({ length: 50 }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 4 + 1,
-        duration: Math.random() * 15 + 10,
-        delay: Math.random() * 5,
-        type: i % 3, // 0: circle, 1: square, 2: diamond
-    }));
+// Mouse Effect Dot Pattern Component
+function MouseEffectDotPattern({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
+    const columns = 30;
+    const rows = 18;
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {particles.map((particle) => {
-                // Calculate distance from mouse for reaction effect
-                const dx = particle.x - mouseX;
-                const dy = particle.y - mouseY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const maxDistance = 30;
-                const influence = Math.max(0, 1 - distance / maxDistance);
-                const offsetX = dx * influence * 0.5;
-                const offsetY = dy * influence * 0.5;
+            <div
+                className="absolute inset-0 grid"
+                style={{
+                    gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                    gridTemplateRows: `repeat(${rows}, 1fr)`,
+                    gap: '4px',
+                    padding: '30px',
+                }}
+            >
+                {Array.from({ length: columns * rows }).map((_, index) => {
+                    const col = index % columns;
+                    const row = Math.floor(index / columns);
+                    const dotX = (col / columns) * 100;
+                    const dotY = (row / rows) * 100;
 
-                return (
-                    <motion.div
-                        key={particle.id}
-                        className={`absolute ${
-                            particle.type === 0 ? 'rounded-full' :
-                            particle.type === 1 ? 'rounded-sm' : 'rotate-45'
-                        } bg-burgundy/20 dark:bg-burgundy/30`}
-                        style={{
-                            left: `${particle.x}%`,
-                            top: `${particle.y}%`,
-                            width: particle.size,
-                            height: particle.size,
-                        }}
-                        animate={{
-                            y: [0, -50 - Math.random() * 50, 0],
-                            x: [offsetX, offsetX + (Math.random() * 30 - 15), offsetX],
-                            opacity: [0.1, 0.4 + influence * 0.3, 0.1],
-                            scale: [0.8, 1.2 + influence * 0.5, 0.8],
-                        }}
-                        transition={{
-                            duration: particle.duration,
-                            delay: particle.delay,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
-                    />
-                );
-            })}
+                    // Calculate distance from mouse
+                    const dx = dotX - mouseX;
+                    const dy = dotY - mouseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 18;
+                    const influence = Math.max(0, 1 - distance / maxDistance);
 
-            {/* Connecting lines between nearby particles */}
-            <svg className="absolute inset-0 w-full h-full opacity-10 dark:opacity-20">
-                <defs>
-                    <linearGradient id="particleLine" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                        <stop offset="50%" stopColor="#10b981" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                    </linearGradient>
-                </defs>
-                {particles.slice(0, 15).map((p1, i) =>
-                    particles.slice(i + 1, i + 4).map((p2, j) => (
-                        <motion.line
-                            key={`${i}-${j}`}
-                            x1={`${p1.x}%`}
-                            y1={`${p1.y}%`}
-                            x2={`${p2.x}%`}
-                            y2={`${p2.y}%`}
-                            stroke="url(#particleLine)"
-                            strokeWidth="0.5"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: [0, 1, 0] }}
+                    // Calculate push effect
+                    const angle = Math.atan2(dy, dx);
+                    const pushDistance = influence * 12;
+                    const translateX = Math.cos(angle) * pushDistance;
+                    const translateY = Math.sin(angle) * pushDistance;
+
+                    return (
+                        <motion.div
+                            key={index}
+                            className="w-1 h-1 rounded-full bg-burgundy/20 dark:bg-burgundy/35"
+                            animate={{
+                                x: translateX,
+                                y: translateY,
+                                scale: 1 + influence * 2,
+                                opacity: 0.15 + influence * 0.6,
+                            }}
                             transition={{
-                                duration: 8 + i * 0.5,
-                                delay: i * 0.3,
-                                repeat: Infinity,
-                                ease: "easeInOut",
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 20,
+                                mass: 0.5,
                             }}
                         />
-                    ))
-                )}
-            </svg>
+                    );
+                })}
+            </div>
         </div>
     );
 }
@@ -227,8 +198,8 @@ export default function TechFlow() {
                 }}
             />
 
-            {/* Advanced Particle System */}
-            <AdvancedParticleSystem mouseX={mousePosition.x} mouseY={mousePosition.y} />
+            {/* Mouse Effect Dot Pattern */}
+            <MouseEffectDotPattern mouseX={mousePosition.x} mouseY={mousePosition.y} />
 
             {/* Parallax Glowing Orbs */}
             <motion.div className="absolute inset-0 pointer-events-none" style={{ y: orbsY }}>
@@ -284,51 +255,6 @@ export default function TechFlow() {
                     </motion.div>
                 </motion.div>
 
-                {/* Data Flow Lines - Left Side */}
-                <div className="hidden md:block absolute left-[20%] top-0 h-full w-px">
-                    <div className="h-full w-full bg-gradient-to-b from-transparent via-burgundy/15 to-transparent" />
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-2 h-2 rounded-full bg-burgundy/50"
-                            style={{ left: -4 }}
-                            animate={{
-                                y: ['0%', '1000%'],
-                                opacity: [0, 1, 1, 0],
-                                scale: [0.5, 1, 1, 0.5],
-                            }}
-                            transition={{
-                                duration: 4 + Math.random() * 3,
-                                delay: i * 0.5,
-                                repeat: Infinity,
-                                ease: 'linear',
-                            }}
-                        />
-                    ))}
-                </div>
-
-                {/* Data Flow Lines - Right Side */}
-                <div className="hidden md:block absolute right-[20%] top-0 h-full w-px">
-                    <div className="h-full w-full bg-gradient-to-b from-transparent via-crimson/15 to-transparent" />
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-2 h-2 rounded-full bg-crimson/50"
-                            style={{ left: -4 }}
-                            animate={{
-                                y: ['100%', '-100%'],
-                                opacity: [0, 1, 1, 0],
-                                scale: [0.5, 1, 1, 0.5],
-                            }}
-                            transition={{
-                                duration: 4 + Math.random() * 3,
-                                delay: i * 0.5,
-                                repeat: Infinity,
-                                ease: 'linear',
-                            }}
-                        />
-                    ))}
-                </div>
             </div>
 
             {/* Main Content Container with Parallax */}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import createGlobe from 'cobe';
 
 interface GlobeProps {
@@ -19,56 +19,77 @@ export default function Globe({
     markerColor = [0, 1, 0.25], // Bright matrix green
 }: GlobeProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
 
+    // Intersection Observer for lazy loading
     useEffect(() => {
-        let phi = 0;
-        let globe: ReturnType<typeof createGlobe> | null = null;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '200px' }
+        );
 
         if (canvasRef.current) {
-            globe = createGlobe(canvasRef.current, {
-                devicePixelRatio: 2,
-                width: 600 * 2,
-                height: 600 * 2,
-                phi: 0,
-                theta: 0.25,
-                dark,
-                diffuse: 1.2,
-                mapSamples: 20000,
-                mapBrightness: 6,
-                baseColor,
-                markerColor,
-                glowColor,
-                markers: [
-                    // Türkiye - Bursa (Proses lokasyonu)
-                    { location: [40.1885, 29.0610], size: 0.1 },
-                    // İstanbul
-                    { location: [41.0082, 28.9784], size: 0.08 },
-                    // Ankara
-                    { location: [39.9334, 32.8597], size: 0.06 },
-                    // İzmir
-                    { location: [38.4237, 27.1428], size: 0.05 },
-                ],
-                onRender: (state) => {
-                    state.phi = phi;
-                    phi += 0.003; // Yavaş dönüş
-                },
-            });
+            observer.observe(canvasRef.current);
         }
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isVisible || !canvasRef.current) return;
+
+        let phi = 0;
+        let animationId: number;
+        let globe: ReturnType<typeof createGlobe> | null = null;
+
+        globe = createGlobe(canvasRef.current, {
+            devicePixelRatio: 1,
+            width: 500,
+            height: 500,
+            phi: 0,
+            theta: 0.25,
+            dark,
+            diffuse: 1.2,
+            mapSamples: 8000,
+            mapBrightness: 6,
+            baseColor,
+            markerColor,
+            glowColor,
+            markers: [
+                // Türkiye - Bursa (Proses lokasyonu)
+                { location: [40.1885, 29.0610], size: 0.1 },
+                // İstanbul
+                { location: [41.0082, 28.9784], size: 0.08 },
+                // Ankara
+                { location: [39.9334, 32.8597], size: 0.06 },
+                // İzmir
+                { location: [38.4237, 27.1428], size: 0.05 },
+            ],
+            onRender: (state) => {
+                state.phi = phi;
+                phi += 0.002;
+            },
+        });
 
         return () => {
             if (globe) {
                 globe.destroy();
             }
         };
-    }, [dark, baseColor, glowColor, markerColor]);
+    }, [isVisible, dark, baseColor, glowColor, markerColor]);
 
     return (
         <canvas
             ref={canvasRef}
             className={className}
             style={{
-                width: 600,
-                height: 600,
+                width: 500,
+                height: 500,
                 maxWidth: '100%',
                 aspectRatio: 1,
             }}

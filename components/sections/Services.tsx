@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Database, FileText, Code, Workflow, ArrowUpRight } from 'lucide-react';
 import { usePageTransition } from '@/components/ui/PageTransition';
-import Globe from '@/components/ui/Globe';
 
 const services = [
     {
@@ -414,18 +413,117 @@ export default function Services() {
                 />
             </motion.div>
 
-            {/* Globe Background - Right Side */}
-            <motion.div
-                className="absolute inset-y-0 right-0 flex items-center pointer-events-none z-[1]"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 2, ease: 'easeOut' }}
-            >
-                <div className="translate-x-1/2 scale-150 opacity-40 dark:opacity-60">
-                    <Globe />
-                </div>
-            </motion.div>
+            {/* Tech Globe - Right Side */}
+            <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none z-[1]">
+                <motion.div
+                    className="absolute top-1/2 -translate-y-1/2 -right-[200px] w-[500px] h-[500px]"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, ease: 'easeOut' }}
+                >
+                    {/* Glow effect behind */}
+                    <div className="absolute inset-0 rounded-full bg-burgundy/20 blur-[80px]" />
+
+                    {/* Wireframe Globe SVG */}
+                    <motion.svg
+                        viewBox="0 0 200 200"
+                        className="w-full h-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+                    >
+                        <defs>
+                            <linearGradient id="globeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="rgba(0, 255, 65, 0.6)" />
+                                <stop offset="100%" stopColor="rgba(0, 143, 17, 0.2)" />
+                            </linearGradient>
+                            <radialGradient id="glowGradient" cx="30%" cy="30%">
+                                <stop offset="0%" stopColor="rgba(0, 255, 65, 0.3)" />
+                                <stop offset="100%" stopColor="transparent" />
+                            </radialGradient>
+                        </defs>
+
+                        {/* Inner glow */}
+                        <circle cx="100" cy="100" r="80" fill="url(#glowGradient)" />
+
+                        {/* Main circle */}
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="url(#globeGradient)" strokeWidth="1" />
+
+                        {/* Horizontal lines */}
+                        {[20, 40, 60, 100, 140, 160, 180].map((y, i) => {
+                            const r = Math.sqrt(80 * 80 - (y - 100) * (y - 100));
+                            return r > 0 ? (
+                                <ellipse
+                                    key={`h-${i}`}
+                                    cx="100"
+                                    cy={y}
+                                    rx={r}
+                                    ry={r * 0.3}
+                                    fill="none"
+                                    stroke="rgba(0, 255, 65, 0.3)"
+                                    strokeWidth="0.5"
+                                />
+                            ) : null;
+                        })}
+
+                        {/* Vertical ellipses */}
+                        {[0, 30, 60, 90, 120, 150].map((angle, i) => (
+                            <ellipse
+                                key={`v-${i}`}
+                                cx="100"
+                                cy="100"
+                                rx={80 * Math.cos((angle * Math.PI) / 180)}
+                                ry="80"
+                                fill="none"
+                                stroke="rgba(0, 255, 65, 0.25)"
+                                strokeWidth="0.5"
+                                transform={`rotate(${angle} 100 100)`}
+                            />
+                        ))}
+
+                        {/* Pulsing dots on globe */}
+                        {[
+                            { cx: 120, cy: 70 },
+                            { cx: 80, cy: 130 },
+                            { cx: 140, cy: 100 },
+                            { cx: 100, cy: 50 },
+                        ].map((dot, i) => (
+                            <motion.circle
+                                key={`dot-${i}`}
+                                cx={dot.cx}
+                                cy={dot.cy}
+                                r="3"
+                                fill="rgba(0, 255, 65, 0.8)"
+                                animate={{
+                                    r: [2, 4, 2],
+                                    opacity: [0.5, 1, 0.5],
+                                }}
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    delay: i * 0.5,
+                                }}
+                            />
+                        ))}
+                    </motion.svg>
+
+                    {/* Orbiting particle */}
+                    <motion.div
+                        className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-burgundy shadow-[0_0_10px_rgba(0,255,65,0.8)]"
+                        animate={{
+                            rotate: 360,
+                        }}
+                        transition={{
+                            duration: 10,
+                            repeat: Infinity,
+                            ease: 'linear',
+                        }}
+                        style={{
+                            transformOrigin: '-100px 0',
+                        }}
+                    />
+                </motion.div>
+            </div>
 
             {/* Main Content with Parallax */}
             <motion.div
