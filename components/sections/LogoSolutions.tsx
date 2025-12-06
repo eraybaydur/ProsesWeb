@@ -179,11 +179,11 @@ export default function LogoSolutions() {
         offset: ["start start", "end end"]
     });
 
-    // Daha yüksek stiffness ve damping ile daha smooth animasyon
+    // Daha yumuşak, "luxury" hissi veren spring ayarları
     const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 200,
-        damping: 40,
-        restDelta: 0.0001
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
     });
 
     // Horizontal movement for cards - daha az hareket mesafesi
@@ -205,17 +205,42 @@ export default function LogoSolutions() {
     const layer3X = useTransform(smoothProgress, [0, 1], ['0%', '-50%']);
     const gridX = useTransform(smoothProgress, [0, 1], ['0%', '-10%']);
 
-    // Orb positions
+    // Dynamic background color based on active section
+    const backgroundColor = useTransform(
+        smoothProgress,
+        solutions.map((_, i) => i / (solutions.length - 1)),
+        solutions.map(s => s.color + '05')
+    );
+
+    // Orb positions (Restored)
     const orb1X = useTransform(smoothProgress, [0, 1], ['0%', '-40%']);
     const orb2X = useTransform(smoothProgress, [0, 1], ['0%', '-25%']);
     const orb3X = useTransform(smoothProgress, [0, 1], ['0%', '-55%']);
 
-    return (
-        <section ref={containerRef} className="relative h-[350vh]">
-            <div className="sticky top-0 h-screen overflow-hidden bg-slate-50 dark:bg-[#0a0a0a]">
+    // Dynamic gradient accent based on active section
+    const accentColor = useTransform(
+        smoothProgress,
+        solutions.map((_, i) => i / (solutions.length - 1)),
+        solutions.map(s => s.color + '10')
+    );
 
-                {/* Base gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-[#0a0a0a] dark:via-[#0f0f0f] dark:to-[#0a0a0a]" />
+    return (
+        <section ref={containerRef} className="relative h-[400vh]">
+            <motion.div
+                style={{ backgroundColor }}
+                className="sticky top-0 h-screen overflow-hidden transition-colors duration-500"
+            >
+
+                {/* Base gradient with dynamic accent */}
+                <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent"
+                    style={{
+                        background: useTransform(
+                            accentColor,
+                            (color) => `linear-gradient(to bottom right, ${color}, transparent, ${color})`
+                        )
+                    }}
+                />
 
                 {/* Animated Grid - Layer 1 */}
                 <motion.div
@@ -366,7 +391,7 @@ export default function LogoSolutions() {
                         <ArrowRight className="w-3.5 h-3.5" />
                     </motion.div>
                 </motion.div>
-            </div>
+            </motion.div>
         </section>
     );
 }

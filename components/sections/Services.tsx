@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Database, FileText, Code, Workflow, ArrowUpRight } from 'lucide-react';
 import { usePageTransition } from '@/components/ui/PageTransition';
+import Globe from '@/components/ui/Globe';
 
 const services = [
     {
@@ -411,6 +412,19 @@ export default function Services() {
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
                 />
+            </motion.div>
+
+            {/* Globe Background - Right Side */}
+            <motion.div
+                className="absolute inset-y-0 right-0 flex items-center pointer-events-none z-[1]"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, ease: 'easeOut' }}
+            >
+                <div className="translate-x-1/2 scale-150 opacity-40 dark:opacity-60">
+                    <Globe />
+                </div>
             </motion.div>
 
             {/* Main Content with Parallax */}
