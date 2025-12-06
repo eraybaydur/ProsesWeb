@@ -1,461 +1,415 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Mail, Phone, MapPin, Clock, Check } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send, Terminal as TerminalIcon, Minimize2, Maximize2, X, ChevronRight, Hash, Command, Cpu, CheckCircle } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import Image from 'next/image';
 
-const products = [
-    { id: 'tiger', name: 'Tiger 3', logo: '/tiger.png', color: 'from-orange-500 to-red-500' },
-    { id: 'go3', name: 'Go 3', logo: '/gowings.png', color: 'from-blue-500 to-indigo-500' },
-    { id: 'crm', name: 'CRM', logo: '/logocrm.png', color: 'from-purple-500 to-pink-500' },
-    { id: 'flow', name: 'Flow', logo: '/logoflow.png', color: 'from-cyan-500 to-blue-500' },
-    { id: 'mind', name: 'Mind', logo: '/logomind.png', color: 'from-emerald-500 to-teal-500' },
-    { id: 'other', name: 'Diğer', logo: null, color: 'from-slate-500 to-slate-600' },
-];
+// Typewriter effect component
+const Typewriter = ({ text, delay = 0, speed = 30, onComplete }: { text: string; delay?: number; speed?: number; onComplete?: () => void }) => {
+    const [displayedText, setDisplayedText] = useState('');
+    const [started, setStarted] = useState(false);
 
-const contactInfo = [
-    { icon: Phone, label: 'Telefon', value: '+0 532 138 78 68', href: 'tel:+905321387868' },
-    { icon: Mail, label: 'E-posta', value: 'destek@prosesyazilim.com', href: 'mailto:destek@prosesyazilim.com' },
-    { icon: MapPin, label: 'Adres', value: 'Ahmet Yesevi Mah. Hudut Sk. No:1A/A Central Balat Sitesi A Blok K:35 D:305 Nilüfer, Bursa, Türkiye', href: '#' },
-    { icon: Clock, label: 'Çalışma Saatleri', value: 'Pzt-Cuma: 09:00 - 18:00', href: '#' },
-];
+    useEffect(() => {
+        const startTimeout = setTimeout(() => {
+            setStarted(true);
+        }, delay);
 
-// Floating Input Component
-function FloatingInput({
-    id,
-    name,
-    type = 'text',
+        return () => clearTimeout(startTimeout);
+    }, [delay]);
+
+    useEffect(() => {
+        if (!started) return;
+
+        let currentIndex = 0;
+        const interval = setInterval(() => {
+            if (currentIndex < text.length) {
+                setDisplayedText(prev => prev + text[currentIndex]);
+                currentIndex++;
+            } else {
+                clearInterval(interval);
+                onComplete && onComplete();
+            }
+        }, speed);
+
+        return () => clearInterval(interval);
+    }, [text, speed, started, onComplete]);
+
+    return <span>{displayedText}</span>;
+};
+
+// Terminal Line Input Component
+const TerminalInput = ({
     label,
     value,
     onChange,
-    required = false,
-    textarea = false,
+    isActive,
+    onSubmit,
+    type = 'text',
+    placeholder = ''
 }: {
-    id: string;
-    name: string;
-    type?: string;
     label: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    required?: boolean;
-    textarea?: boolean;
-}) {
-    const [isFocused, setIsFocused] = useState(false);
-    const isActive = isFocused || value.length > 0;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    isActive: boolean;
+    onSubmit?: () => void;
+    type?: string;
+    placeholder?: string;
+}) => {
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const inputClasses = `
-        w-full bg-white/50 dark:bg-white/[0.03]
-        border border-slate-200 dark:border-white/10
-        rounded-xl px-4 py-4 pt-6
-        outline-none transition-all duration-300
-        text-slate-900 dark:text-white
-        placeholder-transparent
-        focus:border-crimson/50 focus:ring-2 focus:ring-crimson/20
-        ${isFocused ? 'shadow-[0_0_20px_rgba(220,20,60,0.15)]' : ''}
-    `;
+    useEffect(() => {
+        if (isActive && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isActive]);
 
     return (
-        <div className="relative group">
-            {/* Glow effect on focus */}
-            <motion.div
-                className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-burgundy to-crimson opacity-0 blur-sm transition-opacity duration-300"
-                animate={{ opacity: isFocused ? 0.3 : 0 }}
-            />
-
-            <div className="relative">
-                {textarea ? (
-                    <textarea
-                        id={id}
-                        name={name}
-                        value={value}
-                        onChange={onChange}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        required={required}
-                        rows={4}
-                        className={`${inputClasses} resize-none`}
-                    />
-                ) : (
-                    <input
-                        type={type}
-                        id={id}
-                        name={name}
-                        value={value}
-                        onChange={onChange}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        required={required}
-                        className={inputClasses}
+        <div className={`flex flex-col md:flex-row md:items-center gap-2 font-mono text-sm md:text-base ${isActive ? 'opacity-100' : 'opacity-60'}`}>
+            <div className="flex items-center gap-2 min-w-fit">
+                <span className="text-emerald-500">➜</span>
+                <span className="text-cyan-400 font-semibold">{label}</span>
+            </div>
+            <div className="relative flex-1">
+                <input
+                    ref={inputRef}
+                    type={type}
+                    value={value}
+                    onChange={onChange}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && onSubmit) {
+                            e.preventDefault();
+                            onSubmit();
+                        }
+                    }}
+                    className="w-full bg-transparent border-none outline-none text-slate-100 focus:ring-0 p-0 font-mono placeholder-slate-700"
+                    disabled={!isActive}
+                    placeholder={isActive ? placeholder : ''}
+                    autoComplete="off"
+                />
+                {isActive && (
+                    <motion.span
+                        animate={{ opacity: [1, 0] }}
+                        transition={{ duration: 0.8, repeat: Infinity }}
+                        className="absolute top-0 w-2 h-5 bg-emerald-500 ml-0.5 pointer-events-none"
+                        style={{ left: `${value.length}ch` }}
                     />
                 )}
-
-                {/* Floating Label */}
-                <label
-                    htmlFor={id}
-                    className={`
-                        absolute left-4 transition-all duration-200 pointer-events-none
-                        ${isActive
-                            ? 'top-2 text-xs text-crimson font-medium'
-                            : 'top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500'
-                        }
-                        ${textarea && !isActive ? 'top-4 translate-y-0' : ''}
-                    `}
-                >
-                    {label}
-                </label>
             </div>
         </div>
     );
-}
-
-// Product Card Component
-function ProductCard({
-    product,
-    isSelected,
-    onClick,
-}: {
-    product: typeof products[0];
-    isSelected: boolean;
-    onClick: () => void;
-}) {
-    return (
-        <motion.button
-            type="button"
-            onClick={onClick}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`
-                relative p-4 rounded-xl border transition-all duration-300
-                flex flex-col items-center gap-2
-                ${isSelected
-                    ? 'bg-gradient-to-br from-burgundy/10 to-crimson/10 border-crimson/50 shadow-[0_0_20px_rgba(220,20,60,0.2)]'
-                    : 'bg-white/50 dark:bg-white/[0.02] border-slate-200 dark:border-white/10 hover:border-crimson/30'
-                }
-            `}
-        >
-            {/* Selected indicator */}
-            {isSelected && (
-                <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute top-2 right-2 w-5 h-5 rounded-full bg-crimson flex items-center justify-center"
-                >
-                    <Check className="w-3 h-3 text-white" />
-                </motion.div>
-            )}
-
-            {/* Product logo or placeholder */}
-            <div className="w-12 h-12 relative flex items-center justify-center">
-                {product.logo ? (
-                    <Image
-                        src={product.logo}
-                        alt={product.name}
-                        fill
-                        className="object-contain"
-                    />
-                ) : (
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${product.color} opacity-50`} />
-                )}
-            </div>
-
-            <span className={`text-sm font-medium ${isSelected ? 'text-crimson' : 'text-slate-600 dark:text-slate-400'}`}>
-                {product.name}
-            </span>
-        </motion.button>
-    );
-}
+};
 
 export default function ContactPage() {
+    const [step, setStep] = useState(0);
+    const [history, setHistory] = useState<string[]>([]);
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        name: '',
+        surname: '',
         email: '',
         phone: '',
         product: '',
-        message: '',
+        message: ''
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+    // Auto scroll to bottom
+    useEffect(() => {
+        if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+    }, [step, history, formData]);
+
+    const handleNext = () => {
+        setStep(prev => prev + 1);
+        setHistory(prev => [...prev, 'OK']);
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+    const handleProductSelect = (productName: string) => {
+        setFormData({ ...formData, product: productName });
+        handleNext();
     };
+
+    const handleSubmit = async () => {
+        setStep(100); // Loading state
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        setStep(200); // Success state
+    };
+
+    const products = [
+        { id: 'tiger', name: 'Logo Tiger 3' },
+        { id: 'go3', name: 'Logo Go 3' },
+        { id: 'crm', name: 'Logo CRM' },
+        { id: 'flow', name: 'Logo Flow' },
+        { id: 'mind', name: 'Logo Mind' },
+        { id: 'other', name: 'Diğer' },
+    ];
+
+    const sysInfo = [
+        { label: 'PROTOKOL', value: 'GÜVENLİ/HTTPS' },
+        { label: 'SUNUCU', value: 'BURSA/TR_NILUFER' },
+        { label: 'DURUM', value: 'AKTİF - BEKLİYOR' },
+        { label: 'SÜRÜM', value: 'v2.1.4 (STABLE)' },
+    ];
 
     return (
-        <main className="relative min-h-screen w-full bg-slate-50 dark:bg-deep-space text-slate-900 dark:text-white overflow-hidden">
+        <main className="min-h-screen bg-[#050505] text-slate-300 font-mono overflow-hidden">
             <Navbar />
 
-            {/* Background */}
-            <div className="fixed inset-0 pointer-events-none">
-                {/* Grid Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+            <div className="pt-24 pb-12 px-4 md:px-8 h-screen flex flex-col items-center justify-center relative">
+                {/* Background Grid & Glow */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,127,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,127,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[150px]" />
+                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[150px]" />
+                </div>
 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-crimson/5" />
+                <div className="max-w-6xl w-full h-[80vh] flex flex-col md:flex-row gap-6 relative z-10">
 
-                {/* Glowing Orbs */}
-                <motion.div
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.3, 0.2] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute top-1/4 -left-32 w-96 h-96 bg-burgundy/20 rounded-full blur-[120px]"
-                />
-                <motion.div
-                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.25, 0.15] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                    className="absolute bottom-1/4 -right-32 w-96 h-96 bg-crimson/20 rounded-full blur-[120px]"
-                />
-            </div>
-
-            {/* Content */}
-            <section className="pt-28 pb-20 px-4 sm:px-6 relative z-10">
-                <div className="container mx-auto max-w-6xl">
-                    {/* Header */}
+                    {/* Left Panel - System Info */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-center mb-12"
+                        className="hidden md:flex flex-col w-72 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6"
                     >
-                        <motion.span
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="inline-block text-sm font-semibold text-crimson tracking-wider mb-4"
-                        >
-                            İLETİŞİM
-                        </motion.span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-                            Birlikte{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">
-                                Çalışalım
-                            </span>
-                        </h1>
-                        <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                            Dijital dönüşüm yolculuğunuzda size rehberlik etmek için buradayız.
-                        </p>
+                        <div className="flex items-center gap-3 text-emerald-400 border-b border-white/10 pb-4 mb-6">
+                            <Cpu className="w-5 h-5 animate-pulse" />
+                            <span className="font-bold tracking-wider">SİSTEM_DURUMU</span>
+                        </div>
+
+                        <div className="space-y-5">
+                            {sysInfo.map((info, i) => (
+                                <div key={i} className="flex justify-between items-center text-xs">
+                                    <span className="text-slate-500 font-semibold">{info.label}</span>
+                                    <span className="text-emerald-500/80 font-mono">{info.value}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-8 pt-6 border-t border-white/10">
+                            <h3 className="text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">Doğrudan İletişim</h3>
+                            <div className="space-y-3">
+                                <a href="tel:+905321387868" className="flex items-center gap-2 text-sm text-slate-300 hover:text-emerald-400 transition-colors group">
+                                    <span className="text-emerald-600 group-hover:text-emerald-400">#</span>
+                                    +90 532 138 78 68
+                                </a>
+                                <a href="mailto:destek@prosesyazilim.com" className="flex items-center gap-2 text-sm text-slate-300 hover:text-emerald-400 transition-colors group">
+                                    <span className="text-emerald-600 group-hover:text-emerald-400">@</span>
+                                    destek@prosesyazilim.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="mt-auto">
+                            <div className="p-3 bg-emerald-950/20 border border-emerald-500/20 rounded text-[10px] text-emerald-600 font-mono leading-relaxed">
+                                {'>'} SYSTEM INIT... OK<br />
+                                {'>'} LOADING MODULES... OK<br />
+                                {'>'} WAITING FOR USER INPUT
+                            </div>
+                        </div>
                     </motion.div>
 
-                    {/* Split Layout */}
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-                        {/* Left Side - Contact Info */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="lg:col-span-2 space-y-6"
+                    {/* Right Panel - Terminal */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="flex-1 bg-black/80 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden flex flex-col"
+                    >
+                        {/* Terminal Window Header */}
+                        <div className="h-12 bg-white/5 border-b border-white/10 flex items-center justify-between px-4 select-none">
+                            <div className="flex items-center gap-2">
+                                <div className="flex gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                                </div>
+                                <div className="ml-4 flex items-center gap-2 text-xs text-slate-400 font-mono opacity-60">
+                                    <TerminalIcon className="w-3 h-3" />
+                                    <span>user@proses-web:~/contact</span>
+                                </div>
+                            </div>
+                            <div className="text-[10px] text-slate-600 font-mono">
+                                bash — 80x24
+                            </div>
+                        </div>
+
+                        {/* Terminal Body */}
+                        <div
+                            ref={containerRef}
+                            className="flex-1 p-6 md:p-8 overflow-y-auto overflow-x-hidden font-mono text-sm md:text-base space-y-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent scroll-smooth"
                         >
-                            {/* Info Cards */}
-                            <div className="space-y-4">
-                                {contactInfo.map((info, index) => (
-                                    <motion.a
-                                        key={info.label}
-                                        href={info.href}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.3 + index * 0.1 }}
-                                        whileHover={{ x: 5 }}
-                                        className="flex items-center gap-4 p-4 rounded-xl bg-white/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/10 hover:border-crimson/30 transition-all group"
-                                    >
-                                        <div className="p-3 rounded-lg bg-gradient-to-br from-burgundy to-crimson text-white group-hover:shadow-lg group-hover:shadow-crimson/20 transition-shadow">
-                                            <info.icon className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-slate-500 dark:text-slate-400">{info.label}</p>
-                                            <p className="font-medium text-slate-900 dark:text-white">{info.value}</p>
-                                        </div>
-                                    </motion.a>
-                                ))}
+                            <div className="text-slate-500 mb-8 border-b border-white/5 pb-4">
+                                Copyright (c) 2024 Proses Yazılım A.Ş. Tüm hakları saklıdır.<br />
+                                İletişim Protokolü v1.0 başlatıldı.<br />
+                                Lütfen aşağıdaki adımları takip ediniz.<br />
                             </div>
 
-                            {/* Map or Additional Info */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.7 }}
-                                className="p-6 rounded-2xl bg-gradient-to-br from-burgundy/10 to-crimson/10 border border-crimson/20"
-                            >
-                                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
-                                    Logo Yazılım Çözüm Ortağı
-                                </h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400">
-                                    15+ yıllık deneyimimizle işletmenizin dijital dönüşümüne katkı sağlıyoruz.
-                                </p>
-                                <div className="mt-4 flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                    <span className="text-sm text-emerald-600 dark:text-emerald-400">Aktif Destek</span>
+                            {/* Interaction Flow */}
+                            <div className="space-y-6">
+                                {/* Step 0: Init */}
+                                <div>
+                                    <span className="text-emerald-500 font-bold">proses@root:~$</span> <span className="text-slate-200">./iletisim_baslat.sh</span>
                                 </div>
-                            </motion.div>
-                        </motion.div>
 
-                        {/* Right Side - Form */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                            className="lg:col-span-3"
-                        >
-                            <div className="p-6 sm:p-8 rounded-2xl bg-white/70 dark:bg-white/[0.02] backdrop-blur-sm border border-slate-200 dark:border-white/10 shadow-xl">
-                                {isSubmitted ? (
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        className="text-center py-12"
-                                    >
-                                        <motion.div
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                                            className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center"
-                                        >
-                                            <Check className="w-10 h-10 text-white" />
-                                        </motion.div>
-                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                                            Mesajınız Alındı!
-                                        </h3>
-                                        <p className="text-slate-600 dark:text-slate-400 mb-6">
-                                            En kısa sürede sizinle iletişime geçeceğiz.
-                                        </p>
-                                        <button
-                                            onClick={() => {
-                                                setIsSubmitted(false);
-                                                setFormData({
-                                                    firstName: '',
-                                                    lastName: '',
-                                                    email: '',
-                                                    phone: '',
-                                                    product: '',
-                                                    message: '',
-                                                });
-                                            }}
-                                            className="text-crimson font-medium hover:underline"
-                                        >
-                                            Yeni mesaj gönder
-                                        </button>
-                                    </motion.div>
-                                ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-6">
-                                        {/* Name Fields */}
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <FloatingInput
-                                                id="firstName"
-                                                name="firstName"
-                                                label="Adınız"
-                                                value={formData.firstName}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                            <FloatingInput
-                                                id="lastName"
-                                                name="lastName"
-                                                label="Soyadınız"
-                                                value={formData.lastName}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
+                                {/* Step 1: Name */}
+                                {step >= 0 && (
+                                    <div className="animate-in fade-in slide-in-from-left-4 duration-500">
+                                        <div className="text-emerald-400 mb-2">{'>'} Kimlik doğrulama başlatılıyor... Lütfen adınızı giriniz.</div>
+                                        <TerminalInput
+                                            label="Adınız:"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            isActive={step === 0}
+                                            onSubmit={handleNext}
+                                            placeholder="İsim giriniz..."
+                                        />
+                                    </div>
+                                )}
 
-                                        {/* Contact Fields */}
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <FloatingInput
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                label="E-posta Adresiniz"
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                            <FloatingInput
-                                                id="phone"
-                                                name="phone"
-                                                type="tel"
-                                                label="Telefon Numaranız"
-                                                value={formData.phone}
-                                                onChange={handleChange}
-                                            />
-                                        </div>
+                                {/* Step 2: Surname */}
+                                {step >= 1 && (
+                                    <div className="animate-in fade-in slide-in-from-left-4 duration-500">
+                                        <TerminalInput
+                                            label="Soyadınız:"
+                                            value={formData.surname}
+                                            onChange={(e) => setFormData({ ...formData, surname: e.target.value })}
+                                            isActive={step === 1}
+                                            onSubmit={handleNext}
+                                            placeholder="Soyisim giriniz..."
+                                        />
+                                    </div>
+                                )}
 
-                                        {/* Product Selection */}
-                                        <div className="space-y-3">
-                                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                                İlgilendiğiniz Ürün
-                                            </label>
-                                            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                                                {products.map((product) => (
-                                                    <ProductCard
-                                                        key={product.id}
-                                                        product={product}
-                                                        isSelected={formData.product === product.id}
-                                                        onClick={() => setFormData((prev) => ({ ...prev, product: product.id }))}
-                                                    />
+                                {/* Step 3: Product Select */}
+                                {step >= 2 && (
+                                    <div className="animate-in fade-in slide-in-from-left-4 duration-500 space-y-3">
+                                        <div className="text-emerald-400">{'>'} Hangi çözümümüz ile ilgileniyorsunuz? (Seçim yapınız)</div>
+
+                                        {step === 2 ? (
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pl-6">
+                                                {products.map((p) => (
+                                                    <button
+                                                        key={p.id}
+                                                        onClick={() => handleProductSelect(p.name)}
+                                                        className="text-left px-3 py-2 border border-white/10 bg-white/5 hover:bg-emerald-500/20 hover:border-emerald-500/50 rounded transition-all text-xs text-slate-300 hover:text-white group"
+                                                    >
+                                                        <span className="text-emerald-600 group-hover:text-emerald-400 mr-2">[ ]</span>
+                                                        {p.name}
+                                                    </button>
                                                 ))}
                                             </div>
+                                        ) : (
+                                            <div className="text-cyan-300 pl-6 flex items-center gap-2">
+                                                <CheckCircle className="w-4 h-4" />
+                                                Seçilen: {formData.product}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Step 4: Contact Info */}
+                                {step >= 3 && (
+                                    <div className="animate-in fade-in slide-in-from-left-4 duration-500 space-y-4">
+                                        <div className="text-emerald-400">{'>'} Size ulaşabileceğimiz iletişim bilgileri:</div>
+                                        <TerminalInput
+                                            label="E-posta:"
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            isActive={step === 3}
+                                            onSubmit={handleNext}
+                                            type="email"
+                                            placeholder="ornek@sirket.com"
+                                        />
+                                        {step >= 4 && (
+                                            <TerminalInput
+                                                label="Telefon:"
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                isActive={step === 4}
+                                                onSubmit={handleNext}
+                                                type="tel"
+                                                placeholder="+90 555 ..."
+                                            />
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Step 5: Message */}
+                                {step >= 5 && (
+                                    <div className="animate-in fade-in slide-in-from-left-4 duration-500">
+                                        <div className="text-emerald-400 mb-2">{'>'} Bize iletmek istediğiniz mesaj nedir?</div>
+                                        <TerminalInput
+                                            label="Mesaj:"
+                                            value={formData.message}
+                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                            isActive={step === 5}
+                                            onSubmit={handleSubmit}
+                                            placeholder="Mesajınızı yazıp ENTER'a basınız..."
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Loading State */}
+                                {step === 100 && (
+                                    <div className="py-4 space-y-2">
+                                        <div className="text-yellow-400 flex items-center gap-2">
+                                            <div className="w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                                            Veriler şifreleniyor ve sunucuya iletiliyor...
+                                        </div>
+                                        <div className="w-64 h-1 bg-white/10 rounded overflow-hidden">
+                                            <motion.div
+                                                className="h-full bg-emerald-500"
+                                                initial={{ width: "0%" }}
+                                                animate={{ width: "100%" }}
+                                                transition={{ duration: 2.5, ease: "easeInOut" }}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Success State */}
+                                {step === 200 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mt-8 p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-lg relative overflow-hidden group"
+                                    >
+                                        <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+                                            <TerminalIcon className="w-24 h-24 text-emerald-500" />
                                         </div>
 
-                                        {/* Message */}
-                                        <FloatingInput
-                                            id="message"
-                                            name="message"
-                                            label="Mesajınız"
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            required
-                                            textarea
-                                        />
+                                        <div className="relative z-10">
+                                            <div className="text-xl text-emerald-400 font-bold mb-2 flex items-center gap-2">
+                                                <CheckCircle className="w-6 h-6" />
+                                                İŞLEM BAŞARILI [200 OK]
+                                            </div>
+                                            <div className="text-slate-300 space-y-1 text-sm">
+                                                <p>Mesajınız başarıyla sistemlerimize kaydedilmiştir.</p>
+                                                <p>Referans No: <span className="text-white font-mono bg-white/10 px-1 rounded">#{Math.random().toString(36).substr(2, 8).toUpperCase()}</span></p>
+                                                <p className="mt-4 text-slate-400">Ekibimiz en kısa sürede (genellikle 2-4 saat içinde) dönüş yapacaktır.</p>
+                                            </div>
 
-                                        {/* Submit Button */}
-                                        <motion.button
-                                            type="submit"
-                                            disabled={isSubmitting}
-                                            whileHover={{ scale: 1.01 }}
-                                            whileTap={{ scale: 0.99 }}
-                                            className="w-full py-4 rounded-xl bg-gradient-to-r from-burgundy to-crimson text-white font-semibold shadow-lg shadow-burgundy/25 hover:shadow-xl hover:shadow-burgundy/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
-                                        >
-                                            {isSubmitting ? (
-                                                <div className="flex items-center gap-2">
-                                                    <div className="flex gap-1">
-                                                        {[0, 1, 2].map((i) => (
-                                                            <motion.div
-                                                                key={i}
-                                                                className="w-1.5 h-1.5 rounded-full bg-white"
-                                                                animate={{ y: [0, -6, 0] }}
-                                                                transition={{
-                                                                    duration: 0.5,
-                                                                    repeat: Infinity,
-                                                                    delay: i * 0.1,
-                                                                }}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                    <span>Gönderiliyor</span>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <span>Mesaj Gönder</span>
-                                                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                                </>
-                                            )}
-                                        </motion.button>
-                                    </form>
+                                            <button
+                                                onClick={() => {
+                                                    setFormData({ name: '', surname: '', email: '', phone: '', product: '', message: '' });
+                                                    setStep(0);
+                                                    setHistory([]);
+                                                }}
+                                                className="mt-6 px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded border border-emerald-500/50 text-xs transition-colors"
+                                            >
+                                                YENİ İLETİŞİM BAŞLAT
+                                            </button>
+                                        </div>
+                                    </motion.div>
                                 )}
                             </div>
-                        </motion.div>
-                    </div>
+                        </div>
+                    </motion.div>
                 </div>
-            </section>
-
+            </div>
             <Footer />
         </main>
     );
