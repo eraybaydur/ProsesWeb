@@ -66,8 +66,8 @@ const TerminalInput = ({
     }, [isActive]);
 
     return (
-        <div className={`flex flex-col md:flex-row md:items-center gap-2 font-mono text-sm md:text-base ${isActive ? 'opacity-100' : 'opacity-60'}`}>
-            <div className="flex items-center gap-2 min-w-fit">
+        <div className={`flex flex-col md:flex-row md:items-center gap-1 md:gap-2 font-mono text-base md:text-base ${isActive ? 'opacity-100' : 'opacity-60'}`}>
+            <div className="flex items-center gap-2 min-w-fit mb-1 md:mb-0">
                 <span className="text-emerald-500">➜</span>
                 <span className="text-cyan-400 font-semibold">{label}</span>
             </div>
@@ -83,7 +83,7 @@ const TerminalInput = ({
                             onSubmit();
                         }
                     }}
-                    className="w-full bg-transparent border-none outline-none text-slate-100 focus:ring-0 p-0 font-mono placeholder-slate-700"
+                    className="w-full bg-transparent border-none outline-none text-slate-100 focus:ring-0 p-2 md:p-0 font-mono placeholder-slate-700 bg-white/5 md:bg-transparent rounded md:rounded-none"
                     disabled={!isActive}
                     placeholder={isActive ? placeholder : ''}
                     autoComplete="off"
@@ -92,7 +92,7 @@ const TerminalInput = ({
                     <motion.span
                         animate={{ opacity: [1, 0] }}
                         transition={{ duration: 0.8, repeat: Infinity }}
-                        className="absolute top-0 w-2 h-5 bg-emerald-500 ml-0.5 pointer-events-none"
+                        className="absolute top-2 md:top-0 w-2 h-5 bg-emerald-500 ml-0.5 pointer-events-none hidden md:block"
                         style={{ left: `${value.length}ch` }}
                     />
                 )}
@@ -157,7 +157,7 @@ export default function ContactPage() {
         <main className="min-h-screen bg-[#050505] text-slate-300 font-mono overflow-hidden">
             <Navbar />
 
-            <div className="pt-24 pb-12 px-4 md:px-8 h-screen flex flex-col items-center justify-center relative">
+            <div className="pt-20 pb-8 px-4 md:pt-24 md:pb-12 md:px-8 h-[100dvh] flex flex-col items-center justify-center relative">
                 {/* Background Grid & Glow */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,127,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,127,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -165,7 +165,7 @@ export default function ContactPage() {
                     <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[150px]" />
                 </div>
 
-                <div className="max-w-6xl w-full h-[80vh] flex flex-col md:flex-row gap-6 relative z-10">
+                <div className="max-w-6xl w-full h-[85dvh] md:h-[80vh] flex flex-col md:flex-row gap-6 relative z-10">
 
                     {/* Left Panel - System Info */}
                     <motion.div

@@ -205,103 +205,89 @@ export default function LogoSolutions() {
     const layer3X = useTransform(smoothProgress, [0, 1], ['0%', '-50%']);
     const gridX = useTransform(smoothProgress, [0, 1], ['0%', '-10%']);
 
-    // Dynamic background color based on active section
-    const backgroundColor = useTransform(
-        smoothProgress,
-        solutions.map((_, i) => i / (solutions.length - 1)),
-        solutions.map(s => s.color + '05')
-    );
-
     // Orb positions (Restored)
     const orb1X = useTransform(smoothProgress, [0, 1], ['0%', '-40%']);
     const orb2X = useTransform(smoothProgress, [0, 1], ['0%', '-25%']);
     const orb3X = useTransform(smoothProgress, [0, 1], ['0%', '-55%']);
 
-    // Dynamic gradient accent based on active section
-    const accentColor = useTransform(
-        smoothProgress,
-        solutions.map((_, i) => i / (solutions.length - 1)),
-        solutions.map(s => s.color + '10')
-    );
-
     return (
         <section ref={containerRef} className="relative h-[400vh]">
-            <motion.div
-                style={{ backgroundColor }}
-                className="sticky top-0 h-screen overflow-hidden transition-colors duration-500"
-            >
+            <div className="sticky top-0 h-screen overflow-hidden bg-slate-50 dark:bg-deep-space">
 
-                {/* Base gradient with dynamic accent */}
-                <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent"
+                {/* Scan Lines Overlay */}
+                <div
+                    className="absolute inset-0 pointer-events-none z-[1] opacity-[0.015] dark:opacity-[0.03]"
                     style={{
-                        background: useTransform(
-                            accentColor,
-                            (color) => `linear-gradient(to bottom right, ${color}, transparent, ${color})`
-                        )
+                        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
+                        backgroundSize: '100% 4px',
                     }}
                 />
 
-                {/* Animated Grid - Layer 1 */}
+                {/* Isometric Grid - Layer 1 */}
                 <motion.div
                     className="absolute inset-0 will-change-transform"
                     style={{ x: gridX }}
                 >
-                    <div className="absolute inset-[-20%] w-[140%] bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:80px_80px]" />
+                    <svg className="absolute inset-[-20%] w-[140%] h-[140%] opacity-[0.08] dark:opacity-[0.06]">
+                        <defs>
+                            <pattern id="isometric-grid" width="56" height="100" patternUnits="userSpaceOnUse">
+                                <line x1="0" y1="100" x2="28" y2="50" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                                <line x1="28" y1="50" x2="56" y2="100" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                                <line x1="0" y1="0" x2="28" y2="50" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                                <line x1="28" y1="50" x2="56" y2="0" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                                <line x1="28" y1="0" x2="28" y2="100" stroke="currentColor" strokeWidth="0.3" className="text-slate-400 dark:text-slate-600" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#isometric-grid)" />
+                    </svg>
                 </motion.div>
 
-                {/* Floating geometric shapes - Layer 2 */}
+                {/* Floating Isometric Cubes - Layer 2 */}
                 <motion.div
                     className="absolute inset-0 will-change-transform pointer-events-none"
                     style={{ x: layer1X }}
                 >
-                    {/* Large circle outline */}
-                    <div className="absolute top-[15%] left-[10%] w-[300px] h-[300px] rounded-full border border-burgundy/10 dark:border-burgundy/20" />
-                    <div className="absolute top-[20%] left-[15%] w-[200px] h-[200px] rounded-full border border-burgundy/5 dark:border-burgundy/10" />
-
-                    {/* Square shapes */}
-                    <div className="absolute bottom-[20%] left-[5%] w-[150px] h-[150px] border border-slate-200 dark:border-white/5 rotate-12" />
-                    <div className="absolute top-[60%] left-[25%] w-[80px] h-[80px] border border-slate-200 dark:border-white/5 rotate-45" />
+                    <svg className="absolute top-[15%] left-[8%] w-[100px] h-[116px] opacity-15 dark:opacity-25" viewBox="0 0 100 116">
+                        <polygon points="50,0 100,29 100,87 50,116 0,87 0,29" fill="none" stroke="currentColor" strokeWidth="1" className="text-burgundy" />
+                        <line x1="50" y1="0" x2="50" y2="58" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                        <line x1="0" y1="29" x2="50" y2="58" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                        <line x1="100" y1="29" x2="50" y2="58" stroke="currentColor" strokeWidth="0.5" className="text-burgundy" />
+                    </svg>
+                    <svg className="absolute bottom-[30%] left-[3%] w-[60px] h-[70px] opacity-10 dark:opacity-15" viewBox="0 0 100 116">
+                        <polygon points="50,0 100,29 100,87 50,116 0,87 0,29" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-indigo-500" />
+                    </svg>
                 </motion.div>
 
-                {/* More shapes - Layer 3 (faster) */}
+                {/* More Isometric Elements - Layer 3 */}
                 <motion.div
                     className="absolute inset-0 will-change-transform pointer-events-none"
                     style={{ x: layer2X }}
                 >
-                    {/* Dotted circles */}
-                    <div className="absolute top-[30%] right-[20%] w-[250px] h-[250px] rounded-full border border-dashed border-indigo-200/30 dark:border-indigo-500/10" />
-                    <div className="absolute bottom-[25%] right-[10%] w-[180px] h-[180px] rounded-full border border-dashed border-emerald-200/30 dark:border-emerald-500/10" />
-
-                    {/* Small decorative dots */}
-                    <div className="absolute top-[25%] right-[35%] w-2 h-2 rounded-full bg-burgundy/20" />
-                    <div className="absolute top-[45%] right-[15%] w-3 h-3 rounded-full bg-indigo-400/20" />
-                    <div className="absolute bottom-[35%] right-[25%] w-2 h-2 rounded-full bg-emerald-400/20" />
+                    <svg className="absolute top-[25%] right-[12%] w-[120px] h-[104px] opacity-8 dark:opacity-12" viewBox="0 0 100 87">
+                        <polygon points="25,0 75,0 100,43.5 75,87 25,87 0,43.5" fill="none" stroke="currentColor" strokeWidth="1" className="text-emerald-500" />
+                    </svg>
+                    <svg className="absolute bottom-[25%] right-[20%] w-[50px] h-[83px] opacity-10 dark:opacity-15" viewBox="0 0 60 100">
+                        <polygon points="30,0 60,50 30,100 0,50" fill="none" stroke="currentColor" strokeWidth="1" className="text-burgundy" />
+                    </svg>
+                    <div className="absolute top-[20%] right-[30%] w-1.5 h-1.5 rounded-full bg-burgundy/25" />
+                    <div className="absolute top-[50%] right-[18%] w-2 h-2 rounded-full bg-emerald-500/15" />
                 </motion.div>
 
-                {/* Gradient lines - Layer 4 (fastest) */}
+                {/* Animated scan line (moving) */}
                 <motion.div
-                    className="absolute inset-0 will-change-transform pointer-events-none overflow-hidden"
-                    style={{ x: layer3X }}
-                >
-                    {/* Diagonal gradient lines */}
-                    <div className="absolute top-0 left-[30%] w-[1px] h-[60%] bg-gradient-to-b from-transparent via-burgundy/20 to-transparent rotate-12 origin-top" />
-                    <div className="absolute top-[20%] left-[50%] w-[1px] h-[50%] bg-gradient-to-b from-transparent via-indigo-400/15 to-transparent -rotate-12 origin-top" />
-                    <div className="absolute top-[10%] left-[70%] w-[1px] h-[70%] bg-gradient-to-b from-transparent via-emerald-400/15 to-transparent rotate-6 origin-top" />
-                </motion.div>
+                    className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-burgundy/30 to-transparent pointer-events-none z-[2]"
+                    animate={{ top: ['0%', '100%'] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                />
 
-                {/* Glowing orbs with parallax */}
+                {/* Subtle glowing orbs */}
                 <motion.div
-                    className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-burgundy/8 dark:bg-burgundy/10 rounded-full blur-[120px] will-change-transform"
+                    className="absolute top-[10%] left-[15%] w-[350px] h-[350px] bg-burgundy/5 dark:bg-burgundy/8 rounded-full blur-[100px] will-change-transform"
                     style={{ x: orb1X }}
                 />
                 <motion.div
-                    className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-indigo-400/6 dark:bg-indigo-500/8 rounded-full blur-[100px] will-change-transform"
+                    className="absolute bottom-[15%] right-[10%] w-[250px] h-[250px] bg-indigo-400/4 dark:bg-indigo-500/6 rounded-full blur-[80px] will-change-transform"
                     style={{ x: orb2X }}
-                />
-                <motion.div
-                    className="absolute top-[40%] right-[30%] w-[300px] h-[300px] bg-emerald-400/5 dark:bg-emerald-500/8 rounded-full blur-[80px] will-change-transform"
-                    style={{ x: orb3X }}
                 />
 
                 {/* Header */}
@@ -391,7 +377,7 @@ export default function LogoSolutions() {
                         <ArrowRight className="w-3.5 h-3.5" />
                     </motion.div>
                 </motion.div>
-            </motion.div>
+            </div>
         </section>
     );
 }

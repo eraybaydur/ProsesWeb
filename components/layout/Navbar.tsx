@@ -330,23 +330,57 @@ export default function Navbar() {
                 {/* Logo */}
                 <Link href="/" className="text-2xl font-bold tracking-tighter flex items-center gap-3">
                     {/* Desktop Dark Mode Logo */}
-                    <img
-                        src="/proseslogoswhite.png"
-                        alt="Proses Yazılım"
-                        className="h-10 w-auto hidden dark:md:block"
-                    />
+                    <div className="relative h-10 w-auto hidden dark:md:block group">
+                        <img
+                            src="/proseslogoswhite.png"
+                            alt="Proses Yazılım"
+                            className="h-10 w-auto opacity-0"
+                        />
+                        <div
+                            className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-[#00FF41] to-emerald-500"
+                            style={{
+                                maskImage: 'url(/proseslogoswhite.png)',
+                                WebkitMaskImage: 'url(/proseslogoswhite.png)',
+                                maskSize: 'contain',
+                                WebkitMaskSize: 'contain',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                maskPosition: 'left',
+                                WebkitMaskPosition: 'left',
+                                filter: 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))'
+                            }}
+                        />
+                    </div>
+
                     {/* Desktop Light Mode Logo */}
                     <img
                         src="/proseslogoswhite.png"
                         alt="Proses Yazılım"
                         className="h-10 w-auto hidden md:block dark:hidden"
                     />
+
                     {/* Mobile Dark Mode Logo */}
-                    <img
-                        src="/prosesminiwhite.png"
-                        alt="Proses Yazılım"
-                        className="h-10 w-auto hidden dark:block dark:md:hidden"
-                    />
+                    <div className="relative h-10 w-auto hidden dark:block dark:md:hidden">
+                        <img
+                            src="/prosesminiwhite.png"
+                            alt="Proses Yazılım"
+                            className="h-10 w-auto opacity-0"
+                        />
+                        <div
+                            className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-[#00FF41] to-emerald-500"
+                            style={{
+                                maskImage: 'url(/prosesminiwhite.png)',
+                                WebkitMaskImage: 'url(/prosesminiwhite.png)',
+                                maskSize: 'contain',
+                                WebkitMaskSize: 'contain',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                maskPosition: 'left',
+                                WebkitMaskPosition: 'left',
+                                filter: 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))'
+                            }}
+                        />
+                    </div>
                     {/* Mobile Light Mode Logo */}
                     <img
                         src="/prosesminik.png"
@@ -387,7 +421,7 @@ export default function Navbar() {
 
                 {/* CTA Button */}
                 <div className="hidden md:flex items-center gap-4">
-                    <ThemeToggle />
+                    {/* <ThemeToggle /> */}
                     <button className="px-6 py-2.5 rounded-full bg-gradient-to-r from-burgundy to-crimson text-white font-medium text-sm hover:shadow-[0_0_20px_rgba(139,0,0,0.5)] transition-all transform hover:-translate-y-0.5">
                         Demo Talep Et
                     </button>
@@ -395,7 +429,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu Button */}
                 <div className="flex items-center gap-4 md:hidden">
-                    <ThemeToggle />
+                    {/* <ThemeToggle /> */}
                     <button
                         className="text-slate-900 dark:text-white p-2"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
