@@ -6,43 +6,44 @@ import Image from 'next/image';
 import { Menu, X, ChevronDown, ChevronRight, Database, FileText, Code, Workflow } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { usePageTransition } from '@/components/ui/PageTransition';
 
 // Çözümler dropdown items - Logo ERP ürünleri
 const solutionsItems = [
     {
+        id: 'tiger',
         name: 'Logo Tiger 3',
         description: 'Kurumsal ERP çözümü',
-        href: '/#tiger',
         logo: '/tiger.png',
     },
     {
+        id: 'go3',
         name: 'Logo Go 3',
         description: 'KOBİ dostu ERP',
-        href: '/#go3',
         logo: '/gowings.png',
     },
     {
+        id: 'crm',
         name: 'Logo CRM',
         description: 'Müşteri ilişkileri yönetimi',
-        href: '/#crm',
         logo: '/logocrm.png',
     },
     {
+        id: 'flow',
         name: 'Logo Flow',
         description: 'İş süreçleri otomasyonu',
-        href: '/#flow',
         logo: '/logoflow.png',
     },
     {
+        id: 'mind',
         name: 'Logo Mind',
         description: 'İş zekası platformu',
-        href: '/#mind',
         logo: '/logomind.png',
     },
     {
+        id: 'budget',
         name: 'Logo Budget',
         description: 'Bütçe planlama sistemi',
-        href: '/#budget',
         logo: '/logobudget.png',
     },
 ];
@@ -82,12 +83,14 @@ function DropdownMenu({
     type,
     isOpen,
     onToggle,
+    onNavigate,
 }: {
     title: string;
     items: typeof solutionsItems | typeof servicesItems;
     type: 'solutions' | 'services';
     isOpen: boolean;
     onToggle: () => void;
+    onNavigate: (id: string) => void;
 }) {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -119,10 +122,12 @@ function DropdownMenu({
                                 // Solutions with logos
                                 <div className="grid grid-cols-2 gap-1">
                                     {(items as typeof solutionsItems).map((item) => (
-                                        <Link
+                                        <button
                                             key={item.name}
-                                            href={item.href}
-                                            onClick={onToggle}
+                                            onClick={() => {
+                                                onNavigate(item.id);
+                                                onToggle();
+                                            }}
                                             className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group"
                                         >
                                             <div className="relative w-12 h-12 rounded-lg bg-slate-100 dark:bg-white/10 overflow-hidden">
@@ -138,7 +143,7 @@ function DropdownMenu({
                                                     {item.name}
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </button>
                                     ))}
                                 </div>
                             ) : (
@@ -197,6 +202,7 @@ function MobileAccordion({
     isOpen,
     onToggle,
     onClose,
+    onNavigate,
 }: {
     title: string;
     items: typeof solutionsItems | typeof servicesItems;
@@ -204,6 +210,7 @@ function MobileAccordion({
     isOpen: boolean;
     onToggle: () => void;
     onClose: () => void;
+    onNavigate: (id: string) => void;
 }) {
     return (
         <div className="border-b border-slate-200 dark:border-white/10 last:border-0">
@@ -228,10 +235,12 @@ function MobileAccordion({
                             {type === 'solutions' ? (
                                 <div className="grid grid-cols-3 gap-2">
                                     {(items as typeof solutionsItems).map((item) => (
-                                        <Link
+                                        <button
                                             key={item.name}
-                                            href={item.href}
-                                            onClick={onClose}
+                                            onClick={() => {
+                                                onNavigate(item.id);
+                                                onClose();
+                                            }}
                                             className="flex flex-col items-center gap-2 p-2 rounded-xl bg-slate-100 dark:bg-white/5"
                                         >
                                             <div className="relative w-10 h-10 rounded-lg bg-white dark:bg-white/10 overflow-hidden">
@@ -245,7 +254,7 @@ function MobileAccordion({
                                             <span className="text-[10px] text-center font-medium text-slate-700 dark:text-gray-300 line-clamp-1">
                                                 {item.name.replace('Logo ', '')}
                                             </span>
-                                        </Link>
+                                        </button>
                                     ))}
                                 </div>
                             ) : (
@@ -285,6 +294,7 @@ export default function Navbar() {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const navRef = useRef<HTMLElement>(null);
+    const { navigateToSection } = usePageTransition();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -398,6 +408,7 @@ export default function Navbar() {
                         type="solutions"
                         isOpen={openDropdown === 'solutions'}
                         onToggle={() => toggleDropdown('solutions')}
+                        onNavigate={navigateToSection}
                     />
 
                     {/* Hizmetler Dropdown */}
@@ -407,6 +418,7 @@ export default function Navbar() {
                         type="services"
                         isOpen={openDropdown === 'services'}
                         onToggle={() => toggleDropdown('services')}
+                        onNavigate={navigateToSection}
                     />
 
                     {/* İletişim - Normal link */}
@@ -457,6 +469,7 @@ export default function Navbar() {
                                 isOpen={openMobileAccordion === 'solutions'}
                                 onToggle={() => toggleMobileAccordion('solutions')}
                                 onClose={closeMobileMenu}
+                                onNavigate={navigateToSection}
                             />
 
                             {/* Hizmetler Accordion */}
@@ -467,6 +480,7 @@ export default function Navbar() {
                                 isOpen={openMobileAccordion === 'services'}
                                 onToggle={() => toggleMobileAccordion('services')}
                                 onClose={closeMobileMenu}
+                                onNavigate={navigateToSection}
                             />
 
                             {/* İletişim */}

@@ -160,7 +160,7 @@ function SolutionCard({
     const scale = useTransform(progress, range, [1, targetScale]);
 
     return (
-        <div ref={containerRef} className="h-screen flex items-center justify-center sticky top-0">
+        <div id={solution.id} ref={containerRef} className="h-screen flex items-center justify-center sticky top-0">
             <motion.div
                 style={{
                     scale: scale,

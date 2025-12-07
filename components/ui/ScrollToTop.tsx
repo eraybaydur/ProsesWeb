@@ -46,7 +46,7 @@ export default function ScrollToTop() {
                     {/* Progress ring background */}
                     <div className="relative w-14 h-14">
                         {/* Background circle */}
-                        <div className="absolute inset-0 rounded-full bg-white dark:bg-slate-900 shadow-xl shadow-black/10 dark:shadow-black/30 border border-slate-200 dark:border-white/10" />
+                        <div className="absolute inset-0 rounded-full bg-burgundy shadow-xl shadow-burgundy/30 dark:shadow-burgundy/40 border border-burgundy" />
 
                         {/* Progress ring SVG */}
                         <svg
@@ -61,7 +61,7 @@ export default function ScrollToTop() {
                                 fill="none"
                                 stroke="currentColor"
                                 strokeWidth="3"
-                                className="text-slate-200 dark:text-white/10"
+                                className="text-white/20"
                             />
                             {/* Progress indicator */}
                             <motion.circle
@@ -80,8 +80,8 @@ export default function ScrollToTop() {
                             />
                             <defs>
                                 <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor="#8B0000" />
-                                    <stop offset="100%" stopColor="#DC143C" />
+                                    <stop offset="0%" stopColor="#ffffff" />
+                                    <stop offset="100%" stopColor="#fce7ef" />
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -92,11 +92,11 @@ export default function ScrollToTop() {
                             whileHover={{ y: -2 }}
                             transition={{ type: 'spring', stiffness: 400 }}
                         >
-                            <ArrowUp className="w-5 h-5 text-slate-600 dark:text-white group-hover:text-crimson transition-colors" />
+                            <ArrowUp className="w-5 h-5 text-white" />
                         </motion.div>
 
                         {/* Hover glow effect */}
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-burgundy/20 to-crimson/20 opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-crimson to-burgundy opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
                     </div>
 
                     {/* Tooltip */}
