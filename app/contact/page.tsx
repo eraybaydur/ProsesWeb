@@ -242,7 +242,7 @@ export default function ContactPage() {
                             className="flex-1 p-6 md:p-8 overflow-y-auto overflow-x-hidden font-mono text-sm md:text-base space-y-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent scroll-smooth"
                         >
                             <div className="text-slate-500 mb-8 border-b border-white/5 pb-4">
-                                Copyright (c) 2024 Proses Yazılım A.Ş. Tüm hakları saklıdır.<br />
+                                Copyright (c) {new Date().getFullYear()} Proses Yazılım A.Ş. Tüm hakları saklıdır.<br />
                                 İletişim Protokolü v1.0 başlatıldı.<br />
                                 Lütfen aşağıdaki adımları takip ediniz.<br />
                             </div>
