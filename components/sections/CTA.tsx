@@ -82,9 +82,9 @@ export default function CTA() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight"
+                        className="text-4xl md:text-6xl font-bold mb-8 tracking-tight leading-tight"
                     >
-                        İşletmenizi Dijital Geleceğe <br />
+                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">İşletmenizi Dijital Geleceğe</span> <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Taşımaya Hazır mısınız?</span>
                     </motion.h2>
 

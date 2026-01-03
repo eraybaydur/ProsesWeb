@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm install)",
       "Bash(npm install:*)",
-      "WebFetch(domain:www.ui-layouts.com)"
+      "WebFetch(domain:www.ui-layouts.com)",
+      "Bash(git checkout:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "WebFetch(domain:ui.aceternity.com)"
     ],
     "deny": [],
     "ask": []

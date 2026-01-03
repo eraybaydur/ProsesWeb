@@ -104,9 +104,9 @@ export default function FAQ() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4"
+                        className="text-4xl md:text-6xl font-bold mb-4"
                     >
-                        Sıkça Sorulan <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Sorular</span>
+                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">Sıkça Sorulan</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Sorular</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}

@@ -112,9 +112,9 @@ export default function ProcessTimeline() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6"
+                        className="text-4xl md:text-6xl font-bold mb-6"
                     >
-                        4 Adımda <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Dijital Dönüşüm</span>
+                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">4 Adımda</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Dijital Dönüşüm</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -168,7 +168,7 @@ export default function ProcessTimeline() {
                                             {step.icon}
                                         </div>
                                     </motion.div>
-                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+                                    <h3 className="text-xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">
                                         {step.title}
                                     </h3>
                                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">

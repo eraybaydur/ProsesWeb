@@ -311,7 +311,7 @@ function ServiceCard({
 
                 {/* Content */}
                 <div className="relative z-10">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-burgundy dark:group-hover:text-crimson transition-colors duration-300">
+                    <h3 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400 group-hover:from-burgundy group-hover:to-crimson transition-all duration-300">
                         {service.title}
                     </h3>
                     <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
@@ -547,8 +547,8 @@ export default function Services() {
                         <span className="w-8 h-px bg-burgundy" />
                         Hizmetlerimiz
                     </motion.span>
-                    <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-                        Dijital Dönüşüm <br />
+                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">Dijital Dönüşüm</span> <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">
                             Çözümlerimiz
                         </span>

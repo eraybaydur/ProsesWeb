@@ -38,10 +38,9 @@ ThemeProvider → PageTransitionProvider → SmoothScroll → SplashScreen → {
 ```
 
 ### Fonts
-Four fonts loaded via `next/font/google`:
-- `--font-inter` (body text via `--font-sans`)
-- `--font-outfit` (headings via `--font-heading`)
-- `--font-geist-sans`, `--font-geist-mono`
+Two fonts loaded via `next/font/google`:
+- `--font-geist-sans` (body/headings via `--font-sans` and `--font-heading`)
+- `--font-geist-mono`
 
 ### Brand Colors (globals.css)
 ```css

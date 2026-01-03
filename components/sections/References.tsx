@@ -155,9 +155,9 @@ export default function References() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4"
+                        className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
                     >
-                        Geliştirdiğimiz{' '}
+                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">Geliştirdiğimiz</span>{' '}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy to-crimson">
                             Çözümler
                         </span>
@@ -190,7 +190,7 @@ export default function References() {
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center`}>
                                         <div className="w-5 h-5 bg-white/20 rounded-md" />
                                     </div>
-                                    <h3 className="font-bold text-slate-900 dark:text-white">
+                                    <h3 className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">
                                         {category.category}
                                     </h3>
                                 </div>

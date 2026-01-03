@@ -205,7 +205,7 @@ function SolutionCard({
                             <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 border border-white/10 mb-6 backdrop-blur-sm ${solution.accentColor}`}>
                                 {solution.headline}
                             </span>
-                            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight">
+                            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">
                                 {solution.name}
                             </h2>
                             <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg">

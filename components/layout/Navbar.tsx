@@ -433,7 +433,7 @@ export default function Navbar() {
 
                 {/* CTA Button */}
                 <div className="hidden md:flex items-center gap-4">
-                    {/* <ThemeToggle /> */}
+                    <ThemeToggle />
                     <button className="px-6 py-2.5 rounded-full bg-gradient-to-r from-burgundy to-crimson text-white font-medium text-sm hover:shadow-[0_0_20px_rgba(139,0,0,0.5)] transition-all transform hover:-translate-y-0.5">
                         Demo Talep Et
                     </button>
@@ -441,7 +441,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu Button */}
                 <div className="flex items-center gap-4 md:hidden">
-                    {/* <ThemeToggle /> */}
+                    <ThemeToggle />
                     <button
                         className="text-slate-900 dark:text-white p-2"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

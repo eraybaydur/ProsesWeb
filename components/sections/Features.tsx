@@ -96,8 +96,8 @@ export default function Features() {
                             <span className="w-8 h-px bg-burgundy" />
                             Avantajlarımız
                         </motion.span>
-                        <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-                            Neden <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Proses Yazılım?</span>
+                        <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">Neden</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Proses Yazılım?</span>
                         </h2>
                         <p className="text-slate-700 dark:text-gray-400 text-lg leading-relaxed mb-8">
                             Sadece bir yazılım tedarikçisi değil, iş ortağınız olarak büyümenize katkı sağlıyoruz.
@@ -130,7 +130,7 @@ export default function Features() {
                                 >
                                     {feature.icon}
                                 </motion.div>
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                <h3 className="text-xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400 group-hover:from-burgundy group-hover:to-crimson transition-all">
                                     {feature.title}
                                 </h3>
                                 <p className="text-slate-700 dark:text-gray-400 text-sm">

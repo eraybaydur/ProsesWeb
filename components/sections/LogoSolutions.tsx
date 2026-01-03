@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ArrowRight, Database, Zap, BarChart3, Workflow, Cpu, Shield } from 'lucide-react';
 import { usePageTransition } from '@/components/ui/PageTransition';
+import { useEvervaultEffect, EvervaultPattern } from '@/components/ui/evervault-card';
 
 const solutions = [
     {
@@ -69,7 +70,7 @@ const solutions = [
     }
 ];
 
-// Simple Solution Card
+// Solution Card with Evervault Effect
 function SolutionCard({
     solution,
     index,
@@ -80,6 +81,7 @@ function SolutionCard({
     onNavigate: (id: string) => void;
 }) {
     const Icon = solution.icon;
+    const { mouseX, mouseY, randomString, isHovered, handlers } = useEvervaultEffect();
 
     return (
         <motion.div
@@ -87,6 +89,7 @@ function SolutionCard({
             className="group relative flex-shrink-0 w-[320px] md:w-[380px] cursor-pointer"
             whileHover={{ y: -8 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            {...handlers}
         >
             {/* Card glow on hover */}
             <div
@@ -94,7 +97,7 @@ function SolutionCard({
                 style={{ background: `${solution.color}20` }}
             />
 
-            {/* Card */}
+            {/* Card with Evervault Effect */}
             <div className="relative h-[440px] md:h-[480px] rounded-2xl overflow-hidden
                            bg-white/90 dark:bg-white/[0.03]
                            backdrop-blur-sm
@@ -103,15 +106,23 @@ function SolutionCard({
                            group-hover:border-slate-300 dark:group-hover:border-white/15
                            transition-all duration-300">
 
+                {/* Evervault Pattern Effect */}
+                <EvervaultPattern
+                    mouseX={mouseX}
+                    mouseY={mouseY}
+                    randomString={randomString}
+                    isHovered={isHovered}
+                />
+
                 {/* Top gradient bar */}
-                <div className={`h-1 w-full bg-gradient-to-r ${solution.gradient}`} />
+                <div className={`relative z-10 h-1 w-full bg-gradient-to-r ${solution.gradient}`} />
 
                 {/* Content */}
-                <div className="relative h-full flex flex-col p-6">
+                <div className="relative z-10 h-full flex flex-col p-6">
                     {/* Header */}
                     <div className="flex items-start justify-between mb-6">
                         <div
-                            className="w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center"
+                            className="w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center backdrop-blur-sm"
                             style={{ background: `${solution.color}15` }}
                         >
                             <div className="relative w-8 h-8 md:w-10 md:h-10">
@@ -123,13 +134,13 @@ function SolutionCard({
                                 />
                             </div>
                         </div>
-                        <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-100 dark:bg-white/5">
+                        <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-100/80 dark:bg-white/5 backdrop-blur-sm">
                             <Icon className="w-4 h-4" style={{ color: solution.color }} />
                         </div>
                     </div>
 
                     {/* Title & Description */}
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h3 className="text-xl md:text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">
                         {solution.name}
                     </h3>
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
@@ -301,8 +312,8 @@ export default function LogoSolutions() {
                             Çözümler
                         </span>
                     </div>
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
-                        Logo ERP
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">Logo ERP</span>
                         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-burgundy to-crimson">
                             Ekosistemi
                         </span>
