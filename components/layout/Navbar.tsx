@@ -3,308 +3,63 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ChevronDown, ChevronRight, Database, FileText, Code, Workflow } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Menu, X, ChevronDown, ChevronRight, Database, FileText, Code, Workflow, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
-import { usePageTransition } from '@/components/ui/PageTransition';
+import { CONTACT } from '@/lib/contact';
 
-// Çözümler dropdown items - Logo ERP ürünleri
 const solutionsItems = [
-    {
-        id: 'tiger',
-        name: 'Logo Tiger 3',
-        description: 'Kurumsal ERP çözümü',
-        logo: '/tiger.png',
-    },
-    {
-        id: 'go3',
-        name: 'Logo Go 3',
-        description: 'KOBİ dostu ERP',
-        logo: '/gowings.png',
-    },
-    {
-        id: 'crm',
-        name: 'Logo CRM',
-        description: 'Müşteri ilişkileri yönetimi',
-        logo: '/logocrm.png',
-    },
-    {
-        id: 'flow',
-        name: 'Logo Flow',
-        description: 'İş süreçleri otomasyonu',
-        logo: '/logoflow.png',
-    },
-    {
-        id: 'mind',
-        name: 'Logo Mind',
-        description: 'İş zekası platformu',
-        logo: '/logomind.png',
-    },
-    {
-        id: 'budget',
-        name: 'Logo Budget',
-        description: 'Bütçe planlama sistemi',
-        logo: '/logobudget.png',
-    },
+    { id: 'tiger', name: 'Logo Tiger 3', description: 'Kurumsal ERP çözümü', logo: '/tiger.webp', href: '/cozumler/logo-tiger-3' },
+    { id: 'go3', name: 'Logo Go 3', description: 'KOBİ dostu ERP', logo: '/gowings.webp', href: '/cozumler/logo-go-3' },
+    { id: 'crm', name: 'Logo CRM', description: 'Müşteri ilişkileri yönetimi', logo: '/logocrm.webp', href: '/cozumler/logo-crm' },
+    { id: 'flow', name: 'Logo Flow', description: 'İş süreçleri otomasyonu', logo: '/logoflow.webp', href: '/cozumler/logo-flow' },
+    { id: 'mind', name: 'Logo Mind', description: 'İş zekası platformu', logo: '/logomind.webp', href: '/cozumler/logo-mind' },
+    { id: 'budget', name: 'Logo Budget', description: 'Bütçe planlama sistemi', logo: '/logobudget.webp', href: '/cozumler/logo-budget' },
 ];
 
-// Hizmetler dropdown items - Services section'dan
 const servicesItems = [
-    {
-        name: 'Logo ERP Çözümleri',
-        description: 'Tiger 3, Go 3 kurulum ve destek',
-        href: '/#services',
-        icon: Database,
-    },
-    {
-        name: 'e-Dönüşüm',
-        description: 'e-Fatura, e-Arşiv, e-Defter',
-        href: '/#services',
-        icon: FileText,
-    },
-    {
-        name: 'Özel Yazılım',
-        description: '.NET ve SQL tabanlı çözümler',
-        href: '/#techflow',
-        icon: Code,
-    },
-    {
-        name: 'Süreç Danışmanlığı',
-        description: 'İş akışı analizi ve dijitalleşme',
-        href: '/#features',
-        icon: Workflow,
-    },
+    { name: 'ERP Danışmanlığı', description: 'Kurulum, eğitim ve süreç analizi', href: '/hizmetler/erp-danismanligi', icon: Database },
+    { name: 'e-Dönüşüm', description: 'e-Fatura, e-Arşiv, e-İrsaliye, e-Defter', href: '/hizmetler/e-donusum', icon: FileText },
+    { name: 'Özel Yazılım', description: 'B2B portal, REST API, entegrasyon', href: '/hizmetler/ozel-yazilim', icon: Code },
+    { name: 'Teknik Destek', description: '7/24 destek ve bakım hizmeti', href: '/hizmetler/teknik-destek', icon: Workflow },
 ];
 
-// Dropdown component for desktop
-function DropdownMenu({
-    title,
-    items,
-    type,
-    isOpen,
-    onToggle,
-    onNavigate,
-}: {
-    title: string;
-    items: typeof solutionsItems | typeof servicesItems;
-    type: 'solutions' | 'services';
-    isOpen: boolean;
-    onToggle: () => void;
-    onNavigate: (id: string) => void;
-}) {
-    const dropdownRef = useRef<HTMLDivElement>(null);
-
+function NavLink({ href, children, isActive = false, onClick }: { href: string; children: React.ReactNode; isActive?: boolean; onClick?: () => void }) {
     return (
-        <div className="relative" ref={dropdownRef}>
-            <button
-                onClick={onToggle}
-                className="text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors relative group flex items-center gap-1"
-            >
-                {title}
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-crimson transition-all group-hover:w-full" />
-            </button>
-
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2, ease: 'easeOut' }}
-                        className="absolute top-full left-0 mt-3 w-72 bg-white/95 dark:bg-deep-space/95 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-white/10 shadow-xl shadow-black/10 overflow-hidden z-50"
-                    >
-                        {/* Glow effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-burgundy/5 to-crimson/5 pointer-events-none" />
-
-                        <div className="relative p-2">
-                            {type === 'solutions' ? (
-                                // Solutions with logos
-                                <div className="grid grid-cols-2 gap-1">
-                                    {(items as typeof solutionsItems).map((item) => (
-                                        <button
-                                            key={item.name}
-                                            onClick={() => {
-                                                onNavigate(item.id);
-                                                onToggle();
-                                            }}
-                                            className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group"
-                                        >
-                                            <div className="relative w-12 h-12 rounded-lg bg-slate-100 dark:bg-white/10 overflow-hidden">
-                                                <Image
-                                                    src={item.logo}
-                                                    alt={item.name}
-                                                    fill
-                                                    className="object-contain p-1"
-                                                />
-                                            </div>
-                                            <div className="text-center">
-                                                <div className="text-xs font-medium text-slate-900 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
-                                                    {item.name}
-                                                </div>
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            ) : (
-                                // Services with icons
-                                <div className="space-y-1">
-                                    {(items as typeof servicesItems).map((item) => {
-                                        const Icon = item.icon;
-                                        return (
-                                            <Link
-                                                key={item.name}
-                                                href={item.href}
-                                                onClick={onToggle}
-                                                className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group"
-                                            >
-                                                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-burgundy/10 to-crimson/10 flex items-center justify-center">
-                                                    <Icon className="w-5 h-5 text-burgundy dark:text-crimson" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
-                                                        {item.name}
-                                                    </div>
-                                                    <div className="text-xs text-slate-500 dark:text-slate-400">
-                                                        {item.description}
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Footer link */}
-                        <div className="relative border-t border-slate-200 dark:border-white/10 p-3">
-                            <Link
-                                href={type === 'solutions' ? '/#solutions' : '/#services'}
-                                onClick={onToggle}
-                                className="flex items-center justify-center gap-2 text-sm font-medium text-burgundy dark:text-crimson hover:underline"
-                            >
-                                Tümünü Gör
-                                <ChevronRight className="w-4 h-4" />
-                            </Link>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-}
-
-// Mobile accordion item
-function MobileAccordion({
-    title,
-    items,
-    type,
-    isOpen,
-    onToggle,
-    onClose,
-    onNavigate,
-}: {
-    title: string;
-    items: typeof solutionsItems | typeof servicesItems;
-    type: 'solutions' | 'services';
-    isOpen: boolean;
-    onToggle: () => void;
-    onClose: () => void;
-    onNavigate: (id: string) => void;
-}) {
-    return (
-        <div className="border-b border-slate-200 dark:border-white/10 last:border-0">
-            <button
-                onClick={onToggle}
-                className="w-full flex items-center justify-between py-4 text-lg font-medium text-slate-700 dark:text-gray-300"
-            >
-                {title}
-                <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                    >
-                        <div className="pb-4 space-y-2">
-                            {type === 'solutions' ? (
-                                <div className="grid grid-cols-3 gap-2">
-                                    {(items as typeof solutionsItems).map((item) => (
-                                        <button
-                                            key={item.name}
-                                            onClick={() => {
-                                                onNavigate(item.id);
-                                                onClose();
-                                            }}
-                                            className="flex flex-col items-center gap-2 p-2 rounded-xl bg-slate-100 dark:bg-white/5"
-                                        >
-                                            <div className="relative w-10 h-10 rounded-lg bg-white dark:bg-white/10 overflow-hidden">
-                                                <Image
-                                                    src={item.logo}
-                                                    alt={item.name}
-                                                    fill
-                                                    className="object-contain p-1"
-                                                />
-                                            </div>
-                                            <span className="text-[10px] text-center font-medium text-slate-700 dark:text-gray-300 line-clamp-1">
-                                                {item.name.replace('Logo ', '')}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-                            ) : (
-                                (items as typeof servicesItems).map((item) => {
-                                    const Icon = item.icon;
-                                    return (
-                                        <Link
-                                            key={item.name}
-                                            href={item.href}
-                                            onClick={onClose}
-                                            className="flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-white/5"
-                                        >
-                                            <Icon className="w-5 h-5 text-burgundy dark:text-crimson" />
-                                            <div>
-                                                <div className="text-sm font-medium text-slate-900 dark:text-white">
-                                                    {item.name}
-                                                </div>
-                                                <div className="text-xs text-slate-500 dark:text-slate-400">
-                                                    {item.description}
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    );
-                                })
-                            )}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+        <Link
+            href={href}
+            onClick={onClick}
+            className={`group relative rounded-xl px-3.5 py-2 text-sm font-medium transition-all duration-300 ${
+                isActive
+                    ? 'text-slate-900 dark:text-white bg-slate-100/90 dark:bg-white/10'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/75 dark:hover:bg-white/5'
+            }`}
+        >
+            {children}
+            <span
+                className={`absolute bottom-0 left-1/2 h-[2px] -translate-x-1/2 rounded-full bg-gradient-to-r from-burgundy to-crimson transition-all duration-300 ${
+                    isActive ? 'w-8' : 'w-0 group-hover:w-6'
+                }`}
+            />
+        </Link>
     );
 }
 
 export default function Navbar() {
+    const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const navRef = useRef<HTMLElement>(null);
-    const { navigateToSection } = usePageTransition();
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
+        const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (navRef.current && !navRef.current.contains(event.target as Node)) {
@@ -315,192 +70,340 @@ export default function Navbar() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const toggleDropdown = (name: string) => {
-        setOpenDropdown(openDropdown === name ? null : name);
-    };
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key !== 'Escape') return;
+            setOpenDropdown(null);
+            setOpenMobileAccordion(null);
+            setIsMobileMenuOpen(false);
+        };
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, []);
 
-    const toggleMobileAccordion = (name: string) => {
-        setOpenMobileAccordion(openMobileAccordion === name ? null : name);
-    };
-
-    const closeMobileMenu = () => {
-        setIsMobileMenuOpen(false);
-        setOpenMobileAccordion(null);
-    };
+    const toggleDropdown = (name: string) => setOpenDropdown(openDropdown === name ? null : name);
+    const closeMobileMenu = () => { setIsMobileMenuOpen(false); setOpenMobileAccordion(null); };
+    const isSolutionsActive = pathname.startsWith('/cozumler');
+    const isServicesActive = pathname.startsWith('/hizmetler');
 
     return (
         <nav
             ref={navRef}
-            className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-500 ${isScrolled
-                ? 'bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]'
-                : 'bg-transparent border-b border-transparent'
-                }`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+                isScrolled
+                    ? 'h-20 px-3 sm:px-5 pt-2'
+                    : 'h-20 px-3 sm:px-5'
+            }`}
         >
-            <div className="container mx-auto px-6 flex items-center justify-between">
+            <div className={`mx-auto h-full max-w-6xl flex items-center justify-between px-4 sm:px-6 lg:px-8 transition-all duration-500 ${
+                isScrolled
+                    ? 'rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/85 dark:bg-black/75 backdrop-blur-2xl shadow-[0_1px_3px_rgba(15,23,42,0.06),0_14px_32px_rgba(15,23,42,0.12)]'
+                    : 'border border-transparent bg-transparent'
+            }`}>
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-bold tracking-tighter flex items-center gap-3">
-                    {/* Desktop Dark Mode Logo */}
-                    <div className="relative h-10 w-auto hidden dark:md:block group">
-                        <img
-                            src="/proseslogoswhite.png"
-                            alt="Proses Yazılım"
-                            className="h-10 w-auto opacity-0"
-                        />
-                        <div
-                            className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-[#00FF41] to-emerald-500"
-                            style={{
-                                maskImage: 'url(/proseslogoswhite.png)',
-                                WebkitMaskImage: 'url(/proseslogoswhite.png)',
-                                maskSize: 'contain',
-                                WebkitMaskSize: 'contain',
-                                maskRepeat: 'no-repeat',
-                                WebkitMaskRepeat: 'no-repeat',
-                                maskPosition: 'left',
-                                WebkitMaskPosition: 'left',
-                                filter: 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))'
-                            }}
-                        />
-                    </div>
-
-                    {/* Desktop Light Mode Logo */}
-                    <img
-                        src="/proseslogoswhite.png"
+                <Link href="/" className="relative group">
+                    <Image
+                        src="/logo.png"
                         alt="Proses Yazılım"
-                        className="h-10 w-auto hidden md:block dark:hidden"
+                        width={160}
+                        height={40}
+                        className={`w-auto transition-all duration-500 ${isScrolled ? 'h-8' : 'h-10'}`}
+                        priority
                     />
-
-                    {/* Mobile Dark Mode Logo */}
-                    <div className="relative h-10 w-auto hidden dark:block dark:md:hidden">
-                        <img
-                            src="/prosesminiwhite.png"
-                            alt="Proses Yazılım"
-                            className="h-10 w-auto opacity-0"
-                        />
-                        <div
-                            className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-[#00FF41] to-emerald-500"
-                            style={{
-                                maskImage: 'url(/prosesminiwhite.png)',
-                                WebkitMaskImage: 'url(/prosesminiwhite.png)',
-                                maskSize: 'contain',
-                                WebkitMaskSize: 'contain',
-                                maskRepeat: 'no-repeat',
-                                WebkitMaskRepeat: 'no-repeat',
-                                maskPosition: 'left',
-                                WebkitMaskPosition: 'left',
-                                filter: 'drop-shadow(0 0 8px rgba(0, 255, 65, 0.5))'
-                            }}
-                        />
-                    </div>
-                    {/* Mobile Light Mode Logo */}
-                    <img
-                        src="/prosesminik.png"
-                        alt="Proses Yazılım"
-                        className="h-10 w-auto block md:hidden dark:hidden"
-                    />
+                    <div className="absolute -inset-2 bg-burgundy/0 group-hover:bg-burgundy/5 rounded-xl transition-colors duration-300" />
                 </Link>
 
                 {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-8">
-                    {/* Çözümler Dropdown */}
-                    <DropdownMenu
-                        title="Çözümler"
-                        items={solutionsItems}
-                        type="solutions"
-                        isOpen={openDropdown === 'solutions'}
-                        onToggle={() => toggleDropdown('solutions')}
-                        onNavigate={navigateToSection}
-                    />
+                <div className="hidden md:flex items-center gap-1">
+                    {/* Çözümler */}
+                    <div className="relative">
+                        <button
+                            onClick={() => toggleDropdown('solutions')}
+                            aria-haspopup="menu"
+                            aria-expanded={openDropdown === 'solutions'}
+                            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-all ${
+                                openDropdown === 'solutions' || isSolutionsActive
+                                    ? 'text-slate-900 dark:text-white bg-slate-100/90 dark:bg-white/10'
+                                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/5'
+                            }`}
+                        >
+                            Çözümler
+                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'solutions' ? 'rotate-180' : ''}`} />
+                        </button>
 
-                    {/* Hizmetler Dropdown */}
-                    <DropdownMenu
-                        title="Hizmetler"
-                        items={servicesItems}
-                        type="services"
-                        isOpen={openDropdown === 'services'}
-                        onToggle={() => toggleDropdown('services')}
-                        onNavigate={navigateToSection}
-                    />
+                        <AnimatePresence>
+                            {openDropdown === 'solutions' && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                                    className="absolute top-full left-1/2 z-50 mt-2 w-[500px] -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 shadow-2xl shadow-slate-900/10 backdrop-blur-2xl dark:border-white/[0.10] dark:bg-[#0a0a0a]/95"
+                                    role="menu"
+                                >
+                                    <div className="h-px w-full bg-gradient-to-r from-transparent via-burgundy/35 to-transparent" />
+                                    <div className="p-3">
+                                        <div className="grid grid-cols-3 gap-1">
+                                            {solutionsItems.map((item) => (
+                                                <Link
+                                                    key={item.id}
+                                                    href={item.href}
+                                                    onClick={() => setOpenDropdown(null)}
+                                                    className="group flex flex-col items-center gap-2.5 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-all duration-200"
+                                                >
+                                                    <div className="relative w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/[0.06] overflow-hidden group-hover:bg-white dark:group-hover:bg-white/10 group-hover:shadow-md transition-all duration-200">
+                                                        <Image src={item.logo} alt={item.name} fill className="object-contain p-1.5" />
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <div className="text-xs font-semibold text-slate-800 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                                            {item.name}
+                                                        </div>
+                                                        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 leading-tight">
+                                                            {item.description}
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
 
-                    {/* İletişim - Normal link */}
-                    <Link
-                        href="/contact"
-                        className="text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors relative group"
+                    {/* Hizmetler */}
+                    <div className="relative">
+                        <button
+                            onClick={() => toggleDropdown('services')}
+                            aria-haspopup="menu"
+                            aria-expanded={openDropdown === 'services'}
+                            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-all ${
+                                openDropdown === 'services' || isServicesActive
+                                    ? 'text-slate-900 dark:text-white bg-slate-100/90 dark:bg-white/10'
+                                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/5'
+                            }`}
+                        >
+                            Hizmetler
+                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'services' ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        <AnimatePresence>
+                            {openDropdown === 'services' && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                                    className="absolute top-full left-1/2 z-50 mt-2 w-[350px] -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 shadow-2xl shadow-slate-900/10 backdrop-blur-2xl dark:border-white/[0.10] dark:bg-[#0a0a0a]/95"
+                                    role="menu"
+                                >
+                                    <div className="h-px w-full bg-gradient-to-r from-transparent via-burgundy/35 to-transparent" />
+                                    <div className="p-2">
+                                        {servicesItems.map((item) => {
+                                            const Icon = item.icon;
+                                            return (
+                                                <Link
+                                                    key={item.name}
+                                                    href={item.href}
+                                                    onClick={() => setOpenDropdown(null)}
+                                                    className="group flex items-center gap-3.5 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-all duration-200"
+                                                >
+                                                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-burgundy/8 dark:bg-burgundy/10 flex items-center justify-center group-hover:bg-burgundy/15 transition-colors">
+                                                        <Icon className="w-4 h-4 text-burgundy dark:text-crimson" />
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <div className="text-sm font-medium text-slate-800 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                                            {item.name}
+                                                        </div>
+                                                        <div className="text-xs text-slate-400 dark:text-slate-500 truncate">
+                                                            {item.description}
+                                                        </div>
+                                                    </div>
+                                                    <ChevronRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 ml-auto shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    <NavLink href="/bursa-logo-bayi" isActive={pathname.startsWith('/bursa-logo-bayi')}>Bursa</NavLink>
+                    <NavLink href="/iletisim" isActive={pathname.startsWith('/iletisim')}>İletişim</NavLink>
+                </div>
+
+                {/* Right side */}
+                <div className="hidden md:flex items-center gap-3">
+                    <a
+                        href={CONTACT.phoneHref}
+                        className="hidden lg:flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson transition-colors"
                     >
-                        İletişim
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-crimson transition-all group-hover:w-full" />
+                        <Phone className="w-4 h-4" />
+                        <span>{CONTACT.phone}</span>
+                    </a>
+                    <ThemeToggle />
+                    <Link
+                        href="/iletisim"
+                        className="group relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-[1px] hover:shadow-lg hover:shadow-burgundy/25"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-burgundy to-crimson" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-crimson to-burgundy opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <span className="relative flex items-center gap-1.5">
+                            Demo Talep Et
+                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        </span>
                     </Link>
                 </div>
 
-                {/* CTA Button */}
-                <div className="hidden md:flex items-center gap-4">
-                    <ThemeToggle />
-                    <button className="px-6 py-2.5 rounded-full bg-gradient-to-r from-burgundy to-crimson text-white font-medium text-sm hover:shadow-[0_0_20px_rgba(139,0,0,0.5)] transition-all transform hover:-translate-y-0.5">
-                        Demo Talep Et
-                    </button>
-                </div>
-
-                {/* Mobile Menu Button */}
-                <div className="flex items-center gap-4 md:hidden">
+                {/* Mobile */}
+                <div className="flex items-center gap-3 md:hidden">
                     <ThemeToggle />
                     <button
-                        className="text-slate-900 dark:text-white p-2"
+                        className="relative w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label={isMobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+                        aria-expanded={isMobileMenuOpen}
                     >
-                        {isMobileMenuOpen ? <X /> : <Menu />}
+                        {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
+            {/* Mobile Menu */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 right-0 bg-white/95 dark:bg-deep-space/95 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 p-6 md:hidden max-h-[80vh] overflow-y-auto"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="overflow-hidden md:hidden bg-white/98 dark:bg-[#0a0a0a]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-white/[0.06]"
                     >
-                        <div className="flex flex-col">
-                            {/* Çözümler Accordion */}
-                            <MobileAccordion
-                                title="Çözümler"
-                                items={solutionsItems}
-                                type="solutions"
-                                isOpen={openMobileAccordion === 'solutions'}
-                                onToggle={() => toggleMobileAccordion('solutions')}
-                                onClose={closeMobileMenu}
-                                onNavigate={navigateToSection}
-                            />
-
-                            {/* Hizmetler Accordion */}
-                            <MobileAccordion
-                                title="Hizmetler"
-                                items={servicesItems}
-                                type="services"
-                                isOpen={openMobileAccordion === 'services'}
-                                onToggle={() => toggleMobileAccordion('services')}
-                                onClose={closeMobileMenu}
-                                onNavigate={navigateToSection}
-                            />
-
-                            {/* İletişim */}
-                            <Link
-                                href="/contact"
-                                onClick={closeMobileMenu}
-                                className="flex items-center justify-between py-4 text-lg font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white"
+                        <div className="px-6 py-4 max-h-[75vh] overflow-y-auto">
+                            <a
+                                href={CONTACT.phoneHref}
+                                className="flex items-center gap-3 py-3 px-4 mb-2 rounded-xl bg-burgundy/5 dark:bg-burgundy/10 text-burgundy dark:text-crimson font-semibold text-sm"
                             >
-                                İletişim
-                                <ChevronRight className="w-5 h-5 text-crimson" />
+                                <Phone className="w-4 h-4" />
+                                {CONTACT.phone}
+                            </a>
+                            {/* Çözümler */}
+                            <div className="border-b border-slate-100 dark:border-white/[0.06]">
+                                <button
+                                    onClick={() => setOpenMobileAccordion(openMobileAccordion === 'solutions' ? null : 'solutions')}
+                                    className="w-full flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white"
+                                >
+                                    Çözümler
+                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${openMobileAccordion === 'solutions' ? 'rotate-180' : ''}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {openMobileAccordion === 'solutions' && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="grid grid-cols-3 gap-2 pb-4">
+                                                {solutionsItems.map((item) => (
+                                                    <Link
+                                                        key={item.id}
+                                                        href={item.href}
+                                                        onClick={closeMobileMenu}
+                                                        className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 dark:active:bg-white/[0.08] transition-colors"
+                                                    >
+                                                        <div className="relative w-10 h-10 rounded-lg bg-white dark:bg-white/10 overflow-hidden">
+                                                            <Image src={item.logo} alt={item.name} fill className="object-contain p-1" />
+                                                        </div>
+                                                        <span className="text-[10px] text-center font-medium text-slate-700 dark:text-slate-300 leading-tight">
+                                                            {item.name.replace('Logo ', '')}
+                                                        </span>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+
+                            {/* Hizmetler */}
+                            <div className="border-b border-slate-100 dark:border-white/[0.06]">
+                                <button
+                                    onClick={() => setOpenMobileAccordion(openMobileAccordion === 'services' ? null : 'services')}
+                                    className="w-full flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white"
+                                >
+                                    Hizmetler
+                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${openMobileAccordion === 'services' ? 'rotate-180' : ''}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {openMobileAccordion === 'services' && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="space-y-1 pb-4">
+                                                {servicesItems.map((item) => {
+                                                    const Icon = item.icon;
+                                                    return (
+                                                        <Link
+                                                            key={item.name}
+                                                            href={item.href}
+                                                            onClick={closeMobileMenu}
+                                                            className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 transition-colors"
+                                                        >
+                                                            <Icon className="w-4 h-4 text-burgundy dark:text-crimson shrink-0" />
+                                                            <div className="min-w-0">
+                                                                <div className="text-sm font-medium text-slate-800 dark:text-white">{item.name}</div>
+                                                                <div className="text-[11px] text-slate-400 truncate">{item.description}</div>
+                                                            </div>
+                                                        </Link>
+                                                    );
+                                                })}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+
+                            {/* Direct links */}
+                            <Link href="/bursa-logo-bayi" onClick={closeMobileMenu}
+                                className="flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white border-b border-slate-100 dark:border-white/[0.06]">
+                                Bursa
+                                <ChevronRight className="w-4 h-4 text-burgundy" />
                             </Link>
 
-                            {/* CTA Button */}
-                            <button className="mt-4 w-full py-3 rounded-lg bg-gradient-to-r from-burgundy to-crimson text-white font-bold">
+                            <Link href="/iletisim" onClick={closeMobileMenu}
+                                className="flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white">
+                                İletişim
+                                <ChevronRight className="w-4 h-4 text-burgundy" />
+                            </Link>
+
+                            {/* Mobile CTA */}
+                            <Link
+                                href="/iletisim"
+                                onClick={closeMobileMenu}
+                                className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-burgundy to-crimson text-white font-semibold text-sm"
+                            >
                                 Demo Talep Et
-                            </button>
+                                <ChevronRight className="w-4 h-4" />
+                            </Link>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
         </nav>
+    );
+}
+
+function ArrowRight({ className }: { className?: string }) {
+    return (
+        <svg className={className} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
     );
 }

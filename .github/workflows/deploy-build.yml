@@ -1,0 +1,38 @@
+name: Deploy Build
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      SITE_URL: "https://prosesyazilim.com"
+      NEXT_PUBLIC_SITE_URL: "https://prosesyazilim.com"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Next.js production build
+        run: npm run build
+
+      - name: Docker image build
+        run: docker build -t prosesweb:ci .

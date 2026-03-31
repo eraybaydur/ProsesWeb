@@ -49,6 +49,7 @@ export default function FAQ() {
 
     return (
         <section
+            id="faq"
             ref={sectionRef}
             className="py-32 bg-slate-50 dark:bg-deep-space relative overflow-hidden"
         >
@@ -77,7 +78,7 @@ export default function FAQ() {
 
             {/* Main Content with Parallax */}
             <motion.div
-                className="container mx-auto px-6 max-w-4xl relative z-10"
+                className="site-container max-w-4xl relative z-10"
                 style={{ y: contentY, scale, opacity }}
             >
                 <div className="text-center mb-16">
@@ -134,6 +135,9 @@ export default function FAQ() {
                             >
                                 <motion.button
                                     onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                                    aria-expanded={activeIndex === index}
+                                    aria-controls={`faq-answer-${index}`}
+                                    id={`faq-question-${index}`}
                                     className="w-full flex items-center justify-between p-6 text-left"
                                     whileHover={{ x: 5 }}
                                     transition={{ type: "spring", stiffness: 400 }}
@@ -156,6 +160,9 @@ export default function FAQ() {
                                             animate={{ height: 'auto', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.3, ease: "easeOut" }}
+                                            id={`faq-answer-${index}`}
+                                            role="region"
+                                            aria-labelledby={`faq-question-${index}`}
                                         >
                                             <div className="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-4">
                                                 {faq.answer}

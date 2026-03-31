@@ -76,7 +76,7 @@ export default function Features() {
 
             {/* Main Content with Parallax */}
             <motion.div
-                className="container mx-auto px-6 relative z-10"
+                className="site-container relative z-10"
                 style={{ y: contentY, scale, opacity }}
             >
                 <div className="flex flex-col md:flex-row items-center justify-between gap-16">

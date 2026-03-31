@@ -1,192 +1,154 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Search, Settings, GraduationCap, Headset, ArrowRight } from 'lucide-react';
-import GlassCard from '@/components/ui/GlassCard';
+import { Search, Settings, GraduationCap, Headset } from 'lucide-react';
 
 const steps = [
     {
         id: 1,
+        number: '01',
         title: 'Analiz & Planlama',
-        description: 'İş süreçlerinizi detaylıca inceliyor, ihtiyaçlarınızı belirliyor ve size özel en uygun yol haritasını çıkarıyoruz.',
-        icon: <Search className="w-6 h-6" />,
-        color: 'bg-blue-500',
-        glow: 'shadow-[0_0_20px_rgba(59,130,246,0.5)]'
+        description: 'İş süreçlerinizi detaylıca inceliyor, ihtiyaçlarınızı belirliyor ve size özel yol haritası çıkarıyoruz.',
+        detail: 'Mevcut altyapı analizi, ihtiyaç tespiti, proje planı',
+        icon: Search,
     },
     {
         id: 2,
+        number: '02',
         title: 'Kurulum & Entegrasyon',
-        description: 'Belirlenen çözümleri sisteminize entegre ediyor, veri aktarımlarını sağlıyor ve sistemi kullanıma hazır hale getiriyoruz.',
-        icon: <Settings className="w-6 h-6" />,
-        color: 'bg-purple-500',
-        glow: 'shadow-[0_0_20px_rgba(168,85,247,0.5)]'
+        description: 'Belirlenen çözümleri sisteminize entegre ediyor, veri aktarımlarını sağlıyor ve kullanıma hazırlıyoruz.',
+        detail: 'Yazılım kurulumu, veri aktarımı, sistem entegrasyonu',
+        icon: Settings,
     },
     {
         id: 3,
+        number: '03',
         title: 'Eğitim & Uygulama',
-        description: 'Ekibinize detaylı kullanıcı eğitimleri veriyor, pilot uygulamalarla sistemin sorunsuz işlediğinden emin oluyoruz.',
-        icon: <GraduationCap className="w-6 h-6" />,
-        color: 'bg-orange-500',
-        glow: 'shadow-[0_0_20px_rgba(249,115,22,0.5)]'
+        description: 'Ekibinize kapsamlı eğitimler veriyor, pilot uygulamalarla sistemin sorunsuz çalıştığını doğruluyoruz.',
+        detail: 'Kullanıcı eğitimi, pilot uygulama, canlıya geçiş',
+        icon: GraduationCap,
     },
     {
         id: 4,
+        number: '04',
         title: 'Destek & Geliştirme',
-        description: 'Canlıya geçiş sonrası 7/24 destek sağlıyor, değişen ihtiyaçlarınıza göre sistemi sürekli güncel tutuyoruz.',
-        icon: <Headset className="w-6 h-6" />,
-        color: 'bg-emerald-500',
-        glow: 'shadow-[0_0_20px_rgba(16,185,129,0.5)]'
-    }
+        description: 'Canlıya geçiş sonrası kesintisiz destek sağlıyor, değişen ihtiyaçlarınıza göre sistemi güncel tutuyoruz.',
+        detail: '7/24 teknik destek, güncelleme, sürekli iyileştirme',
+        icon: Headset,
+    },
 ];
 
 export default function ProcessTimeline() {
     const sectionRef = useRef<HTMLDivElement>(null);
 
-    // Scroll-based parallax
     const { scrollYProgress } = useScroll({
         target: sectionRef,
-        offset: ["start end", "end start"]
+        offset: ['start end', 'end start'],
     });
 
     const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
-    // Parallax transforms - daha güçlü efektler
-    const backgroundY = useTransform(smoothProgress, [0, 1], ['-15%', '15%']);
-    const orbsY = useTransform(smoothProgress, [0, 1], ['50%', '-50%']);
-    const contentY = useTransform(smoothProgress, [0, 1], ['8%', '-8%']);
-    const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
-    const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.6, 1, 1, 0.6]);
+    const backgroundY = useTransform(smoothProgress, [0, 1], ['-10%', '10%']);
 
     return (
         <section
             ref={sectionRef}
-            className="py-32 relative overflow-hidden bg-slate-50 dark:bg-deep-space"
+            className="py-24 md:py-32 relative overflow-hidden bg-slate-50 dark:bg-deep-space"
         >
-            {/* Parallax Background Layer */}
+            {/* Background */}
             <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
-                {/* Grid Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-burgundy/5" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:48px_48px]" />
             </motion.div>
 
-            {/* Parallax Floating Orbs */}
-            <motion.div className="absolute inset-0 pointer-events-none" style={{ y: orbsY }}>
-                <motion.div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-burgundy/5 rounded-full blur-[150px]"
-                    animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                />
-                <motion.div
-                    className="absolute top-20 right-20 w-64 h-64 bg-crimson/10 rounded-full blur-[100px]"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                />
-                <motion.div
-                    className="absolute bottom-20 left-20 w-48 h-48 bg-accent-red/10 rounded-full blur-[80px]"
-                    animate={{ scale: [1.2, 1, 1.2] }}
-                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                />
-            </motion.div>
+            {/* Subtle orb */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-burgundy/5 rounded-full blur-[150px] pointer-events-none" />
 
-            {/* Main Content with Parallax */}
-            <motion.div
-                className="container mx-auto px-6 relative z-10"
-                style={{ y: contentY, scale, opacity }}
-            >
-                <div className="text-center mb-20">
-                    <motion.span
+            <div className="site-container relative z-10">
+                {/* Header */}
+                <div className="mb-16 md:mb-20">
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 text-burgundy font-semibold tracking-wider uppercase text-sm mb-4"
+                        transition={{ duration: 0.5 }}
                     >
-                        <span className="w-8 h-px bg-burgundy" />
-                        Nasıl Çalışıyoruz?
-                        <span className="w-8 h-px bg-burgundy" />
-                    </motion.span>
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold mb-6"
-                    >
-                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">4 Adımda</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Dijital Dönüşüm</span>
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg"
-                    >
-                        Karmaşık süreçleri basitleştiriyor, işletmenizi geleceğe taşıyan profesyonel bir yolculuk sunuyoruz.
-                    </motion.p>
+                        <span className="inline-flex items-center gap-3 text-sm font-semibold text-burgundy uppercase tracking-wider mb-5">
+                            <span className="w-8 h-px bg-burgundy" />
+                            Nasıl Çalışıyoruz?
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+                            <span className="text-slate-900 dark:text-white">4 Adımda </span>
+                            <span className="text-burgundy">Dijital Dönüşüm</span>
+                        </h2>
+                        <p className="text-slate-500 dark:text-slate-400 max-w-xl text-base md:text-lg leading-relaxed">
+                            Karmaşık süreçleri basitleştiriyor, işletmenizi geleceğe taşıyoruz.
+                        </p>
+                    </motion.div>
                 </div>
 
+                {/* Steps — Desktop: horizontal, Mobile: vertical */}
                 <div className="relative">
-                    {/* Connecting Line (Desktop) */}
-                    <motion.div
-                        className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 z-0 overflow-hidden"
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5, ease: "easeOut" }}
-                    >
-                        <div className="w-full h-full bg-gradient-to-r from-blue-500/30 via-purple-500/30 via-orange-500/30 to-emerald-500/30" />
-                    </motion.div>
+                    {/* Desktop connecting line */}
+                    <div className="hidden md:block absolute top-[60px] left-[calc(12.5%+24px)] right-[calc(12.5%+24px)] h-px z-0">
+                        <motion.div
+                            className="h-full bg-gradient-to-r from-burgundy/40 via-crimson/20 to-burgundy/40"
+                            initial={{ scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
+                            style={{ transformOrigin: 'left' }}
+                        />
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-                        {steps.map((step, index) => (
-                            <motion.div
-                                key={step.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.2 }}
-                                className="relative group"
-                            >
-                                {/* Step Number Badge */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-0 md:gap-6">
+                        {steps.map((step, index) => {
+                            const Icon = step.icon;
+                            return (
                                 <motion.div
-                                    className={`absolute left-1/2 -translate-x-1/2 -top-6 w-12 h-12 rounded-full ${step.color} flex items-center justify-center text-white font-bold text-xl z-20 ${step.glow} ring-4 ring-slate-50 dark:ring-deep-space`}
-                                    whileHover={{ scale: 1.15 }}
-                                    transition={{ type: "spring", stiffness: 400 }}
+                                    key={step.id}
+                                    initial={{ opacity: 0, y: 25 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                                    className="relative group"
                                 >
-                                    {step.id}
-                                </motion.div>
-
-                                <GlassCard className="pt-12 pb-8 px-6 text-center h-full !bg-white/50 dark:!bg-white/5 hover:!bg-white dark:hover:!bg-white/10 transition-all duration-300 group-hover:-translate-y-2">
-                                    <motion.div
-                                        className={`w-12 h-12 mx-auto mb-6 rounded-2xl ${step.color} bg-opacity-10 flex items-center justify-center`}
-                                        whileHover={{ rotate: [0, -10, 10, 0] }}
-                                        transition={{ duration: 0.5 }}
-                                    >
-                                        <div className={step.color.replace('bg-', 'text-')}>
-                                            {step.icon}
+                                    {/* Step indicator */}
+                                    <div className="flex md:flex-col items-start md:items-center gap-5 md:gap-0">
+                                        {/* Number circle */}
+                                        <div className="relative z-10 shrink-0">
+                                            <div className="w-12 h-12 rounded-full bg-white dark:bg-deep-space border-2 border-burgundy/30 group-hover:border-burgundy flex items-center justify-center transition-colors duration-300 shadow-sm">
+                                                <Icon className="w-5 h-5 text-burgundy" />
+                                            </div>
+                                            {/* Step number badge */}
+                                            <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-burgundy text-white text-[10px] font-bold flex items-center justify-center shadow-md">
+                                                {step.id}
+                                            </span>
                                         </div>
-                                    </motion.div>
-                                    <h3 className="text-xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                                        {step.description}
-                                    </p>
-                                </GlassCard>
 
-                                {/* Arrow for mobile flow */}
-                                {index < steps.length - 1 && (
-                                    <div className="md:hidden flex justify-center my-4 text-slate-300 dark:text-white/20">
-                                        <ArrowRight className="w-6 h-6 rotate-90" />
+                                        {/* Content — mobile: beside icon, desktop: below */}
+                                        <div className="flex-1 md:mt-6 md:text-center pb-8 md:pb-0">
+                                            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-burgundy transition-colors duration-300">
+                                                {step.title}
+                                            </h3>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-3">
+                                                {step.description}
+                                            </p>
+                                            <span className="inline-block text-xs text-burgundy/70 dark:text-burgundy/50 font-medium tracking-wide">
+                                                {step.detail}
+                                            </span>
+                                        </div>
                                     </div>
-                                )}
-                            </motion.div>
-                        ))}
+
+                                    {/* Mobile vertical connector */}
+                                    {index < steps.length - 1 && (
+                                        <div className="md:hidden absolute left-[23px] top-[56px] bottom-0 w-px bg-gradient-to-b from-burgundy/30 to-transparent" />
+                                    )}
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
-            </motion.div>
+            </div>
         </section>
     );
 }

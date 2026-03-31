@@ -1,51 +1,60 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import { Database, FileText, Code, Workflow, ArrowUpRight } from 'lucide-react';
 import { usePageTransition } from '@/components/ui/PageTransition';
+import Image from 'next/image';
 
 const services = [
     {
         title: 'Logo ERP Çözümleri',
         description: 'Tiger 3, Go 3 ve J-Platform kurulum, eğitim ve destek hizmetleri ile işletmenizin verimliliğini artırın.',
+        targetId: 'solutions',
         icon: Database,
-        colSpan: 'md:col-span-2',
+        image: '/images/erp-dashboard.jpg',
         glowColor: 'bg-crimson',
         iconColor: 'text-crimson',
-        gridPosition: { row: 1, col: 1 },
     },
     {
         title: 'e-Dönüşüm',
         description: 'e-Fatura, e-Arşiv, e-Defter ve e-İrsaliye entegrasyonlarıyla yasal süreçlerinizi dijitalleştirin.',
+        targetId: 'solutions',
         icon: FileText,
-        colSpan: 'md:col-span-1',
+        image: '/images/digital-transform.jpg',
         glowColor: 'bg-accent-red',
         iconColor: 'text-accent-red',
-        gridPosition: { row: 1, col: 3 },
     },
     {
         title: 'Özel Yazılım Geliştirme',
         description: '.NET ve SQL tabanlı butik çözümlerle işletmenize özel ihtiyaçları karşılıyoruz.',
+        targetId: 'techflow',
         icon: Code,
-        colSpan: 'md:col-span-1',
+        image: '/images/code-office.jpg',
         glowColor: 'bg-burgundy',
         iconColor: 'text-burgundy',
-        gridPosition: { row: 2, col: 1 },
     },
     {
         title: 'Süreç Danışmanlığı',
         description: 'Şirket içi iş akışlarının analizi ve dijitalleştirilmesi konusunda uzman danışmanlık.',
+        targetId: 'features',
         icon: Workflow,
-        colSpan: 'md:col-span-2',
+        image: '/images/consulting.jpg',
         glowColor: 'bg-purple-500',
         iconColor: 'text-purple-500',
-        gridPosition: { row: 2, col: 2 },
     },
 ];
 
 // Wave Divider Component for smooth section transitions
-function WaveDivider({ position = 'top', flip = false }: { position?: 'top' | 'bottom'; flip?: boolean }) {
+function WaveDivider({
+    position = 'top',
+    flip = false,
+    reduceMotion = false,
+}: {
+    position?: 'top' | 'bottom';
+    flip?: boolean;
+    reduceMotion?: boolean;
+}) {
     return (
         <div className={`absolute ${position === 'top' ? '-top-1' : '-bottom-1'} left-0 right-0 overflow-hidden pointer-events-none z-10`}>
             <svg
@@ -58,14 +67,14 @@ function WaveDivider({ position = 'top', flip = false }: { position?: 'top' | 'b
                     d="M0,50 C150,20 350,80 500,50 C650,20 850,80 1000,50 C1150,20 1350,80 1440,50 L1440,100 L0,100 Z"
                     className="fill-slate-50 dark:fill-deep-space"
                     initial={{ d: "M0,50 C150,20 350,80 500,50 C650,20 850,80 1000,50 C1150,20 1350,80 1440,50 L1440,100 L0,100 Z" }}
-                    animate={{
+                    animate={reduceMotion ? undefined : {
                         d: [
                             "M0,50 C150,20 350,80 500,50 C650,20 850,80 1000,50 C1150,20 1350,80 1440,50 L1440,100 L0,100 Z",
                             "M0,60 C150,80 350,30 500,60 C650,80 850,30 1000,60 C1150,80 1350,30 1440,60 L1440,100 L0,100 Z",
                             "M0,50 C150,20 350,80 500,50 C650,20 850,80 1000,50 C1150,20 1350,80 1440,50 L1440,100 L0,100 Z",
                         ]
                     }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                    transition={reduceMotion ? undefined : { duration: 10, repeat: Infinity, ease: "easeInOut" }}
                 />
             </svg>
         </div>
@@ -73,7 +82,7 @@ function WaveDivider({ position = 'top', flip = false }: { position?: 'top' | 'b
 }
 
 // Enhanced Connection Lines with animated data flow
-function ConnectionLines({ scrollProgress }: { scrollProgress: number }) {
+function ConnectionLines() {
     return (
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block" style={{ overflow: 'visible' }}>
             <defs>
@@ -238,20 +247,38 @@ function ServiceCard({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.15 }}
-            className={`${service.colSpan} relative`}
+            className="relative"
         >
             <motion.div
-                onClick={() => navigateToSection(service.title)}
-                whileHover={{ y: -5, scale: 1.02 }}
+                role="button"
+                tabIndex={0}
+                onClick={() => navigateToSection(service.targetId)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateToSection(service.targetId); } }}
+                whileHover={{ y: -3 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="h-full p-8 rounded-3xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10
+                className="h-full rounded-3xl bg-white/50 dark:bg-white/5 border border-slate-200 dark:border-white/10
                            backdrop-blur-sm group relative overflow-hidden cursor-pointer
                            hover:border-burgundy/30 dark:hover:border-burgundy/30 transition-colors duration-300
                            shadow-lg shadow-slate-200/20 dark:shadow-black/10"
             >
+                {/* Card Header Image */}
+                <div className="relative h-32 w-full rounded-t-2xl overflow-hidden">
+                    <Image
+                        src={service.image}
+                        alt={service.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    {/* Gradient overlay for text contrast */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[50px] bg-gradient-to-t from-burgundy to-transparent" />
+                </div>
+
+                {/* Card Body */}
+                <div className="p-8">
                 {/* Glow effect behind icon */}
                 <motion.div
-                    className={`absolute top-6 left-6 w-24 h-24 ${service.glowColor} rounded-full blur-3xl opacity-0 group-hover:opacity-20`}
+                    className={`absolute top-40 left-6 w-24 h-24 ${service.glowColor} rounded-full blur-3xl opacity-0 group-hover:opacity-20`}
                     animate={{ scale: [1, 1.3, 1] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 />
@@ -318,6 +345,7 @@ function ServiceCard({
                         {service.description}
                     </p>
                 </div>
+                </div>
 
                 {/* Bottom accent line */}
                 <motion.div
@@ -343,6 +371,7 @@ function ServiceCard({
 
 export default function Services() {
     const sectionRef = useRef<HTMLDivElement>(null);
+    const shouldReduceMotion = useReducedMotion();
 
     // Scroll-based parallax
     const { scrollYProgress } = useScroll({
@@ -360,13 +389,6 @@ export default function Services() {
     const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
     const contentOpacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.6, 1, 1, 0.6]);
 
-    // Get scroll progress value for connection lines
-    const [scrollValue, setScrollValue] = useState(0);
-    useEffect(() => {
-        const unsubscribe = smoothProgress.on('change', (v) => setScrollValue(v));
-        return () => unsubscribe();
-    }, [smoothProgress]);
-
     return (
         <section
             id="services"
@@ -374,17 +396,17 @@ export default function Services() {
             className="py-32 relative overflow-hidden bg-slate-50 dark:bg-deep-space"
         >
             {/* Wave Divider Top */}
-            <WaveDivider position="top" />
+            <WaveDivider position="top" reduceMotion={shouldReduceMotion ?? undefined} />
 
             {/* Parallax Background Layer */}
             <motion.div
                 className="absolute inset-0 -z-10"
-                style={{ y: backgroundY }}
+                style={{ y: shouldReduceMotion ? 0 : backgroundY }}
             >
                 {/* Grid Background */}
                 <motion.div
                     className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]"
-                    style={{ opacity: gridOpacity }}
+                    style={{ opacity: shouldReduceMotion ? 0.5 : gridOpacity }}
                 />
 
                 {/* Gradient Overlay */}
@@ -394,27 +416,27 @@ export default function Services() {
             {/* Parallax Floating orbs */}
             <motion.div
                 className="absolute inset-0 pointer-events-none"
-                style={{ y: orbsY }}
+                style={{ y: shouldReduceMotion ? 0 : orbsY }}
             >
                 <motion.div
                     className="absolute top-20 right-20 w-72 h-72 bg-burgundy/10 rounded-full blur-[120px]"
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={shouldReduceMotion ? undefined : { scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                    transition={shouldReduceMotion ? undefined : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
                 />
                 <motion.div
                     className="absolute bottom-20 left-20 w-56 h-56 bg-crimson/10 rounded-full blur-[100px]"
-                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.35, 0.15] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                    animate={shouldReduceMotion ? undefined : { scale: [1.2, 1, 1.2], opacity: [0.15, 0.35, 0.15] }}
+                    transition={shouldReduceMotion ? undefined : { duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
                 />
                 <motion.div
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-red/5 rounded-full blur-[150px]"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+                    animate={shouldReduceMotion ? undefined : { scale: [1, 1.1, 1] }}
+                    transition={shouldReduceMotion ? undefined : { duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
                 />
             </motion.div>
 
             {/* Tech Globe - Right Side */}
-            <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none z-[1]">
+            <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none z-[1] overflow-hidden">
                 <motion.div
                     className="absolute top-1/2 -translate-y-1/2 -right-[200px] w-[500px] h-[500px]"
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -429,8 +451,8 @@ export default function Services() {
                     <motion.svg
                         viewBox="0 0 200 200"
                         className="w-full h-full"
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+                        animate={shouldReduceMotion ? undefined : { rotate: 360 }}
+                        transition={shouldReduceMotion ? undefined : { duration: 60, repeat: Infinity, ease: 'linear' }}
                     >
                         <defs>
                             <linearGradient id="globeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -510,10 +532,8 @@ export default function Services() {
                     {/* Orbiting particle */}
                     <motion.div
                         className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-burgundy shadow-[0_0_10px_rgba(0,255,65,0.8)]"
-                        animate={{
-                            rotate: 360,
-                        }}
-                        transition={{
+                        animate={shouldReduceMotion ? undefined : { rotate: 360 }}
+                        transition={shouldReduceMotion ? undefined : {
                             duration: 10,
                             repeat: Infinity,
                             ease: 'linear',
@@ -527,8 +547,11 @@ export default function Services() {
 
             {/* Main Content with Parallax */}
             <motion.div
-                className="container mx-auto px-6 relative z-10"
-                style={{ y: contentY, scale, opacity: contentOpacity }}
+                className="site-container relative z-10"
+                style={{
+                    y: shouldReduceMotion ? 0 : contentY,
+                    opacity: shouldReduceMotion ? 1 : contentOpacity
+                }}
             >
                 {/* Header */}
                 <motion.div
@@ -560,8 +583,8 @@ export default function Services() {
 
                 {/* Cards Grid with Connection Lines */}
                 <div className="relative">
-                    <ConnectionLines scrollProgress={scrollValue} />
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    {!shouldReduceMotion && <ConnectionLines />}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                         {services.map((service, index) => (
                             <ServiceCard
                                 key={index}
@@ -574,7 +597,7 @@ export default function Services() {
             </motion.div>
 
             {/* Wave Divider Bottom */}
-            <WaveDivider position="bottom" flip />
+            <WaveDivider position="bottom" flip reduceMotion={shouldReduceMotion ?? undefined} />
         </section>
     );
 }

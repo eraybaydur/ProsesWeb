@@ -134,13 +134,13 @@ export default function FloatingProductCards() {
                             {/* Content */}
                             <div className="relative z-10 flex flex-col items-center gap-3">
                                 {/* Logo container */}
-                                <div className="relative w-16 h-16 flex items-center justify-center rounded-xl bg-slate-100/50 dark:bg-white/5 p-2 group-hover:bg-white/80 dark:group-hover:bg-white/10 transition-colors">
+                            <div className="relative w-full h-[72px] flex items-center justify-center rounded-xl bg-slate-100/50 dark:bg-white/5 px-2 py-1 group-hover:bg-white/80 dark:group-hover:bg-white/10 transition-colors">
                                     <Image
                                         src={product.logo}
                                         alt={product.name}
-                                        width={56}
-                                        height={56}
-                                        className="object-contain drop-shadow-sm"
+                                    fill
+                                    sizes="150px"
+                                    className="object-contain drop-shadow-sm p-2"
                                     />
                                 </div>
 

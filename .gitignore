@@ -42,3 +42,8 @@ next-env.d.ts
 Archive.zip
 *.rar
 *.zip
+nul
+docs/
+DEPLOY.md
+Dockerfile
+.dockerignore
