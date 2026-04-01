@@ -226,6 +226,27 @@ export function buildSolutionsIndexJsonLd() {
   ];
 }
 
+export function buildServicesIndexJsonLd() {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Proses Yazılım Hizmetleri",
+      description: "ERP danışmanlığı, e-Dönüşüm, özel yazılım ve teknik destek hizmetleri",
+      numberOfItems: 4,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "e-Dönüşüm", url: `${siteConfig.url}/hizmetler/e-donusum` },
+        { "@type": "ListItem", position: 2, name: "Özel Yazılım", url: `${siteConfig.url}/hizmetler/ozel-yazilim` },
+        { "@type": "ListItem", position: 3, name: "ERP Danışmanlığı", url: `${siteConfig.url}/hizmetler/erp-danismanligi` },
+        { "@type": "ListItem", position: 4, name: "Teknik Destek", url: `${siteConfig.url}/hizmetler/teknik-destek` },
+      ],
+    },
+    buildBreadcrumbJsonLd([
+      { name: "Hizmetler", url: `${siteConfig.url}/hizmetler` },
+    ]),
+  ];
+}
+
 export const buildContactJsonLd = () => {
   return [
     {

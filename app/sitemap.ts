@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteConfig.url, lastModified: now, changeFrequency: 'weekly', priority: 1 },
     { url: `${siteConfig.url}/cozumler`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${siteConfig.url}/hizmetler`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${siteConfig.url}/iletisim`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     ...solutionUrls,
     ...serviceUrls,
