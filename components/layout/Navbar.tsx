@@ -107,7 +107,7 @@ export default function Navbar() {
                         onMouseLeave={handleDropdownLeave}
                     >
                         <Link
-                            href="/cozumler/logo-tiger-3"
+                            href="/cozumler"
                             aria-current={isSolutionsActive ? 'true' : undefined}
                             className={`relative flex items-center gap-1 px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
                                 isSolutionsActive || openDropdown === 'solutions'
@@ -166,7 +166,7 @@ export default function Navbar() {
                         onMouseLeave={handleDropdownLeave}
                     >
                         <Link
-                            href="/hizmetler/erp-danismanligi"
+                            href="/hizmetler"
                             aria-current={isServicesActive ? 'true' : undefined}
                             className={`flex items-center gap-1 px-4 py-2.5 text-sm font-medium transition-colors ${
                                 isServicesActive || openDropdown === 'services'
