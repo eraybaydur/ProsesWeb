@@ -40,7 +40,7 @@ export default function SplashScreen() {
                     className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-xl"
                 >
                     {/* Text with cursor */}
-                    <div className="font-mono text-xl md:text-2xl flex items-center">
+                    <div className="text-xl md:text-2xl flex items-center">
                         <span className="text-white/90">{displayedText}</span>
                         <motion.span
                             animate={{ opacity: [1, 1, 0, 0] }}

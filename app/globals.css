@@ -47,8 +47,6 @@
   --color-slate-800: var(--slate-800);
   --color-slate-900: var(--slate-900);
 
-  --font-sans: var(--font-alibaba-sans);
-  --font-heading: var(--font-alibaba-sans);
 }
 
 ::selection {
@@ -59,7 +57,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-alibaba-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 
@@ -88,7 +86,7 @@ h6 {
 
 @layer utilities {
   .site-container {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   .animate-marquee {

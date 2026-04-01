@@ -1,6 +1,6 @@
 export const CONTACT = {
-  phone: '+90 532 138 78 68',
-  phoneHref: 'tel:+905321387868',
+  phone: '0850 677 67 37',
+  phoneHref: 'tel:+908506776737',
   email: 'destek@prosesyazilim.com',
   emailHref: 'mailto:destek@prosesyazilim.com',
   address: {

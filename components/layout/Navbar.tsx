@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ChevronRight, Database, FileText, Code, Workflow, Phone } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { CONTACT } from '@/lib/contact';
 
@@ -25,27 +25,6 @@ const servicesItems = [
     { name: 'Teknik Destek', description: '7/24 destek ve bakım hizmeti', href: '/hizmetler/teknik-destek', icon: Workflow },
 ];
 
-function NavLink({ href, children, isActive = false, onClick }: { href: string; children: React.ReactNode; isActive?: boolean; onClick?: () => void }) {
-    return (
-        <Link
-            href={href}
-            onClick={onClick}
-            className={`group relative rounded-xl px-3.5 py-2 text-sm font-medium transition-all duration-300 ${
-                isActive
-                    ? 'text-slate-900 dark:text-white bg-slate-100/90 dark:bg-white/10'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/75 dark:hover:bg-white/5'
-            }`}
-        >
-            {children}
-            <span
-                className={`absolute bottom-0 left-1/2 h-[2px] -translate-x-1/2 rounded-full bg-gradient-to-r from-burgundy to-crimson transition-all duration-300 ${
-                    isActive ? 'w-8' : 'w-0 group-hover:w-6'
-                }`}
-            />
-        </Link>
-    );
-}
-
 export default function Navbar() {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -53,9 +32,10 @@ export default function Navbar() {
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const navRef = useRef<HTMLElement>(null);
+    const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 20);
+        const handleScroll = () => setIsScrolled(window.scrollY > 10);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -81,7 +61,15 @@ export default function Navbar() {
         return () => document.removeEventListener('keydown', handleEscape);
     }, []);
 
-    const toggleDropdown = (name: string) => setOpenDropdown(openDropdown === name ? null : name);
+    const handleDropdownEnter = (name: string) => {
+        if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+        setOpenDropdown(name);
+    };
+
+    const handleDropdownLeave = () => {
+        closeTimeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
+    };
+
     const closeMobileMenu = () => { setIsMobileMenuOpen(false); setOpenMobileAccordion(null); };
     const isSolutionsActive = pathname.startsWith('/cozumler');
     const isServicesActive = pathname.startsWith('/hizmetler');
@@ -89,59 +77,57 @@ export default function Navbar() {
     return (
         <nav
             ref={navRef}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
                 isScrolled
-                    ? 'h-20 px-3 sm:px-5 pt-2'
-                    : 'h-20 px-3 sm:px-5'
+                    ? 'bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-md shadow-sm border-b border-slate-200/80 dark:border-white/[0.06]'
+                    : 'bg-transparent'
             }`}
         >
-            <div className={`mx-auto h-full max-w-6xl flex items-center justify-between px-4 sm:px-6 lg:px-8 transition-all duration-500 ${
-                isScrolled
-                    ? 'rounded-2xl border border-slate-200/80 dark:border-white/[0.08] bg-white/85 dark:bg-black/75 backdrop-blur-2xl shadow-[0_1px_3px_rgba(15,23,42,0.06),0_14px_32px_rgba(15,23,42,0.12)]'
-                    : 'border border-transparent bg-transparent'
-            }`}>
+            {/* Main navbar */}
+            <div className="flex items-center justify-between h-16 lg:h-[68px] px-6 xl:px-12">
                 {/* Logo */}
-                <Link href="/" className="relative group">
+                <Link href="/" className="shrink-0">
                     <Image
                         src="/logo.png"
                         alt="Proses Yazılım"
                         width={160}
                         height={40}
-                        className={`w-auto transition-all duration-500 ${isScrolled ? 'h-8' : 'h-10'}`}
+                        className="w-auto h-9 lg:h-10"
                         priority
                     />
-                    <div className="absolute -inset-2 bg-burgundy/0 group-hover:bg-burgundy/5 rounded-xl transition-colors duration-300" />
                 </Link>
 
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-1">
+                {/* Desktop Navigation — ortada, geniş aralıklı */}
+                <div className="hidden md:flex items-center gap-1 lg:gap-2">
                     {/* Çözümler */}
-                    <div className="relative">
-                        <button
-                            onClick={() => toggleDropdown('solutions')}
-                            aria-haspopup="menu"
-                            aria-expanded={openDropdown === 'solutions'}
-                            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-all ${
-                                openDropdown === 'solutions' || isSolutionsActive
-                                    ? 'text-slate-900 dark:text-white bg-slate-100/90 dark:bg-white/10'
-                                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/5'
+                    <div
+                        className="relative"
+                        onMouseEnter={() => handleDropdownEnter('solutions')}
+                        onMouseLeave={handleDropdownLeave}
+                    >
+                        <Link
+                            href="/cozumler/logo-tiger-3"
+                            className={`relative flex items-center gap-1 px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
+                                isSolutionsActive || openDropdown === 'solutions'
+                                    ? 'text-burgundy dark:text-crimson'
+                                    : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
                             }`}
                         >
                             Çözümler
                             <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'solutions' ? 'rotate-180' : ''}`} />
-                        </button>
+                            {isSolutionsActive && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-burgundy dark:bg-crimson rounded-full" />}
+                        </Link>
 
                         <AnimatePresence>
                             {openDropdown === 'solutions' && (
                                 <motion.div
-                                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                                    className="absolute top-full left-1/2 z-50 mt-2 w-[500px] -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 shadow-2xl shadow-slate-900/10 backdrop-blur-2xl dark:border-white/[0.10] dark:bg-[#0a0a0a]/95"
+                                    initial={{ opacity: 0, y: 4 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 4 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="absolute top-full left-0 z-50 mt-0 w-[460px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl dark:border-white/[0.08] dark:bg-[#0f0f0f]"
                                     role="menu"
                                 >
-                                    <div className="h-px w-full bg-gradient-to-r from-transparent via-burgundy/35 to-transparent" />
                                     <div className="p-3">
                                         <div className="grid grid-cols-3 gap-1">
                                             {solutionsItems.map((item) => (
@@ -149,13 +135,13 @@ export default function Navbar() {
                                                     key={item.id}
                                                     href={item.href}
                                                     onClick={() => setOpenDropdown(null)}
-                                                    className="group flex flex-col items-center gap-2.5 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-all duration-200"
+                                                    className="group flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors"
                                                 >
-                                                    <div className="relative w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/[0.06] overflow-hidden group-hover:bg-white dark:group-hover:bg-white/10 group-hover:shadow-md transition-all duration-200">
+                                                    <div className="relative w-11 h-11 rounded-lg bg-slate-50 dark:bg-white/[0.06] overflow-hidden group-hover:bg-white dark:group-hover:bg-white/10 transition-colors">
                                                         <Image src={item.logo} alt={item.name} fill className="object-contain p-1.5" />
                                                     </div>
                                                     <div className="text-center">
-                                                        <div className="text-xs font-semibold text-slate-800 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                                        <div className="text-xs font-semibold text-slate-700 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
                                                             {item.name}
                                                         </div>
                                                         <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 leading-tight">
@@ -172,32 +158,34 @@ export default function Navbar() {
                     </div>
 
                     {/* Hizmetler */}
-                    <div className="relative">
-                        <button
-                            onClick={() => toggleDropdown('services')}
-                            aria-haspopup="menu"
-                            aria-expanded={openDropdown === 'services'}
-                            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition-all ${
-                                openDropdown === 'services' || isServicesActive
-                                    ? 'text-slate-900 dark:text-white bg-slate-100/90 dark:bg-white/10'
-                                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/5'
+                    <div
+                        className="relative"
+                        onMouseEnter={() => handleDropdownEnter('services')}
+                        onMouseLeave={handleDropdownLeave}
+                    >
+                        <Link
+                            href="/hizmetler/erp-danismanligi"
+                            className={`flex items-center gap-1 px-4 py-2.5 text-sm font-medium transition-colors ${
+                                isServicesActive || openDropdown === 'services'
+                                    ? 'text-burgundy dark:text-crimson'
+                                    : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
                             }`}
                         >
                             Hizmetler
                             <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === 'services' ? 'rotate-180' : ''}`} />
-                        </button>
+                            {isServicesActive && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-burgundy dark:bg-crimson rounded-full" />}
+                        </Link>
 
                         <AnimatePresence>
                             {openDropdown === 'services' && (
                                 <motion.div
-                                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                                    className="absolute top-full left-1/2 z-50 mt-2 w-[350px] -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 shadow-2xl shadow-slate-900/10 backdrop-blur-2xl dark:border-white/[0.10] dark:bg-[#0a0a0a]/95"
+                                    initial={{ opacity: 0, y: 4 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 4 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="absolute top-full left-0 z-50 mt-0 w-[320px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl dark:border-white/[0.08] dark:bg-[#0f0f0f]"
                                     role="menu"
                                 >
-                                    <div className="h-px w-full bg-gradient-to-r from-transparent via-burgundy/35 to-transparent" />
                                     <div className="p-2">
                                         {servicesItems.map((item) => {
                                             const Icon = item.icon;
@@ -206,20 +194,19 @@ export default function Navbar() {
                                                     key={item.name}
                                                     href={item.href}
                                                     onClick={() => setOpenDropdown(null)}
-                                                    className="group flex items-center gap-3.5 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-all duration-200"
+                                                    className="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors"
                                                 >
-                                                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-burgundy/8 dark:bg-burgundy/10 flex items-center justify-center group-hover:bg-burgundy/15 transition-colors">
+                                                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-burgundy/8 dark:bg-burgundy/10 flex items-center justify-center">
                                                         <Icon className="w-4 h-4 text-burgundy dark:text-crimson" />
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <div className="text-sm font-medium text-slate-800 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                                        <div className="text-sm font-medium text-slate-700 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
                                                             {item.name}
                                                         </div>
-                                                        <div className="text-xs text-slate-400 dark:text-slate-500 truncate">
+                                                        <div className="text-[11px] text-slate-400 dark:text-slate-500 truncate">
                                                             {item.description}
                                                         </div>
                                                     </div>
-                                                    <ChevronRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 ml-auto shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
                                                 </Link>
                                             );
                                         })}
@@ -229,38 +216,55 @@ export default function Navbar() {
                         </AnimatePresence>
                     </div>
 
-                    <NavLink href="/bursa-logo-bayi" isActive={pathname.startsWith('/bursa-logo-bayi')}>Bursa</NavLink>
-                    <NavLink href="/iletisim" isActive={pathname.startsWith('/iletisim')}>İletişim</NavLink>
+                    <Link
+                        href="/bursa-logo-bayi"
+                        className={`relative px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
+                            pathname.startsWith('/bursa-logo-bayi')
+                                ? 'text-burgundy dark:text-crimson'
+                                : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
+                        }`}
+                    >
+                        Bursa Logo Bayi
+                        {pathname.startsWith('/bursa-logo-bayi') && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-burgundy dark:bg-crimson rounded-full" />}
+                    </Link>
+
+                    <Link
+                        href="/iletisim"
+                        className={`relative px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
+                            pathname.startsWith('/iletisim')
+                                ? 'text-burgundy dark:text-crimson'
+                                : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
+                        }`}
+                    >
+                        İletişim
+                        {pathname.startsWith('/iletisim') && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-burgundy dark:bg-crimson rounded-full" />}
+                    </Link>
                 </div>
 
                 {/* Right side */}
-                <div className="hidden md:flex items-center gap-3">
+                <div className="hidden md:flex items-center gap-4">
                     <a
                         href={CONTACT.phoneHref}
-                        className="hidden lg:flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson transition-colors"
+                        className="hidden lg:flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson transition-colors font-medium"
                     >
-                        <Phone className="w-4 h-4" />
-                        <span>{CONTACT.phone}</span>
+                        <Phone className="w-3.5 h-3.5" />
+                        {CONTACT.phone}
                     </a>
+                    <span className="hidden lg:block w-px h-5 bg-slate-200 dark:bg-white/10" />
                     <ThemeToggle />
                     <Link
                         href="/iletisim"
-                        className="group relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-[1px] hover:shadow-lg hover:shadow-burgundy/25"
+                        className="px-6 py-2.5 rounded-lg bg-burgundy hover:bg-dark-red text-white text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-burgundy to-crimson" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-crimson to-burgundy opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <span className="relative flex items-center gap-1.5">
-                            Demo Talep Et
-                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                        </span>
+                        Demo Talep Et
                     </Link>
                 </div>
 
                 {/* Mobile */}
-                <div className="flex items-center gap-3 md:hidden">
+                <div className="flex items-center gap-2 md:hidden">
                     <ThemeToggle />
                     <button
-                        className="relative w-10 h-10 flex items-center justify-center rounded-xl text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                        className="w-10 h-10 flex items-center justify-center rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label={isMobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
                         aria-expanded={isMobileMenuOpen}
@@ -277,25 +281,26 @@ export default function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className="overflow-hidden md:hidden bg-white/98 dark:bg-[#0a0a0a]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-white/[0.06]"
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden md:hidden bg-white dark:bg-[#0a0a0a] border-b border-slate-200 dark:border-white/[0.06]"
                     >
-                        <div className="px-6 py-4 max-h-[75vh] overflow-y-auto">
+                        <div className="px-5 py-3 max-h-[75vh] overflow-y-auto">
                             <a
                                 href={CONTACT.phoneHref}
-                                className="flex items-center gap-3 py-3 px-4 mb-2 rounded-xl bg-burgundy/5 dark:bg-burgundy/10 text-burgundy dark:text-crimson font-semibold text-sm"
+                                className="flex items-center gap-2.5 py-3 px-4 mb-2 rounded-lg bg-burgundy/5 dark:bg-burgundy/10 text-burgundy dark:text-crimson font-semibold text-sm"
                             >
                                 <Phone className="w-4 h-4" />
                                 {CONTACT.phone}
                             </a>
+
                             {/* Çözümler */}
                             <div className="border-b border-slate-100 dark:border-white/[0.06]">
                                 <button
                                     onClick={() => setOpenMobileAccordion(openMobileAccordion === 'solutions' ? null : 'solutions')}
-                                    className="w-full flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white"
+                                    className="w-full flex items-center justify-between py-3.5 text-base font-semibold text-slate-800 dark:text-white"
                                 >
                                     Çözümler
-                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${openMobileAccordion === 'solutions' ? 'rotate-180' : ''}`} />
+                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${openMobileAccordion === 'solutions' ? 'rotate-180' : ''}`} />
                                 </button>
                                 <AnimatePresence>
                                     {openMobileAccordion === 'solutions' && (
@@ -312,7 +317,7 @@ export default function Navbar() {
                                                         key={item.id}
                                                         href={item.href}
                                                         onClick={closeMobileMenu}
-                                                        className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 dark:active:bg-white/[0.08] transition-colors"
+                                                        className="flex flex-col items-center gap-2 p-3 rounded-lg bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 transition-colors"
                                                     >
                                                         <div className="relative w-10 h-10 rounded-lg bg-white dark:bg-white/10 overflow-hidden">
                                                             <Image src={item.logo} alt={item.name} fill className="object-contain p-1" />
@@ -332,10 +337,10 @@ export default function Navbar() {
                             <div className="border-b border-slate-100 dark:border-white/[0.06]">
                                 <button
                                     onClick={() => setOpenMobileAccordion(openMobileAccordion === 'services' ? null : 'services')}
-                                    className="w-full flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white"
+                                    className="w-full flex items-center justify-between py-3.5 text-base font-semibold text-slate-800 dark:text-white"
                                 >
                                     Hizmetler
-                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${openMobileAccordion === 'services' ? 'rotate-180' : ''}`} />
+                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${openMobileAccordion === 'services' ? 'rotate-180' : ''}`} />
                                 </button>
                                 <AnimatePresence>
                                     {openMobileAccordion === 'services' && (
@@ -354,7 +359,7 @@ export default function Navbar() {
                                                             key={item.name}
                                                             href={item.href}
                                                             onClick={closeMobileMenu}
-                                                            className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 transition-colors"
+                                                            className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 transition-colors"
                                                         >
                                                             <Icon className="w-4 h-4 text-burgundy dark:text-crimson shrink-0" />
                                                             <div className="min-w-0">
@@ -370,40 +375,29 @@ export default function Navbar() {
                                 </AnimatePresence>
                             </div>
 
-                            {/* Direct links */}
                             <Link href="/bursa-logo-bayi" onClick={closeMobileMenu}
-                                className="flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white border-b border-slate-100 dark:border-white/[0.06]">
-                                Bursa
-                                <ChevronRight className="w-4 h-4 text-burgundy" />
+                                className="flex items-center justify-between py-3.5 text-base font-semibold text-slate-800 dark:text-white border-b border-slate-100 dark:border-white/[0.06]">
+                                Bursa Logo Bayi
+                                <ChevronRight className="w-4 h-4 text-slate-400" />
                             </Link>
 
                             <Link href="/iletisim" onClick={closeMobileMenu}
-                                className="flex items-center justify-between py-4 text-base font-semibold text-slate-800 dark:text-white">
+                                className="flex items-center justify-between py-3.5 text-base font-semibold text-slate-800 dark:text-white">
                                 İletişim
-                                <ChevronRight className="w-4 h-4 text-burgundy" />
+                                <ChevronRight className="w-4 h-4 text-slate-400" />
                             </Link>
 
-                            {/* Mobile CTA */}
                             <Link
                                 href="/iletisim"
                                 onClick={closeMobileMenu}
-                                className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-burgundy to-crimson text-white font-semibold text-sm"
+                                className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-burgundy text-white font-semibold text-sm"
                             >
                                 Demo Talep Et
-                                <ChevronRight className="w-4 h-4" />
                             </Link>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
         </nav>
-    );
-}
-
-function ArrowRight({ className }: { className?: string }) {
-    return (
-        <svg className={className} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
     );
 }

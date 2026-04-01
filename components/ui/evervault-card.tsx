@@ -76,7 +76,7 @@ export function EvervaultPattern({
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <p className="absolute inset-0 text-sm h-full break-words whitespace-pre-wrap text-burgundy/20 dark:text-white/15 font-mono leading-none overflow-hidden tracking-[0.3em]">
+        <p className="absolute inset-0 text-sm h-full break-words whitespace-pre-wrap text-burgundy/20 dark:text-white/15 leading-none overflow-hidden tracking-[0.3em]">
           {randomString}
         </p>
       </motion.div>

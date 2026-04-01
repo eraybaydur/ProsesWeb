@@ -164,7 +164,7 @@ function SolutionCard({
 
                     {/* CTA */}
                     <div className="flex items-center justify-between pt-4 border-t border-slate-200/80 dark:border-white/[0.06]">
-                        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">
+                        <span className="text-xs text-slate-400 uppercase tracking-wider">
                             0{index + 1}
                         </span>
                         <div
@@ -308,7 +308,7 @@ export default function LogoSolutions() {
                 >
                     <div className="flex items-center gap-2 mb-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-burgundy" />
-                        <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                        <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                             Çözümler
                         </span>
                     </div>
@@ -380,7 +380,7 @@ export default function LogoSolutions() {
                     style={{ opacity: scrollIndicatorOpacity }}
                     className="absolute bottom-8 right-6 md:right-12 flex items-center gap-2 text-slate-400"
                 >
-                    <span className="text-[10px] font-mono uppercase tracking-wider">Kaydır</span>
+                    <span className="text-[10px] uppercase tracking-wider">Kaydır</span>
                     <motion.div
                         animate={{ x: [0, 5, 0] }}
                         transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}

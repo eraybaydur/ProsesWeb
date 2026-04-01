@@ -1,7 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Search, Settings, GraduationCap, Headset } from 'lucide-react';
 
 const steps = [
@@ -40,30 +39,9 @@ const steps = [
 ];
 
 export default function ProcessTimeline() {
-    const sectionRef = useRef<HTMLDivElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start end', 'end start'],
-    });
-
-    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-    const backgroundY = useTransform(smoothProgress, [0, 1], ['-10%', '10%']);
-
     return (
-        <section
-            ref={sectionRef}
-            className="py-24 md:py-32 relative overflow-hidden bg-slate-50 dark:bg-deep-space"
-        >
-            {/* Background */}
-            <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:48px_48px]" />
-            </motion.div>
-
-            {/* Subtle orb */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-burgundy/5 rounded-full blur-[150px] pointer-events-none" />
-
-            <div className="site-container relative z-10">
+        <section className="py-24 md:py-32 bg-slate-50 dark:bg-deep-space">
+            <div className="site-container">
                 {/* Header */}
                 <div className="mb-16 md:mb-20">
                     <motion.div
@@ -86,16 +64,16 @@ export default function ProcessTimeline() {
                     </motion.div>
                 </div>
 
-                {/* Steps — Desktop: horizontal, Mobile: vertical */}
+                {/* Steps */}
                 <div className="relative">
                     {/* Desktop connecting line */}
                     <div className="hidden md:block absolute top-[60px] left-[calc(12.5%+24px)] right-[calc(12.5%+24px)] h-px z-0">
                         <motion.div
-                            className="h-full bg-gradient-to-r from-burgundy/40 via-crimson/20 to-burgundy/40"
+                            className="h-full bg-gradient-to-r from-burgundy/30 via-burgundy/15 to-burgundy/30"
                             initial={{ scaleX: 0 }}
                             whileInView={{ scaleX: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
+                            transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
                             style={{ transformOrigin: 'left' }}
                         />
                     </div>
@@ -106,34 +84,32 @@ export default function ProcessTimeline() {
                             return (
                                 <motion.div
                                     key={step.id}
-                                    initial={{ opacity: 0, y: 25 }}
+                                    initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                                    transition={{ duration: 0.4, delay: index * 0.12 }}
                                     className="relative group"
                                 >
-                                    {/* Step indicator */}
                                     <div className="flex md:flex-col items-start md:items-center gap-5 md:gap-0">
                                         {/* Number circle */}
                                         <div className="relative z-10 shrink-0">
-                                            <div className="w-12 h-12 rounded-full bg-white dark:bg-deep-space border-2 border-burgundy/30 group-hover:border-burgundy flex items-center justify-center transition-colors duration-300 shadow-sm">
+                                            <div className="w-12 h-12 rounded-full bg-white dark:bg-deep-space border-2 border-slate-200 dark:border-white/10 group-hover:border-burgundy flex items-center justify-center transition-colors duration-300">
                                                 <Icon className="w-5 h-5 text-burgundy" />
                                             </div>
-                                            {/* Step number badge */}
-                                            <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-burgundy text-white text-[10px] font-bold flex items-center justify-center shadow-md">
+                                            <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-burgundy text-white text-[10px] font-bold flex items-center justify-center">
                                                 {step.id}
                                             </span>
                                         </div>
 
-                                        {/* Content — mobile: beside icon, desktop: below */}
+                                        {/* Content */}
                                         <div className="flex-1 md:mt-6 md:text-center pb-8 md:pb-0">
-                                            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-burgundy transition-colors duration-300">
+                                            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-burgundy transition-colors">
                                                 {step.title}
                                             </h3>
                                             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-3">
                                                 {step.description}
                                             </p>
-                                            <span className="inline-block text-xs text-burgundy/70 dark:text-burgundy/50 font-medium tracking-wide">
+                                            <span className="inline-block text-xs text-burgundy/60 font-medium tracking-wide">
                                                 {step.detail}
                                             </span>
                                         </div>
@@ -141,7 +117,7 @@ export default function ProcessTimeline() {
 
                                     {/* Mobile vertical connector */}
                                     {index < steps.length - 1 && (
-                                        <div className="md:hidden absolute left-[23px] top-[56px] bottom-0 w-px bg-gradient-to-b from-burgundy/30 to-transparent" />
+                                        <div className="md:hidden absolute left-[23px] top-[56px] bottom-0 w-px bg-gradient-to-b from-burgundy/20 to-transparent" />
                                     )}
                                 </motion.div>
                             );

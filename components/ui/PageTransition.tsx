@@ -89,7 +89,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
                             initial={{ y: 10, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.1, duration: 0.3 }}
-                            className="relative font-mono text-2xl md:text-3xl flex items-center"
+                            className="relative text-2xl md:text-3xl flex items-center"
                         >
                             <TypewriterText text={formattedSection} />
                             <motion.span

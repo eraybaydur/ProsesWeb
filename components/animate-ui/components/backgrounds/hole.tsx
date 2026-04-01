@@ -200,7 +200,7 @@ function HoleBackground({
       (width - stateRef.current.particleArea.sw) / 2;
     stateRef.current.particleArea.ex =
       (width - stateRef.current.particleArea.ew) / 2;
-    const totalParticles = 100;
+    const totalParticles = 1000;
     for (let i = 0; i < totalParticles; i++) {
       stateRef.current.particles.push(initParticle(true));
     }

@@ -114,7 +114,7 @@ export default function RootLayout({
   return (
     <html lang="tr" suppressHydrationWarning>
       <body
-        className={`${alibabaSans.variable} font-sans antialiased`}
+        className={`${alibabaSans.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"

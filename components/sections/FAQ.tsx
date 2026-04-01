@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, HelpCircle } from 'lucide-react';
-import GlassCard from '@/components/ui/GlassCard';
 
 const faqs = [
     {
@@ -30,128 +29,73 @@ const faqs = [
 
 export default function FAQ() {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
-    const sectionRef = useRef<HTMLDivElement>(null);
-
-    // Scroll-based parallax
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"]
-    });
-
-    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
-    // Parallax transforms - daha güçlü efektler
-    const backgroundY = useTransform(smoothProgress, [0, 1], ['-15%', '15%']);
-    const orbsY = useTransform(smoothProgress, [0, 1], ['50%', '-50%']);
-    const contentY = useTransform(smoothProgress, [0, 1], ['8%', '-8%']);
-    const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
-    const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.6, 1, 1, 0.6]);
 
     return (
         <section
             id="faq"
-            ref={sectionRef}
-            className="py-32 bg-slate-50 dark:bg-deep-space relative overflow-hidden"
+            className="py-24 md:py-32 bg-slate-50 dark:bg-deep-space"
         >
-            {/* Parallax Background Layer */}
-            <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
-                {/* Grid Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-burgundy/5 via-transparent to-burgundy/5" />
-            </motion.div>
-
-            {/* Parallax Floating Orbs */}
-            <motion.div className="absolute inset-0 pointer-events-none" style={{ y: orbsY }}>
-                <motion.div
-                    className="absolute top-20 left-20 w-72 h-72 bg-burgundy/10 rounded-full blur-[120px]"
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                />
-                <motion.div
-                    className="absolute bottom-20 right-20 w-56 h-56 bg-crimson/10 rounded-full blur-[100px]"
-                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.35, 0.15] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                />
-            </motion.div>
-
-            {/* Main Content with Parallax */}
-            <motion.div
-                className="site-container max-w-4xl relative z-10"
-                style={{ y: contentY, scale, opacity }}
-            >
-                <div className="text-center mb-16">
+            <div className="site-container max-w-4xl">
+                <div className="text-center mb-14">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="w-16 h-16 mx-auto bg-white/50 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-6 text-burgundy border border-slate-200 dark:border-white/10"
                     >
-                        <HelpCircle className="w-8 h-8" />
+                        <div className="w-14 h-14 mx-auto bg-white dark:bg-white/5 rounded-2xl flex items-center justify-center mb-5 text-burgundy border border-slate-200 dark:border-white/10">
+                            <HelpCircle className="w-7 h-7" />
+                        </div>
+                        <span className="inline-flex items-center gap-2 text-sm font-semibold text-burgundy uppercase tracking-wider mb-4">
+                            <span className="w-8 h-px bg-burgundy" />
+                            SSS
+                            <span className="w-8 h-px bg-burgundy" />
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                            <span className="text-slate-900 dark:text-white">Sıkça Sorulan</span>{' '}
+                            <span className="text-burgundy">Sorular</span>
+                        </h2>
+                        <p className="text-slate-600 dark:text-slate-400 text-lg">
+                            Aklınıza takılan soruların cevaplarını burada bulabilirsiniz.
+                        </p>
                     </motion.div>
-                    <motion.span
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-burgundy uppercase tracking-wider mb-4"
-                    >
-                        <span className="w-8 h-px bg-burgundy" />
-                        SSS
-                        <span className="w-8 h-px bg-burgundy" />
-                    </motion.span>
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold mb-4"
-                    >
-                        <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-gray-400">Sıkça Sorulan</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-burgundy via-crimson to-accent-red">Sorular</span>
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-slate-600 dark:text-slate-400 text-lg"
-                    >
-                        Aklınıza takılan soruların cevaplarını burada bulabilirsiniz.
-                    </motion.p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                     {faqs.map((faq, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 15 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            transition={{ delay: index * 0.08 }}
                         >
-                            <GlassCard
-                                className={`!p-0 overflow-hidden transition-all duration-300 ${activeIndex === index ? '!bg-white/80 dark:!bg-white/10 border-burgundy/30' : '!bg-white/40 dark:!bg-white/5'}`}
-                                hoverEffect={false}
+                            <div
+                                className={`rounded-2xl overflow-hidden border transition-colors duration-200 ${
+                                    activeIndex === index
+                                        ? 'bg-white dark:bg-white/[0.06] border-burgundy/20'
+                                        : 'bg-white/60 dark:bg-white/[0.03] border-slate-200 dark:border-white/10'
+                                }`}
                             >
-                                <motion.button
+                                <button
                                     onClick={() => setActiveIndex(activeIndex === index ? null : index)}
                                     aria-expanded={activeIndex === index}
                                     aria-controls={`faq-answer-${index}`}
                                     id={`faq-question-${index}`}
-                                    className="w-full flex items-center justify-between p-6 text-left"
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 400 }}
+                                    className="w-full flex items-center justify-between p-5 md:p-6 text-left hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors"
                                 >
-                                    <span className={`text-lg font-semibold transition-colors ${activeIndex === index ? 'text-burgundy' : 'text-slate-800 dark:text-slate-200'}`}>
+                                    <span className={`text-base md:text-lg font-semibold transition-colors ${
+                                        activeIndex === index ? 'text-burgundy' : 'text-slate-800 dark:text-slate-200'
+                                    }`}>
                                         {faq.question}
                                     </span>
-                                    <motion.span
-                                        className={`ml-4 p-2 rounded-full transition-all duration-300 ${activeIndex === index ? 'bg-burgundy text-white' : 'bg-slate-100 dark:bg-white/10 text-slate-500'}`}
-                                        animate={{ rotate: activeIndex === index ? 180 : 0 }}
-                                    >
+                                    <span className={`ml-4 p-1.5 rounded-full transition-colors ${
+                                        activeIndex === index
+                                            ? 'bg-burgundy text-white'
+                                            : 'bg-slate-100 dark:bg-white/10 text-slate-500'
+                                    }`}>
                                         {activeIndex === index ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                                    </motion.span>
-                                </motion.button>
+                                    </span>
+                                </button>
 
                                 <AnimatePresence>
                                     {activeIndex === index && (
@@ -159,22 +103,22 @@ export default function FAQ() {
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: 'auto', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3, ease: "easeOut" }}
+                                            transition={{ duration: 0.25, ease: 'easeOut' }}
                                             id={`faq-answer-${index}`}
                                             role="region"
                                             aria-labelledby={`faq-question-${index}`}
                                         >
-                                            <div className="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-4">
+                                            <div className="px-5 md:px-6 pb-5 md:pb-6 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-4">
                                                 {faq.answer}
                                             </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                            </GlassCard>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
-            </motion.div>
+            </div>
         </section>
     );
 }

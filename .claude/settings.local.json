@@ -41,7 +41,9 @@
       "Bash(curl -sL \"https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80\" -o crm-team.jpg)",
       "Bash(curl -sL \"https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=900&q=80\" -o workflow-team.jpg)",
       "Bash(curl -sL \"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80\" -o bi-analytics.jpg)",
-      "Bash(curl -sL \"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80\" -o budget-finance.jpg)"
+      "Bash(curl -sL \"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80\" -o budget-finance.jpg)",
+      "Bash(npm run:*)",
+      "Bash(npm ls:*)"
     ],
     "deny": [],
     "ask": []

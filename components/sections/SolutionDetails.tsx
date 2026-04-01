@@ -150,10 +150,10 @@ function SolutionCard({
     const isReversed = index % 2 === 1;
 
     return (
-        <div id={solution.id} ref={containerRef} className="h-screen flex items-center justify-center sticky top-0 px-4 md:px-8 py-4">
+        <div id={solution.id} ref={containerRef} className="h-screen flex items-center justify-center sticky top-0">
             <motion.div
                 style={{ scale, top: 0 }}
-                className="relative flex flex-col w-full h-[92vh] max-w-7xl mx-auto bg-background dark:bg-deep-space overflow-hidden origin-top will-change-transform rounded-3xl border border-slate-200/50 dark:border-white/[0.06]"
+                className="relative flex flex-col w-full h-screen bg-background dark:bg-deep-space overflow-hidden origin-top will-change-transform"
             >
                 {/* Minimal background gradient */}
                 <div
