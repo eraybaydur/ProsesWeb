@@ -16,11 +16,13 @@ export const metadata: Metadata = {
     url: `${siteConfig.url}/bursa-logo-bayi`,
     type: "website",
     locale: "tr_TR",
+    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Bursa ERP Danışmanlığı" }],
   },
   twitter: {
     card: "summary_large_image",
     title: region.seo.title,
     description: region.seo.description,
+    images: [siteConfig.ogImage],
   },
 };
 

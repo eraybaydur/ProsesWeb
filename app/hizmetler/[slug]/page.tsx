@@ -24,11 +24,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: `${siteConfig.url}/hizmetler/${service.slug}`,
       type: 'website',
       locale: 'tr_TR',
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: service.name }],
     },
     twitter: {
       card: 'summary_large_image',
       title: service.seo.title,
       description: service.seo.description,
+      images: [siteConfig.ogImage],
     },
   };
 }
