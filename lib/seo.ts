@@ -203,6 +203,29 @@ function buildBreadcrumbJsonLd(items: { name: string; url: string }[]) {
   };
 }
 
+export function buildSolutionsIndexJsonLd() {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Logo Yazılım Çözümleri",
+      description: "Proses Yazılım Logo ERP ürün ailesi",
+      numberOfItems: 6,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Logo Tiger 3 Enterprise", url: `${siteConfig.url}/cozumler/logo-tiger-3` },
+        { "@type": "ListItem", position: 2, name: "Logo Go 3", url: `${siteConfig.url}/cozumler/logo-go-3` },
+        { "@type": "ListItem", position: 3, name: "Logo CRM", url: `${siteConfig.url}/cozumler/logo-crm` },
+        { "@type": "ListItem", position: 4, name: "Logo Flow", url: `${siteConfig.url}/cozumler/logo-flow` },
+        { "@type": "ListItem", position: 5, name: "Logo Mind", url: `${siteConfig.url}/cozumler/logo-mind` },
+        { "@type": "ListItem", position: 6, name: "Logo Budget", url: `${siteConfig.url}/cozumler/logo-budget` },
+      ],
+    },
+    buildBreadcrumbJsonLd([
+      { name: "Çözümler", url: `${siteConfig.url}/cozumler` },
+    ]),
+  ];
+}
+
 export const buildContactJsonLd = () => {
   return [
     {
