@@ -77,7 +77,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
-      <main className="relative min-h-screen w-full bg-white text-slate-900 selection:bg-crimson/20 selection:text-crimson dark:bg-deep-space dark:text-white dark:selection:bg-crimson/30 dark:selection:text-white">
+      <main id="main-content" className="relative min-h-screen w-full bg-white text-slate-900 selection:bg-crimson/20 selection:text-crimson dark:bg-deep-space dark:text-white dark:selection:bg-crimson/30 dark:selection:text-white">
         <Navbar />
         
         {/* Value proposition */}

@@ -77,6 +77,7 @@ export default function Navbar() {
     return (
         <nav
             ref={navRef}
+            aria-label="Ana navigasyon"
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
                 isScrolled
                     ? 'bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-md shadow-sm border-b border-slate-200/80 dark:border-white/[0.06]'
@@ -107,6 +108,7 @@ export default function Navbar() {
                     >
                         <Link
                             href="/cozumler/logo-tiger-3"
+                            aria-current={isSolutionsActive ? 'true' : undefined}
                             className={`relative flex items-center gap-1 px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
                                 isSolutionsActive || openDropdown === 'solutions'
                                     ? 'text-burgundy dark:text-crimson'
@@ -165,6 +167,7 @@ export default function Navbar() {
                     >
                         <Link
                             href="/hizmetler/erp-danismanligi"
+                            aria-current={isServicesActive ? 'true' : undefined}
                             className={`flex items-center gap-1 px-4 py-2.5 text-sm font-medium transition-colors ${
                                 isServicesActive || openDropdown === 'services'
                                     ? 'text-burgundy dark:text-crimson'
@@ -218,6 +221,7 @@ export default function Navbar() {
 
                     <Link
                         href="/bursa-logo-bayi"
+                        aria-current={pathname.startsWith('/bursa-logo-bayi') ? 'page' : undefined}
                         className={`relative px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
                             pathname.startsWith('/bursa-logo-bayi')
                                 ? 'text-burgundy dark:text-crimson'
@@ -230,6 +234,7 @@ export default function Navbar() {
 
                     <Link
                         href="/iletisim"
+                        aria-current={pathname.startsWith('/iletisim') ? 'page' : undefined}
                         className={`relative px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
                             pathname.startsWith('/iletisim')
                                 ? 'text-burgundy dark:text-crimson'
