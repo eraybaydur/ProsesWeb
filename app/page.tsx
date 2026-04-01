@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Stats from "@/components/sections/Stats";
 import Services from "@/components/sections/Services";
 import TechFlow from "@/components/sections/TechFlow";
 // import LogoSolutions from "@/components/sections/LogoSolutions";
-import SolutionDetails from "@/components/sections/SolutionDetails";
-import Features from "@/components/sections/Features";
-import References from "@/components/sections/References";
-import ProcessTimeline from "@/components/sections/ProcessTimeline";
-import FAQ from "@/components/sections/FAQ";
-import CTA from "@/components/sections/CTA";
-import ScrollToTop from "@/components/ui/ScrollToTop";
+const SolutionDetails = dynamic(() => import("@/components/sections/SolutionDetails"));
+const Features = dynamic(() => import("@/components/sections/Features"));
+const References = dynamic(() => import("@/components/sections/References"));
+const ProcessTimeline = dynamic(() => import("@/components/sections/ProcessTimeline"));
+const FAQ = dynamic(() => import("@/components/sections/FAQ"));
+const CTA = dynamic(() => import("@/components/sections/CTA"));
+const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"));
 import { buildHomeJsonLd, siteConfig } from "../lib/seo";
 
 export const metadata: Metadata = {
