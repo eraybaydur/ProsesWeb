@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import FuzzyText404 from "@/components/ui/FuzzyText404";
 
 export const metadata = {
   title: "Sayfa Bulunamadı | Proses Yazılım",
-  description: "Aradığınız sayfa bulunamadı. Ana sayfaya dönün veya çözümlerimizi inceleyin.",
+  description:
+    "Aradığınız sayfa bulunamadı. Ana sayfaya dönün veya çözümlerimizi inceleyin.",
 };
 
 export default function NotFound() {
@@ -12,15 +14,15 @@ export default function NotFound() {
     <main className="relative min-h-screen w-full bg-white text-slate-900 dark:bg-deep-space dark:text-white">
       <Navbar />
       <section className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-        <span className="text-8xl font-bold text-burgundy/20 dark:text-crimson/20 mb-4">
-          404
-        </span>
+        <div className="mb-4">
+          <FuzzyText404 />
+        </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
           Sayfa Bulunamadı
         </h1>
         <p className="text-slate-600 dark:text-slate-400 max-w-md mb-8">
-          Aradığınız sayfa taşınmış veya kaldırılmış olabilir.
-          Aşağıdaki bağlantılardan devam edebilirsiniz.
+          Aradığınız sayfa taşınmış veya kaldırılmış olabilir. Aşağıdaki
+          bağlantılardan devam edebilirsiniz.
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
           <Link
