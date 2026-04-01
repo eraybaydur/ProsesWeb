@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import { CONTACT } from '@/lib/contact';
 
 export default function Footer() {
@@ -35,9 +35,9 @@ export default function Footer() {
                         <h3 className="text-slate-900 dark:text-white font-bold mb-6">Hızlı Bağlantılar</h3>
                         <ul className="space-y-3">
                             <li><Link href="/" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Ana Sayfa</Link></li>
-                            <li><Link href="/cozumler/logo-tiger-3" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Logo Tiger 3</Link></li>
-                            <li><Link href="/cozumler/logo-go-3" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Logo Go 3</Link></li>
-                            <li><Link href="/cozumler/logo-crm" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Logo CRM</Link></li>
+                            <li><Link href="/cozumler" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Çözümler</Link></li>
+                            <li><Link href="/hizmetler" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Hizmetler</Link></li>
+                            <li><Link href="/bursa-logo-bayi" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Bursa Logo Bayi</Link></li>
                             <li><Link href="/iletisim" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">İletişim</Link></li>
                         </ul>
                     </div>
@@ -46,11 +46,10 @@ export default function Footer() {
                     <div>
                         <h3 className="text-slate-900 dark:text-white font-bold mb-6">Hizmetlerimiz</h3>
                         <ul className="space-y-3">
-                            <li><Link href="/hizmetler/erp-danismanligi" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Logo ERP Çözümleri</Link></li>
+                            <li><Link href="/hizmetler/erp-danismanligi" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">ERP Danışmanlığı</Link></li>
                             <li><Link href="/hizmetler/e-donusum" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">e-Dönüşüm</Link></li>
                             <li><Link href="/hizmetler/ozel-yazilim" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Özel Yazılım</Link></li>
-                            <li><Link href="/hizmetler/erp-danismanligi" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Süreç Danışmanlığı</Link></li>
-                            <li><Link href="/hizmetler/ozel-yazilim" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">B2B / B2C Sistemler</Link></li>
+                            <li><Link href="/hizmetler/teknik-destek" className="text-slate-700 dark:text-gray-400 hover:text-crimson text-sm transition-colors">Teknik Destek</Link></li>
                         </ul>
                     </div>
 
@@ -79,9 +78,7 @@ export default function Footer() {
                         &copy; {new Date().getFullYear()} Proses Yazılım. Tüm hakları saklıdır.
                     </p>
                     <div className="flex gap-6">
-                        <Link href="/iletisim" className="text-slate-600 dark:text-gray-500 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">Gizlilik Politikası</Link>
-                        <Link href="/iletisim" className="text-slate-600 dark:text-gray-500 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">Kullanım Şartları</Link>
-                        <Link href="/iletisim" className="text-slate-600 dark:text-gray-500 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">KVKK</Link>
+                        <span className="text-slate-600 dark:text-gray-500 text-xs">Gizlilik & KVKK</span>
                     </div>
                 </div>
             </div>
