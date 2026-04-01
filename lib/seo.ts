@@ -87,11 +87,12 @@ export function buildSolutionJsonLd(solution: Solution) {
   return [
     {
       "@context": "https://schema.org",
-      "@type": "Product",
+      "@type": "SoftwareApplication",
       name: solution.name,
       description: solution.shortDescription,
       image: `${siteConfig.url}${solution.logo}`,
-      brand: { "@type": "Brand", name: "Logo Yazılım" },
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Windows, Web",
       offers: {
         "@type": "Offer",
         availability: "https://schema.org/InStock",
