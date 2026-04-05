@@ -367,15 +367,28 @@ export default function TechFlow() {
                                     <motion.div variants={textItemVariants}>
                                         <Link
                                         href={slide.slug ? `/cozumler/${slide.slug}` : '/iletisim'}
-                                        className="relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-white font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl group w-fit overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-deep-space"
-                                        style={{ backgroundColor: slide.color, boxShadow: `0 4px 24px ${slide.color}30` }}
+                                        className="relative inline-flex items-center gap-3 px-8 py-4 rounded-full text-white font-semibold text-sm transition-all duration-500 hover:-translate-y-1 group w-fit overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-deep-space"
+                                        style={{
+                                            backgroundColor: slide.color,
+                                            boxShadow: `0 4px 24px ${slide.color}35, 0 0 0 1px ${slide.color}20`,
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.boxShadow = `0 8px 40px ${slide.color}50, 0 0 0 1px ${slide.color}40, 0 0 20px ${slide.color}25`;
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.boxShadow = `0 4px 24px ${slide.color}35, 0 0 0 1px ${slide.color}20`;
+                                        }}
                                     >
+                                        {/* Shine sweep on hover */}
                                         <span className="absolute inset-0 overflow-hidden rounded-full">
-                                            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+                                            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                                         </span>
-                                        <span className="absolute inset-0 rounded-full bg-gradient-to-b from-white/15 to-transparent pointer-events-none" />
+                                        {/* Glass highlight top */}
+                                        <span className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 via-white/5 to-transparent pointer-events-none" />
+                                        {/* Inner border glow */}
+                                        <span className="absolute inset-[1px] rounded-full border border-white/10 pointer-events-none" />
                                         <span className="relative z-10">{slide.slug ? 'Detaylı Bilgi' : 'İletişime Geçin'}</span>
-                                        <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                                        <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
                                     </Link>
                                     </motion.div>
                                 </motion.div>

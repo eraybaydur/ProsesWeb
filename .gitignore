@@ -47,3 +47,5 @@ docs/
 DEPLOY.md
 Dockerfile
 .dockerignore
+.claude/settings.local.json
+prosesweb/

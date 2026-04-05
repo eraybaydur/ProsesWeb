@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ArrowRight, Check } from 'lucide-react';
+import { ChevronDown, ArrowRight, Check, Phone } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Breadcrumb from '@/components/ui/Breadcrumb';
@@ -27,7 +27,6 @@ const heroImages: Record<string, string> = {
 export function SolutionPageClient({ solution }: SolutionPageProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const otherSolutions = getOtherSolutions(solution.slug);
-
   const descriptionParagraphs = solution.description.split('\n\n');
   const heroImage = heroImages[solution.slug] || '/images/erp-dashboard.jpg';
 
@@ -35,32 +34,25 @@ export function SolutionPageClient({ solution }: SolutionPageProps) {
     <>
       <Navbar />
 
-      {/* ═══════════════════════════════════════════
-          HERO SECTION
-          ═══════════════════════════════════════════ */}
-      <section className="relative pt-24 md:pt-28 pb-16 md:pb-24 overflow-hidden">
-        {/* Background gradient with product color */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `linear-gradient(135deg, ${solution.color}08 0%, transparent 50%, ${solution.color}12 100%)`,
-          }}
-        />
-        {/* Decorative blur orbs */}
-        <div
-          className="absolute top-20 right-[10%] w-[500px] h-[500px] rounded-full blur-[150px] opacity-[0.07] pointer-events-none"
-          style={{ backgroundColor: solution.color }}
-        />
-        <div
-          className="absolute bottom-0 left-[5%] w-[300px] h-[300px] rounded-full blur-[120px] opacity-[0.05] pointer-events-none"
-          style={{ backgroundColor: solution.color }}
-        />
+      {/* HERO */}
+      <section className="relative min-h-[80vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src={heroImage}
+            alt={`${solution.name}`}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/20" />
+        </div>
 
-        <div className="site-container relative z-10">
+        <div className="site-container relative z-10 pb-16 md:pb-20 pt-32">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
           >
             <Breadcrumb
               items={[
@@ -70,424 +62,317 @@ export function SolutionPageClient({ solution }: SolutionPageProps) {
             />
           </motion.div>
 
-          <div className="mt-12 md:mt-16 flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-16">
-            {/* Left column: text content */}
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-16">
-                {/* Product Logo */}
-                <motion.div
-                  className="shrink-0"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                  <div
-                    className="relative w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-2xl bg-white dark:bg-white/10 p-4 overflow-hidden"
-                    style={{
-                      boxShadow: `0 20px 60px -15px ${solution.color}40, 0 0 0 1px ${solution.color}15`,
-                    }}
-                  >
-                    <Image
-                      src={solution.logo}
-                      alt={solution.name}
-                      fill
-                      className="object-contain p-3"
-                    />
-                  </div>
-                </motion.div>
-
-                {/* Text content */}
-                <div className="flex-1 min-w-0">
-                  <motion.h1
-                    className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground leading-[1.1]"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.15 }}
-                  >
-                    {solution.name}
-                  </motion.h1>
-
-                  <motion.p
-                    className="mt-4 text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light max-w-2xl"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                  >
-                    {solution.headline}
-                  </motion.p>
-
-                  {/* Benefit pills */}
-                  <motion.div
-                    className="mt-10 flex flex-wrap gap-4 md:gap-6"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                  >
-                    {solution.benefits.map((benefit, i) => (
-                      <div
-                        key={i}
-                        className="flex flex-col items-start"
-                      >
-                        <span
-                          className="text-2xl md:text-3xl font-bold"
-                          style={{ color: solution.color }}
-                        >
-                          {benefit.value}
-                        </span>
-                        <span className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-                          {benefit.label}
-                        </span>
-                      </div>
-                    ))}
-                  </motion.div>
-
-                  {/* CTA */}
-                  <motion.div
-                    className="mt-10"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
-                    <Link
-                      href="/iletisim"
-                      className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl text-white font-medium transition-all duration-300 hover:shadow-lg hover:translate-y-[-1px]"
-                      style={{
-                        backgroundColor: solution.color,
-                        boxShadow: `0 4px 20px -5px ${solution.color}50`,
-                      }}
-                    >
-                      Detaylı Bilgi Al
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right column: Hero image (desktop only) */}
+          <div className="mt-10 max-w-3xl">
             <motion.div
-              className="hidden lg:block shrink-0 w-[420px]"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              className="flex items-center gap-4 mb-8"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <div className="relative h-[400px] lg:h-[500px] rounded-r-2xl overflow-hidden">
+              <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 overflow-hidden shrink-0">
                 <Image
-                  src={heroImage}
-                  alt={`${solution.name} görsel`}
+                  src={solution.logo}
+                  alt={solution.name}
                   fill
-                  className="object-cover"
-                  sizes="420px"
-                  priority
+                  className="object-contain p-2"
                 />
-                {/* Right-to-left fade gradient */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: `linear-gradient(to right, var(--background) 0%, var(--background) 3%, transparent 40%)`,
-                  }}
-                />
-                {/* Bottom color accent */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-[100px] pointer-events-none"
-                  style={{
-                    background: `linear-gradient(to top, ${solution.color}25, transparent)`,
-                  }}
-                />
-                {/* Top vignette */}
-                <div className="absolute top-0 left-0 right-0 h-[60px] bg-gradient-to-b from-black/15 to-transparent pointer-events-none" />
-                {/* Product logo */}
-                <div className="absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none">
-                  <Image
-                    src={solution.logo}
-                    alt={solution.name}
-                    width={200}
-                    height={80}
-                    className="w-[55%] h-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
-                  />
-                </div>
               </div>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-[1.05]">
+                {solution.name}
+              </h1>
+            </motion.div>
+
+            <motion.p
+              className="text-lg md:text-xl text-white/65 leading-relaxed max-w-xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {solution.headline}
+            </motion.p>
+
+            <motion.div
+              className="mt-8 flex items-center gap-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Link
+                href="/iletisim"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-white font-medium text-sm transition-colors duration-200 hover:opacity-90"
+                style={{ backgroundColor: solution.color }}
+              >
+                Demo Talep Et
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="tel:08506776737"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-lg text-white/80 text-sm border border-white/15 hover:border-white/30 transition-colors duration-200"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                0850 677 67 37
+              </a>
             </motion.div>
           </div>
+
+          {/* Benefits */}
+          <motion.div
+            className="mt-12 flex gap-10 md:gap-14 border-t border-white/10 pt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            {solution.benefits.map((benefit, i) => (
+              <div key={i}>
+                <span className="block text-2xl md:text-3xl font-bold text-white">
+                  {benefit.value}
+                </span>
+                <span className="text-xs text-white/40 mt-1 block uppercase tracking-wide">
+                  {benefit.label}
+                </span>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          HAKKINDA SECTION
-          ═══════════════════════════════════════════ */}
-      <section className="py-20 md:py-32">
-        <div className="site-container">
-          <motion.div
-            className="flex flex-col md:flex-row gap-10 md:gap-16"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            {/* Left accent */}
-            <div className="shrink-0 flex flex-col items-start">
-              <div
-                className="w-1 h-20 md:h-32 rounded-full"
-                style={{ backgroundColor: solution.color }}
-              />
-              <h2 className="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-foreground writing-vertical-lr md:writing-normal">
+      {/* HAKKINDA */}
+      <section className="relative py-20 md:py-28 overflow-hidden">
+        {/* Decorative side patterns */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          {/* Left dot grid */}
+          <svg className="absolute left-4 md:left-8 top-12 w-48 h-48 opacity-[0.12] dark:opacity-[0.15]" viewBox="0 0 200 200">
+            {Array.from({ length: 100 }).map((_, i) => (
+              <circle key={i} cx={(i % 10) * 20 + 10} cy={Math.floor(i / 10) * 20 + 10} r="2" fill={solution.color} />
+            ))}
+          </svg>
+          {/* Right decorative circles */}
+          <svg className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-64 h-64 opacity-[0.08] dark:opacity-[0.12]" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="90" stroke={solution.color} strokeWidth="1.5" fill="none" />
+            <circle cx="100" cy="100" r="60" stroke={solution.color} strokeWidth="1.5" fill="none" />
+            <circle cx="100" cy="100" r="30" stroke={solution.color} strokeWidth="1.5" fill="none" />
+          </svg>
+        </div>
+
+        <div className="site-container relative">
+          <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-20">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground sticky top-28">
                 Hakkında
               </h2>
             </div>
-
-            {/* Right text */}
-            <div className="flex-1 space-y-5">
+            <div className="space-y-5">
               {descriptionParagraphs.map((paragraph, i) => (
                 <p
                   key={i}
                   className={
                     i === 0
-                      ? 'text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-light'
-                      : 'text-base text-slate-600 dark:text-slate-400 leading-relaxed'
+                      ? 'text-xl text-slate-700 dark:text-slate-300 leading-relaxed'
+                      : 'text-base text-slate-500 dark:text-slate-400 leading-relaxed'
                   }
                 >
                   {paragraph}
                 </p>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          OZELLIKLER SECTION
-          ═══════════════════════════════════════════ */}
-      <section
-        className="py-20 md:py-32"
-        style={{
-          background: `linear-gradient(180deg, ${solution.color}04 0%, transparent 50%, ${solution.color}04 100%)`,
-        }}
-      >
-        <div className="site-container">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Özellikler
-          </motion.h2>
+      {/* ÖZELLIKLER */}
+      <section className="relative py-20 md:py-28 border-t border-slate-200/60 dark:border-white/[0.04] overflow-hidden">
+        {/* Decorative cross pattern - right side */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <svg className="absolute right-4 md:right-8 top-16 w-40 h-[calc(100%-8rem)] opacity-[0.08] dark:opacity-[0.1]" preserveAspectRatio="none" viewBox="0 0 100 400">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <line key={`h${i}`} x1="0" y1={i * 20} x2="100" y2={i * 20} stroke={solution.color} strokeWidth="0.5" />
+            ))}
+            {Array.from({ length: 5 }).map((_, i) => (
+              <line key={`v${i}`} x1={i * 25} y1="0" x2={i * 25} y2="400" stroke={solution.color} strokeWidth="0.5" />
+            ))}
+          </svg>
+          {/* Left accent line */}
+          <div
+            className="absolute left-0 top-24 w-[2px] h-40 opacity-20 dark:opacity-25"
+            style={{ backgroundColor: solution.color }}
+          />
+        </div>
 
-          <div className="space-y-0">
+        <div className="site-container relative">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-14">
+            Özellikler
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-x-16 gap-y-0">
             {solution.features.map((feature, i) => (
-              <motion.div
+              <div
                 key={i}
-                className="group py-8 md:py-10 border-b border-slate-200 dark:border-white/[0.06] first:border-t"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="py-7 border-b border-slate-100 dark:border-white/[0.04]"
               >
-                <div className="flex items-start gap-6 md:gap-10">
-                  {/* Number */}
+                <div className="flex items-baseline gap-4">
                   <span
-                    className="text-4xl md:text-5xl font-bold leading-none shrink-0 opacity-30 group-hover:opacity-60 transition-opacity duration-300 tabular-nums"
-                    style={{ color: solution.color }}
+                    className="text-sm tabular-nums text-slate-300 dark:text-white/15 font-medium shrink-0"
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg md:text-xl font-semibold text-foreground mb-2 group-hover:translate-x-1 transition-transform duration-300">
+                  <div>
+                    <h3 className="text-base font-semibold text-foreground mb-1">
                       {feature.title}
                     </h3>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                       {feature.description}
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          MODULLER SECTION
-          ═══════════════════════════════════════════ */}
-      <section className="py-20 md:py-32">
-        <div className="site-container">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Modüller
-          </motion.h2>
+      {/* MODÜLLER */}
+      <section className="relative py-20 md:py-28 border-t border-slate-200/60 dark:border-white/[0.04] overflow-hidden">
+        {/* Decorative diamond pattern - left side */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <svg className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-56 h-56 opacity-[0.1] dark:opacity-[0.12]" viewBox="0 0 200 200">
+            <rect x="60" y="60" width="80" height="80" transform="rotate(45 100 100)" stroke={solution.color} strokeWidth="1.5" fill="none" />
+            <rect x="75" y="75" width="50" height="50" transform="rotate(45 100 100)" stroke={solution.color} strokeWidth="1.5" fill="none" />
+            <rect x="90" y="90" width="20" height="20" transform="rotate(45 100 100)" stroke={solution.color} strokeWidth="1" fill={solution.color} fillOpacity="0.15" />
+          </svg>
+          {/* Right dot column */}
+          <svg className="absolute right-6 md:right-10 top-20 w-8 h-64 opacity-[0.15] dark:opacity-[0.18]" viewBox="0 0 20 300">
+            {Array.from({ length: 15 }).map((_, i) => (
+              <circle key={i} cx="10" cy={i * 20 + 10} r="2" fill={solution.color} />
+            ))}
+          </svg>
+        </div>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
+        <div className="site-container relative">
+          <div className="flex items-baseline justify-between mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+              Modüller
+            </h2>
+            <span className="text-sm text-slate-400 dark:text-slate-500 hidden md:block">
+              {solution.modules.length} modül
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {solution.modules.map((mod, i) => (
-              <motion.div
+              <div
                 key={i}
-                className="flex items-center gap-3 px-5 py-4 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/[0.06] hover:translate-y-[-2px] hover:shadow-md transition-all duration-300"
-                style={{
-                  borderLeftWidth: '3px',
-                  borderLeftColor: solution.color,
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                whileHover={{
-                  borderLeftColor: solution.color,
-                  boxShadow: `0 8px 30px -10px ${solution.color}20`,
-                }}
+                className="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-slate-50 dark:bg-white/[0.03] text-sm text-foreground"
               >
                 <div
-                  className="w-2 h-2 rounded-full shrink-0"
+                  className="w-1 h-1 rounded-full shrink-0"
                   style={{ backgroundColor: solution.color }}
                 />
-                <span className="text-sm font-medium text-foreground">
-                  {mod}
-                </span>
-              </motion.div>
+                {mod}
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          KIMLER ICIN + ENTEGRASYONLAR SECTION
-          ═══════════════════════════════════════════ */}
-      <section
-        className="py-20 md:py-32"
-        style={{
-          background: `linear-gradient(180deg, ${solution.color}04 0%, transparent 100%)`,
-        }}
-      >
-        <div className="site-container">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-            {/* Kimler Icin */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-lg font-bold"
-                  style={{ backgroundColor: solution.color }}
-                >
-                  ?
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-                  Kimler İçin?
-                </h2>
-              </div>
-              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+      {/* KİMLER İÇİN + ENTEGRASYONLAR */}
+      <section className="relative py-20 md:py-28 border-t border-slate-200/60 dark:border-white/[0.04] overflow-hidden">
+        {/* Decorative corner brackets */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          {/* Top-right bracket */}
+          <svg className="absolute right-8 md:right-12 top-12 w-24 h-24 opacity-[0.12] dark:opacity-[0.15]" viewBox="0 0 60 60">
+            <path d="M20 0 L60 0 L60 40" stroke={solution.color} strokeWidth="1.5" fill="none" />
+          </svg>
+          {/* Bottom-left bracket */}
+          <svg className="absolute left-8 md:left-12 bottom-12 w-24 h-24 opacity-[0.12] dark:opacity-[0.15]" viewBox="0 0 60 60">
+            <path d="M40 60 L0 60 L0 20" stroke={solution.color} strokeWidth="1.5" fill="none" />
+          </svg>
+          {/* Center-left plus signs */}
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-48 opacity-[0.1] dark:opacity-[0.14]" viewBox="0 0 30 200">
+            {[40, 100, 160].map((y, i) => (
+              <g key={i}>
+                <line x1="15" y1={y - 8} x2="15" y2={y + 8} stroke={solution.color} strokeWidth="1" />
+                <line x1="7" y1={y} x2="23" y2={y} stroke={solution.color} strokeWidth="1" />
+              </g>
+            ))}
+          </svg>
+        </div>
+
+        <div className="site-container relative">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-5">
+                Kimler İçin?
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 {solution.targetAudience}
               </p>
-              {/* Illustrative image */}
-              <div className="mt-8 relative h-[200px] rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/tech-woman.jpg"
-                  alt="Teknoloji ile çalışan profesyonel"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute bottom-0 left-0 right-0 h-[50px] bg-gradient-to-t from-burgundy to-transparent" />
-              </div>
-              {/* Decorative element */}
-              <div
-                className="mt-8 w-full h-px"
-                style={{
-                  background: `linear-gradient(to right, ${solution.color}40, transparent)`,
-                }}
-              />
-            </motion.div>
+            </div>
 
-            {/* Entegrasyonlar */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-6">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-5">
                 Entegrasyonlar
               </h2>
               <ul className="space-y-3">
                 {solution.integrations.map((integration, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-slate-700 dark:text-slate-300"
-                  >
+                  <li key={i} className="flex items-start gap-3 text-slate-600 dark:text-slate-300">
                     <Check
-                      className="w-5 h-5 shrink-0 mt-0.5"
+                      className="w-4 h-4 shrink-0 mt-1"
                       style={{ color: solution.color }}
                     />
-                    <span>{integration}</span>
+                    <span className="text-sm">{integration}</span>
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          SSS (FAQ) SECTION
-          ═══════════════════════════════════════════ */}
-      <section className="py-20 md:py-32">
-        <div className="site-container">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-14"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Sıkça Sorulan Sorular
-          </motion.h2>
+      {/* SSS */}
+      <section className="relative py-20 md:py-28 border-t border-slate-200/60 dark:border-white/[0.04] overflow-hidden">
+        {/* Decorative question mark inspired pattern */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <svg className="absolute right-4 md:right-10 top-20 w-48 h-48 opacity-[0.08] dark:opacity-[0.1]" viewBox="0 0 200 200">
+            {Array.from({ length: 64 }).map((_, i) => (
+              <circle key={i} cx={(i % 8) * 25 + 12} cy={Math.floor(i / 8) * 25 + 12} r="1.5" fill={solution.color} />
+            ))}
+          </svg>
+          {/* Left vertical dashes */}
+          <svg className="absolute left-4 top-16 w-4 h-80 opacity-[0.12] dark:opacity-[0.15]" viewBox="0 0 10 400">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <line key={i} x1="5" y1={i * 40} x2="5" y2={i * 40 + 20} stroke={solution.color} strokeWidth="1.5" />
+            ))}
+          </svg>
+        </div>
 
-          <div className="max-w-3xl">
-            {solution.faq.map((item, i) => {
-              const isActive = activeIndex === i;
-              return (
-                <motion.div
-                  key={i}
-                  className="border-b border-slate-200 dark:border-white/[0.06]"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                >
+        <div className="site-container relative">
+          <div className="grid md:grid-cols-[1fr_2fr] gap-8 md:gap-20">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground sticky top-28">
+                Sıkça Sorulan Sorular
+              </h2>
+            </div>
+
+            <div>
+              {solution.faq.map((item, i) => {
+                const isActive = activeIndex === i;
+                return (
                   <div
-                    className="relative overflow-hidden"
-                    style={{
-                      borderLeft: isActive ? `3px solid ${solution.color}` : '3px solid transparent',
-                      transition: 'border-color 0.3s ease',
-                    }}
+                    key={i}
+                    className="border-b border-slate-200 dark:border-white/[0.06]"
                   >
                     <button
                       onClick={() => setActiveIndex(isActive ? null : i)}
-                      className="w-full flex items-center justify-between py-6 pl-5 pr-2 text-left group"
+                      className="w-full flex items-center justify-between py-5 text-left cursor-pointer"
                     >
-                      <span className="font-medium text-foreground pr-4 group-hover:translate-x-1 transition-transform duration-300">
+                      <span className="font-medium text-foreground pr-4 text-[15px]">
                         {item.question}
                       </span>
                       <motion.div
                         animate={{ rotate: isActive ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.2 }}
                       >
-                        <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />
+                        <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
                       </motion.div>
                     </button>
 
@@ -497,96 +382,74 @@ export function SolutionPageClient({ solution }: SolutionPageProps) {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: 'easeInOut' }}
+                          transition={{ duration: 0.2, ease: 'easeInOut' }}
                           className="overflow-hidden"
                         >
-                          <p className="pl-5 pr-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+                          <p className="pb-5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                             {item.answer}
                           </p>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          DIGER COZUMLER SECTION
-          ═══════════════════════════════════════════ */}
-      <section
-        className="py-20 md:py-32"
-        style={{
-          background: `linear-gradient(180deg, transparent 0%, ${solution.color}04 50%, transparent 100%)`,
-        }}
-      >
-        <div className="site-container">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Diğer Çözümlerimiz
-          </motion.h2>
+      {/* DİĞER ÇÖZÜMLER */}
+      <section className="relative py-20 md:py-28 border-t border-slate-200/60 dark:border-white/[0.04] overflow-hidden">
+        {/* Decorative hexagon pattern */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <svg className="absolute left-4 md:left-8 bottom-8 w-40 h-40 opacity-[0.08] dark:opacity-[0.12]" viewBox="0 0 200 200">
+            <polygon points="100,10 190,55 190,145 100,190 10,145 10,55" stroke={solution.color} strokeWidth="1.5" fill="none" />
+            <polygon points="100,40 160,67 160,133 100,160 40,133 40,67" stroke={solution.color} strokeWidth="1" fill="none" />
+          </svg>
+          <svg className="absolute right-4 md:right-8 top-10 w-8 h-64 opacity-[0.12] dark:opacity-[0.15]" viewBox="0 0 15 300">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <rect key={i} x="4" y={i * 25} width="7" height="7" transform={`rotate(45 7.5 ${i * 25 + 3.5})`} stroke={solution.color} strokeWidth="0.5" fill="none" />
+            ))}
+          </svg>
+        </div>
 
-          {/* Horizontal scroll on mobile, grid on desktop */}
-          <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory md:snap-none scrollbar-hide">
-            {otherSolutions.map((other, i) => (
-              <motion.div
+        <div className="site-container relative">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-10">
+            Diğer Çözümlerimiz
+          </h2>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {otherSolutions.map((other) => (
+              <Link
                 key={other.slug}
-                className="snap-start shrink-0 w-[280px] md:w-auto"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                href={`/cozumler/${other.slug}`}
+                className="group flex items-center gap-4 p-4 rounded-lg border border-slate-200 dark:border-white/[0.06] hover:border-slate-300 dark:hover:border-white/12 transition-colors duration-200 cursor-pointer"
               >
-                <Link
-                  href={`/cozumler/${other.slug}`}
-                  className="group block h-full rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/[0.06] overflow-hidden hover:translate-y-[-2px] hover:shadow-lg transition-all duration-300"
-                  style={{
-                    borderTopWidth: '3px',
-                    borderTopColor: other.color,
-                  }}
+                <div
+                  className="relative w-10 h-10 rounded-lg shrink-0 overflow-hidden"
+                  style={{ backgroundColor: other.color + '10' }}
                 >
-                  <div className="p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="relative w-12 h-12 rounded-xl bg-white dark:bg-white/10 shrink-0 overflow-hidden">
-                        <Image
-                          src={other.logo}
-                          alt={other.name}
-                          fill
-                          className="object-contain p-1.5"
-                        />
-                      </div>
-                      <h3 className="font-semibold text-foreground group-hover:text-burgundy transition-colors">
-                        {other.name}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2">
-                      {other.shortDescription}
-                    </p>
-                    <div className="mt-4 flex items-center gap-1.5 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: other.color }}>
-                      <span>İncele</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  <Image
+                    src={other.logo}
+                    alt={other.name}
+                    fill
+                    className="object-contain p-1.5"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="font-medium text-foreground text-sm block">{other.name}</span>
+                  <span className="text-xs text-slate-400 dark:text-slate-500 truncate block">{other.shortDescription}</span>
+                </div>
+                <ArrowRight className="w-4 h-4 text-slate-300 dark:text-white/15 shrink-0" />
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          CTA SECTION
-          ═══════════════════════════════════════════ */}
-      <section className="py-20 md:py-32 relative overflow-hidden">
-        {/* Background image */}
+      {/* CTA */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
         <Image
           src="/images/code-office.jpg"
           alt=""
@@ -595,45 +458,39 @@ export function SolutionPageClient({ solution }: SolutionPageProps) {
           sizes="100vw"
           aria-hidden="true"
         />
-        {/* Dark overlay for contrast */}
-        <div className="absolute inset-0 bg-black/60" />
-        {/* Full-width gradient background */}
+        <div className="absolute inset-0 bg-black/55" />
         <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(135deg, ${solution.color}cc 0%, ${solution.color}99 50%, ${solution.color}88 100%)`,
-          }}
+          className="absolute inset-0 mix-blend-multiply"
+          style={{ backgroundColor: solution.color }}
         />
 
-        {/* Decorative blur orbs */}
-        <div className="absolute top-[-50px] right-[-50px] w-[300px] h-[300px] rounded-full bg-white/10 blur-[80px] pointer-events-none" />
-        <div className="absolute bottom-[-80px] left-[-30px] w-[250px] h-[250px] rounded-full bg-white/[0.07] blur-[60px] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] rounded-full bg-white/[0.05] blur-[100px] pointer-events-none" />
-
-        <div className="site-container relative z-10">
-          <motion.div
-            className="text-center max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight">
+        <div className="site-container relative z-10 text-center">
+          <div className="max-w-xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
               Projeleriniz İçin Yanınızdayız
             </h2>
-            <p className="text-white/80 text-lg mb-10 leading-relaxed">
+            <p className="text-white/60 text-base mb-8 leading-relaxed">
               {solution.name} hakkında detaylı bilgi almak ve işletmenize özel
               çözüm önerilerimizi dinlemek için bizimle iletişime geçin.
             </p>
-            <Link
-              href="/iletisim"
-              className="inline-flex items-center gap-2.5 px-10 py-4 rounded-xl bg-white font-semibold transition-all duration-300 hover:shadow-xl hover:translate-y-[-2px] hover:bg-white/95"
-              style={{ color: solution.color }}
-            >
-              İletişime Geçin
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                href="/iletisim"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-white font-medium text-sm hover:bg-white/95 transition-colors duration-200"
+                style={{ color: solution.color }}
+              >
+                İletişime Geçin
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="tel:08506776737"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-white/80 text-sm border border-white/20 hover:border-white/35 transition-colors duration-200"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                0850 677 67 37
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
