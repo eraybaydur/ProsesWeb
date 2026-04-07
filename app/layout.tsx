@@ -36,12 +36,12 @@ export const metadata: Metadata = {
     template: "%s | Proses Yazılım",
   },
   description:
-    "Bursa merkezli Logo Yazılım yetkili iş ortağı. Tiger 3, GO 3, CRM ve e-Dönüşüm çözümlerinde profesyonel danışmanlık ve entegrasyon hizmetleri.",
+    "Bursa merkezli Logo Yazılım yetkili iş ortağı. Tiger 3, GO Wings, CRM ve e-Dönüşüm çözümlerinde profesyonel danışmanlık ve entegrasyon hizmetleri.",
   keywords: [
     "Logo Yazılım",
     "Logo ERP Bursa",
     "Tiger 3",
-    "GO 3",
+    "GO Wings",
     "Logo CRM",
     "e-Dönüşüm",
     "ERP danışmanlığı",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Proses - Logo Yazılım Yetkili İş Ortağı | Bursa",
     description:
-      "Bursa merkezli Logo Yazılım yetkili iş ortağı. Tiger 3, GO 3, CRM ve e-Dönüşüm çözümlerinde profesyonel danışmanlık ve entegrasyon hizmetleri.",
+      "Bursa merkezli Logo Yazılım yetkili iş ortağı. Tiger 3, GO Wings, CRM ve e-Dönüşüm çözümlerinde profesyonel danışmanlık ve entegrasyon hizmetleri.",
     url: siteConfig.url,
     siteName: siteConfig.name,
     locale: "tr_TR",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Proses - Logo Yazılım Yetkili İş Ortağı | Bursa",
     description:
-      "Bursa merkezli Logo Yazılım yetkili iş ortağı. Tiger 3, GO 3, CRM ve e-Dönüşüm çözümlerinde profesyonel danışmanlık ve entegrasyon hizmetleri.",
+      "Bursa merkezli Logo Yazılım yetkili iş ortağı. Tiger 3, GO Wings, CRM ve e-Dönüşüm çözümlerinde profesyonel danışmanlık ve entegrasyon hizmetleri.",
     images: [siteConfig.ogImage],
   },
   robots: {

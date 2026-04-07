@@ -86,44 +86,54 @@ export const solutions: Solution[] = [
   {
     slug: "logo-tiger-3",
     name: "Logo Tiger 3 Enterprise",
-    headline: "Orta ve Büyük Ölçekli İşletmeler İçin Kapsamlı ERP Çözümü",
+    headline: "İşletmenizi Bütünleşik Yönetin, Sınırları Aşın!",
     description:
-      "Logo Tiger 3 Enterprise, Türkiye'nin en yaygın kullanılan orta ölçek ERP yazılımıdır. Üretimden finansmana, tedarik zincirinden insan kaynaklarına kadar işletmenizin tüm süreçlerini tek bir platformda yönetmenizi sağlar. Çoklu döviz, çoklu şirket ve çoklu depo desteğiyle uluslararası operasyonlarınızı kolayca takip edebilirsiniz.\n\nTiger 3, güçlü raporlama altyapısı ve esnek parametrik yapısıyla her sektöre uyarlanabilir. Üretim planlama (MRP), maliyet muhasebesi, bütçe kontrolü ve kalite yönetimi modülleriyle üretim süreçlerinizi uçtan uca dijitalleştirin. Gerçek zamanlı veri akışı sayesinde anlık kararlar alabilir, rekabet avantajınızı artırabilirsiniz.\n\nProses Yazılım olarak Logo Tiger 3 Enterprise kurulumu, özelleştirmesi ve entegrasyonunda 15 yılı aşkın deneyimimizle Bursa ve çevresindeki işletmelere hizmet veriyoruz. Sektöre özel çözümlerimiz ve uzman danışman kadromuzla dijital dönüşüm yolculuğunuzda yanınızdayız.",
+      "Logo'nun kurumsal kaynak planlama alanındaki bilgi birikimi ile yeni nesil teknolojilerini bir araya getirerek geliştirdiği Logo Tiger 3 Enterprise, kurumsal kaynak planlama süreçlerine yeni bir bakış açısı getiriyor. Ölçeklenebilir, esnek, geliştirilebilir, güvenilir ve sektör bağımsız yapısıyla değişen ihtiyaçlara kolayca uyum sağlar.\n\nRol bazlı kişiselleştirilebilir masaüstü, app-in-app teknolojisi, ürün içi arama motoru ve kolay entegrasyon yetenekleriyle zenginleştirilen Tiger 3 Enterprise, ihtiyaca göre yeniden şekillendirilebilen uçtan uca bir ERP deneyimi sunar. Kullanıcı yorumları dikkate alınarak geliştirilen estetik tasarımıyla benzersiz bir kullanıcı deneyimi sağlar.\n\nKapsamlı üretim faaliyetleri olan orta ve büyük ölçekli işletmelere yönelik Tiger 3 Enterprise, üretimde sürdürülebilir verimliliği destekler, süreçleri kolaylaştırır ve geniş fonksiyon yelpazesiyle üretim süreçlerindeki tüm ihtiyaçları karşılar. Proses Yazılım olarak 15 yılı aşkın deneyimimizle Bursa ve çevresindeki işletmelerin dijital dönüşüm yolculuğunda yanındayız.",
     shortDescription:
-      "Üretim, finans, tedarik zinciri ve insan kaynaklarını tek platformda yöneten kapsamlı ERP çözümü.",
+      "Üretimden satışa, finanstan tedarik zincirine — tüm iş süreçlerinizi uçtan uca yöneten kapsamlı kurumsal ERP çözümü.",
     logo: "/tiger.webp",
     targetAudience:
       "Orta ve büyük ölçekli üretim, ticaret ve hizmet işletmeleri",
     features: [
       {
-        title: "Üretim Planlama (MRP/MRP II)",
+        title: "Üretim Planlama ve Çizelgeleme",
         description:
-          "Malzeme ihtiyaç planlaması, iş emri yönetimi, kapasite planlama ve üretim takibi ile verimli üretim süreçleri oluşturun.",
+          "Ana Üretim Çizelgeleme (MPS), Malzeme İhtiyaç Planlama (MRP), Kapasite Çizelgeleme ve Sipariş Teslim Tarihi Atama (CTP) fonksiyonlarıyla üretim süreçlerinizi safha bazlı yönetin. Gantt şeması üzerinde görselleştirme ile hızlı karar alın.",
       },
       {
         title: "Finans ve Muhasebe Yönetimi",
         description:
-          "Genel muhasebe, mizan, bilanço, gelir tablosu, KDV beyannamesi ve e-defter entegrasyonu ile mali süreçlerinizi eksiksiz yönetin.",
+          "TFRS'ye uygun finansal raporlama, çift yönlü denetim ile sistem tutarlılığı, e-Beyanname gönderimi, esnek döviz sistemi ve uluslararası muhasebe standartları (FAS52/US GAAP) desteğiyle mali süreçlerinizi eksiksiz yönetin.",
       },
       {
-        title: "Tedarik Zinciri Yönetimi",
+        title: "Maliyet Muhasebesi",
         description:
-          "Satın alma, depo yönetimi, stok optimizasyonu ve lojistik takibi ile tedarik zincirinizi uçtan uca kontrol edin.",
+          "Malzeme, genel gider, istasyon ve işçilik maliyetlerini hesaplayarak safha bazlı üretim maliyeti değerlendirmesi yapın. Satış öncesi ve stok durumunda birim maliyetleri anlık görüntüleyin.",
       },
       {
-        title: "İnsan Kaynakları ve Bordro",
+        title: "Tedarik ve Stok Yönetimi",
         description:
-          "Personel özlük bilgileri, bordro hesaplama, izin yönetimi ve performans değerlendirme süreçlerini otomatikleştirin.",
+          "Tedarikçi tekliflerini değerlendirin, karşılaştırın ve satın alma kararlarını hızla verin. Matris ara birimi, çevrim katsayıları ve boyut tanımlama ile stok operasyonlarınızı en üst düzeye çıkarın.",
       },
       {
-        title: "Çoklu Şirket ve Döviz Desteği",
+        title: "Satış, Dağıtım ve Fiyatlandırma",
         description:
-          "Birden fazla şirketi tek merkezden yönetin; çoklu döviz, çoklu depo ve konsolidasyon raporlarıyla global operasyonlarınızı takip edin.",
+          "Otomatik teklif şablonları, kampanya stratejileri, plasiye bazlı hedef ve performans ölçümü, rota tanımlama ve dövizli fatura desteğiyle satış süreçlerinizi optimize edin.",
       },
       {
-        title: "Gelişmiş Raporlama ve Analiz",
+        title: "Çoklu Şirket ve Konsolidasyon",
         description:
-          "Pivot tablolar, özelleştirilebilir raporlar ve gerçek zamanlı gösterge panelleriyle veriye dayalı kararlar alın.",
+          "Grup bazında kârlılık hesaplama, envanteri bütün olarak görme, nakit akışı analizi ve konsolidasyon tabloları ile birden fazla şirketi tek merkezden etkin şekilde yönetin.",
+      },
+      {
+        title: "Duran Varlık Yönetimi",
+        description:
+          "Sabit kıymet alım, zimmet ve elden çıkarma süreçlerini takip edin. VUK, TFRS ve yurt dışı raporlamaya uygun birden fazla amortisman tablosu desteği ile varlıklarınızı doğru değerleyin.",
+      },
+      {
+        title: "Dış Ticaret Modülü",
+        description:
+          "İthalat ve ihracat işlemlerini muhasebe, finans, satın alma, satış ve dağıtım süreçleriyle entegre şekilde yönetin. Tüm yasal yükümlülükleri tek noktadan takip edin.",
       },
     ],
     modules: [
@@ -132,13 +142,15 @@ export const solutions: Solution[] = [
       "Stok Yönetimi",
       "Satın Alma",
       "Satış ve Dağıtım",
-      "Üretim Planlama",
+      "Üretim Planlama (MPS/MRP/CTP)",
+      "Kapasite Çizelgeleme",
       "Maliyet Muhasebesi",
-      "İnsan Kaynakları",
-      "Bordro",
+      "Duran Varlık Yönetimi",
+      "Dış Ticaret",
       "Banka ve Çek/Senet",
-      "Sabit Kıymet",
       "Kalite Yönetimi",
+      "Konsolidasyon Tabloları",
+      "Yönetici Konsolu",
     ],
     benefits: [
       {
@@ -156,17 +168,27 @@ export const solutions: Solution[] = [
     ],
     integrations: [
       "e-Fatura / e-Arşiv",
-      "e-İrsaliye",
-      "e-Defter",
+      "e-İrsaliye / e-Defter",
       "Logo CRM",
-      "Logo Mind",
+      "Logo Flow (İş Akışı Yönetimi)",
+      "Logo Mind (İş Analitik)",
+      "Logo Budget (Bütçe Planlama)",
+      "Logo İnsan Kaynakları",
+      "Logo Ocean / Neon (Depo Yönetimi)",
+      "Logo Diva (Perakende)",
+      "Logo Mobile Sales (Saha Satış)",
       "B2B / e-Ticaret Portalları",
     ],
     faq: [
       {
         question: "Logo Tiger 3 Enterprise hangi ölçekteki firmalara uygundur?",
         answer:
-          "Tiger 3 Enterprise, yıllık cirosu 10 milyon TL ve üzeri olan orta ve büyük ölçekli işletmeler için tasarlanmıştır. Üretim, ticaret ve hizmet sektörlerinde faaliyet gösteren, çok şubeli veya çok şirketli yapılara sahip firmalar için idealdir.",
+          "Tiger 3 Enterprise, kapsamlı üretim faaliyetleri olan orta ve büyük ölçekli işletmeler için tasarlanmıştır. Üretim, ticaret ve hizmet sektörlerinde faaliyet gösteren, çok şubeli veya çok şirketli yapılara sahip firmalar için idealdir. Ölçeklenebilir yapısıyla zaman içinde değişen gereksinimlere kolayca uyum sağlar.",
+      },
+      {
+        question: "Tiger 3 Enterprise'ın üretim planlama özellikleri nelerdir?",
+        answer:
+          "Tiger 3 Enterprise; Ana Üretim Çizelgeleme (MPS), Malzeme İhtiyaç Planlama (MRP), Sipariş Teslim Tarihi Atama (CTP) ve Kapasite Çizelgeleme fonksiyonlarını sunar. Gantt şeması üzerinde görselleştirme, sonlu/sonsuz kapasite planlama ve alternatif makine yönlendirme özellikleri ile üretim süreçlerinizi uçtan uca optimize eder.",
       },
       {
         question: "Tiger 3 kurulumu ne kadar sürer?",
@@ -174,14 +196,14 @@ export const solutions: Solution[] = [
           "Standart bir Tiger 3 kurulumu ortalama 4-8 hafta sürmektedir. Süre, firmanın büyüklüğüne, modül sayısına ve özelleştirme ihtiyacına göre değişebilir. Proses Yazılım olarak detaylı proje planı ile süreci şeffaf şekilde yönetiyoruz.",
       },
       {
-        question: "Logo Go 3'ten Tiger 3'e geçiş yapılabilir mi?",
+        question: "Logo GO Wings'ten Tiger 3 Enterprise'a geçiş yapılabilir mi?",
         answer:
-          "Evet, Logo Go 3 kullanıcıları verilerini kaybetmeden Tiger 3 Enterprise'a yükseltme yapabilir. Veri aktarımı ve eğitim süreçlerinde Proses Yazılım ekibi tam destek sağlamaktadır.",
+          "Evet, Logo GO Wings kullanıcıları verilerini kaybetmeden Tiger 3 Enterprise'a yükseltme yapabilir. Veri aktarımı ve eğitim süreçlerinde Proses Yazılım ekibi tam destek sağlamaktadır.",
       },
       {
-        question: "Tiger 3 ile e-Fatura ve e-Defter entegrasyonu mümkün mü?",
+        question: "Tiger 3 Enterprise hangi Logo çözümleriyle entegre çalışır?",
         answer:
-          "Evet, Logo Tiger 3 Enterprise tüm e-Dönüşüm süreçlerini (e-Fatura, e-Arşiv Fatura, e-İrsaliye, e-Defter) entegre olarak destekler. GİB onaylı altyapı ile yasal uyumluluğunuz garanti altındadır.",
+          "Tiger 3 Enterprise; Logo CRM, Logo Flow, Logo Mind, Logo Budget, İnsan Kaynakları, Depo Yönetim Sistemleri (Ocean/Neon), Saha Satış Yönetimi, Perakende (Diva) ve e-Çözümler ile sorunsuz entegre çalışır. App-in-app teknolojisi sayesinde Logo Store üzerinden ek widget ve uygulamalar da eklenebilir.",
       },
       {
         question: "Tiger 3 Enterprise'ın lisans maliyeti nedir?",
@@ -190,18 +212,20 @@ export const solutions: Solution[] = [
       },
     ],
     seo: {
-      title: "Logo Tiger 3 Enterprise ERP | Proses Yazılım",
+      title: "Logo Tiger 3 Enterprise ERP | Proses Yazılım - Bursa",
       description:
-        "Logo Tiger 3 Enterprise ERP ile üretim, finans ve tedarik zinciri yönetimi. Bursa Logo çözüm ortağı Proses Yazılım'dan kurulum ve destek.",
+        "Logo Tiger 3 Enterprise ERP ile üretim planlama (MPS/MRP/CTP), finans, tedarik zinciri ve maliyet muhasebesi yönetimi. Bursa Logo yetkili iş ortağı Proses Yazılım'dan kurulum ve destek.",
       keywords: [
-        "Logo Tiger 3",
-        "Tiger ERP",
+        "Logo Tiger 3 Enterprise",
+        "Tiger 3 ERP",
         "Logo Tiger Enterprise",
         "ERP yazılımı",
-        "üretim yönetimi",
-        "Logo ERP Bursa",
+        "üretim planlama MRP",
+        "maliyet muhasebesi",
         "kurumsal kaynak planlama",
+        "Logo ERP Bursa",
         "Logo yazılım çözüm ortağı",
+        "kapasite çizelgeleme",
       ],
     },
     color: "#f97316",
@@ -209,45 +233,45 @@ export const solutions: Solution[] = [
     icon: Database,
   },
   {
-    slug: "logo-go-3",
-    name: "Logo Go 3",
-    headline: "KOBİ'ler İçin Hızlı ve Ekonomik ERP Çözümü",
+    slug: "logo-go-wings",
+    name: "Logo GO Wings",
+    headline: "KOBİ'lerin Dijital Dönüşüm Ortağı — Her An, Her Yerde",
     description:
-      "Logo Go 3, küçük ve orta büyüklükteki işletmeler için tasarlanmış, hızlı kurulum ve kolay kullanım sunan ERP yazılımıdır. Muhasebe, stok takibi, satın alma ve satış süreçlerinizi tek bir platformda yönetmenizi sağlar. Uygun maliyetli yapısıyla bütçenizi zorlamadan profesyonel bir iş yönetim sistemi kurabilirsiniz.\n\nGo 3, sade ve kullanıcı dostu arayüzüyle kısa sürede kullanılmaya başlanabilir. Temel ticari süreçlerinizi dijitalleştirerek kağıt bazlı iş akışlarından kurtulmanızı sağlar. İhtiyaçlarınız büyüdüğünde Logo Tiger 3 Enterprise'a sorunsuz geçiş yapabilirsiniz.\n\nProses Yazılım olarak Logo Go 3 kurulumunu ortalama 1-2 hafta gibi kısa sürede tamamlıyoruz. Eğitim ve destek hizmetlerimizle firmanızın sisteme hızla adapte olmasını sağlıyoruz.",
+      "Logo'nun teknolojik bilgi birikimi ile inovasyon yeteneğini bir araya getirerek geliştirdiği web üzerinden kullanılabilen Logo GO Wings, KOBİ'lerin siparişten muhasebeye kadar uzanan iş süreçlerini tek noktadan zaman ve mekandan bağımsız uçtan uca yönetmenizi sağlıyor. Tam kapsamlı ve esnek yapıda olan Logo GO Wings, kullanıcı yorumlarına göre yenilenen arayüzüyle kolay ve verimli uygulamalar sunuyor.\n\nYeni nesil teknolojilerle geliştirilen hem masaüstü hem de web üzerinden kullanılabilen hybrid yapılı Logo GO Wings, rol bazlı kişiselleştirilebilir masaüstü, ürün içi arama motoru ve app-in-app teknolojisi ile kullanıcı deneyimini bambaşka bir boyuta taşıyor. Estetik tasarımı ve entegrasyona uygun yapısıyla iş süreçlerinizde benzersiz bir deneyim sunuyor.\n\nProses Yazılım olarak Logo GO Wings kurulumunu hızlı bir şekilde tamamlıyor, eğitim ve destek hizmetlerimizle firmanızın sisteme sorunsuz adapte olmasını sağlıyoruz. Bursa ve çevresindeki KOBİ'lerin dijital dönüşüm yolculuğunda yanındayız.",
     shortDescription:
-      "Küçük ve orta ölçekli işletmeler için uygun maliyetli, hızlı kurulumlu ERP çözümü.",
+      "Web üzerinden kullanılabilen, KOBİ'ler için tam kapsamlı ve esnek ERP çözümü — her an, her yerde elinizin altında.",
     logo: "/gowings.webp",
     targetAudience: "Küçük ve orta büyüklükteki ticaret ve hizmet işletmeleri",
     features: [
       {
-        title: "Muhasebe ve Finans",
+        title: "Finansal Yönetim ve Nakit Akışı",
         description:
-          "Genel muhasebe, cari hesap takibi, banka hareketleri ve çek/senet yönetimi ile mali süreçlerinizi eksiksiz yönetin.",
+          "Cari hesap işlemleri, banka, kredi kartı, çek ve senet takibi, kasa işlemleri ve banka kredi takibi ile tüm nakit akışınızı yönetin. Esnek ödeme ve tahsilat yapısı sayesinde tüm finansal ihtiyaçlarınıza pratik çözümler üretin.",
       },
       {
-        title: "Stok ve Depo Yönetimi",
+        title: "Stok Operasyonları ve Maliyet Takibi",
         description:
-          "Stok giriş-çıkış takibi, depo transferleri, minimum stok uyarıları ve barkod desteğiyle envanter kontrolünüzü güçlendirin.",
+          "Stok durumunu anlık izleyin, stok maliyetlerini şeffaf takip edin. Stok kartlarını detaylı görüntüleyin, fotoğraf ekleyin, birden fazla birim tanımlayın. Sınırsız barkod, seri ve lot numarası desteğiyle envanter kontrolünüzü güçlendirin.",
       },
       {
-        title: "Satın Alma Yönetimi",
+        title: "Sipariş ve Satış Yönetimi",
         description:
-          "Tedarikçi yönetimi, sipariş takibi, fiyat karşılaştırma ve otomatik sipariş oluşturma ile satın alma süreçlerinizi optimize edin.",
+          "Siparişten irsaliye ve faturaya kadar tüm satış süreçlerini hızla yönetin. Çoklu para birimi, ambar bazlı fiyat tanımlama, toplu fiyat güncelleme ve satıcı bazında performans ölçümü ile satış operasyonlarınızı optimize edin.",
       },
       {
-        title: "Satış ve Faturalama",
+        title: "Satın Alma Süreçleri",
         description:
-          "Teklif, sipariş, irsaliye ve fatura akışını dijital ortamda yönetin. e-Fatura ve e-Arşiv entegrasyonuyla yasal uyumluluğu sağlayın.",
+          "Sipariş aşamasından malın teslim alınması ve fatura girişine kadar tüm satın alma süreçlerini planlayın. Fiyat, indirim ve ödeme koşullarının geçerlilik süreleri ve maliyetleri yakından takip edin. Stok miktarı yetersiz olduğunda otomatik satın alma siparişi oluşturun.",
       },
       {
-        title: "Kolay Kullanım ve Hızlı Kurulum",
+        title: "Yasal Mevzuat Uyumu ve e-Çözümler",
         description:
-          "Sade arayüz tasarımı, hazır şablonlar ve adım adım kurulum sihirbazıyla en kısa sürede sistemi devreye alın.",
+          "Güncel yasal mevzuata tam uyumlu yapı, standart hesap planı otomatik oluşturma, e-Beyanname (Form Ba-Bs, KDV, MUHSGK), e-Fatura, e-Defter ve e-Arşiv entegrasyonlarıyla tüm yasal yükümlülüklerinizi karşılayın.",
       },
       {
-        title: "Tiger 3'e Kolay Geçiş",
+        title: "Kullanıcı Dostu Hybrid Arayüz",
         description:
-          "İşletmeniz büyüdüğünde veri kaybı yaşamadan Logo Tiger 3 Enterprise'a sorunsuz yükseltme yapın.",
+          "Hem masaüstü hem web üzerinden kullanılabilen hybrid yapı, rol bazlı kişiselleştirilebilir masaüstü, sürükle-bırak ile fonksiyon gruplama, kısayol tuşu özelleştirme ve geliştirilmiş arama özellikleri ile verimli bir kullanıcı deneyimi yaşayın.",
       },
     ],
     modules: [
@@ -258,63 +282,76 @@ export const solutions: Solution[] = [
       "Satış Yönetimi",
       "Fatura Yönetimi",
       "Banka ve Çek/Senet",
+      "Kasa İşlemleri",
       "Sabit Kıymet",
+      "Talep Yönetimi",
+      "Teminat",
+      "Yönetim Karar Destek",
+      "İş Akış Yönetimi",
+      "e-Mutabakat",
     ],
     benefits: [
       {
-        value: "%60",
-        label: "Daha hızlı kurulum süresi",
+        value: "7/24",
+        label: "Web üzerinden her yerden erişim",
       },
       {
-        value: "%50",
-        label: "Lisans maliyeti tasarrufu",
+        value: "%100",
+        label: "Yasal mevzuata tam uyum",
       },
       {
-        value: "1 hafta",
-        label: "Ortalama devreye alma süresi",
+        value: "Hybrid",
+        label: "Masaüstü + web kullanım esnekliği",
       },
     ],
     integrations: [
       "e-Fatura / e-Arşiv",
       "e-İrsaliye",
       "e-Defter",
+      "e-Mutabakat",
       "Logo CRM",
+      "Logo Flow İş Akış Yönetimi",
+      "Depo Yönetim Sistemleri",
+      "Saha Satış Yönetimi",
+      "İş Analitiği Çözümleri",
+      "Logo Perakende Çözümleri",
     ],
     faq: [
       {
-        question: "Logo Go 3 ile Logo Tiger 3 arasındaki fark nedir?",
+        question: "Logo GO Wings ile Logo Tiger 3 arasındaki fark nedir?",
         answer:
-          "Logo Go 3 temel ticari süreçleri (muhasebe, stok, satış, satın alma) kapsarken, Tiger 3 üretim planlama, insan kaynakları, maliyet muhasebesi gibi ileri modüller sunar. Go 3, KOBİ'ler için uygun maliyetli bir başlangıç noktasıdır ve ihtiyaç duyulduğunda Tiger 3'e yükseltilebilir.",
+          "Logo GO Wings, KOBİ'ler için web üzerinden de kullanılabilen hybrid yapılı bir ERP çözümüdür. Tiger 3 Enterprise ise kapsamlı üretim planlama, insan kaynakları ve maliyet muhasebesi gibi ileri modüller sunan kurumsal ölçekli bir çözümdür. İhtiyaçlarınız büyüdüğünde GO Wings'ten Tiger 3'e yükseltilebilir.",
       },
       {
-        question: "Logo Go 3 kaç kullanıcıyı destekler?",
+        question: "Logo GO Wings web üzerinden kullanılabilir mi?",
         answer:
-          "Logo Go 3, işletmenizin ihtiyacına göre farklı kullanıcı paketleriyle sunulmaktadır. Tek kullanıcıdan başlayarak onlarca eş zamanlı kullanıcıya kadar ölçeklenebilir.",
+          "Evet, Logo GO Wings hem masaüstü hem de web üzerinden kullanılabilen hybrid yapıya sahiptir. Web tarayıcısı üzerinden zaman ve mekandan bağımsız olarak tüm iş süreçlerinizi yönetebilirsiniz.",
       },
       {
-        question: "Logo Go 3 bulut üzerinde kullanılabilir mi?",
+        question: "Logo GO Wings'i özelleştirebilir miyim?",
         answer:
-          "Evet, Logo Go 3 hem yerel sunucu hem de bulut ortamında çalışabilir. Bulut çözümüyle her yerden güvenli erişim sağlayabilir, sunucu maliyetlerinizi azaltabilirsiniz.",
+          "Evet, Logo GO Wings app-in-app teknolojisi sayesinde widget ve app'lerle zenginleştirilebilir. Rol bazlı kişiselleştirilebilir masaüstü, sürükle-bırak ile fonksiyon gruplama ve kısayol tuşu özelleştirme imkanı sunar. Logo ve iş ortaklarının geliştirdiği sektöre özel uygulamalar da entegre edilebilir.",
       },
       {
-        question: "Go 3 ile e-Fatura kesebilir miyim?",
+        question: "GO Wings ile e-Fatura kesebilir miyim?",
         answer:
-          "Evet, Logo Go 3 e-Fatura, e-Arşiv Fatura ve e-İrsaliye entegrasyonlarını tam olarak destekler. GİB onaylı altyapıyla yasal yükümlülüklerinizi kolayca karşılayabilirsiniz.",
+          "Evet, Logo GO Wings e-Fatura, e-Arşiv Fatura, e-İrsaliye ve e-Defter entegrasyonlarını tam olarak destekler. GİB standartlarına uygun altyapıyla yasal yükümlülüklerinizi kolayca karşılayabilirsiniz. Ayrıca e-Beyanname özelliği ile Form Ba-Bs, KDV, MUHSGK gibi beyannameleri hazırlayabilirsiniz.",
       },
     ],
     seo: {
-      title: "Logo Go 3 ERP | KOBİ ERP Çözümü | Proses Yazılım",
+      title: "Logo GO Wings | KOBİ ERP Çözümü | Proses Yazılım",
       description:
-        "Logo Go 3 ile KOBİ'ler için hızlı kurulum, kolay kullanım ve uygun maliyetli ERP. Bursa Logo çözüm ortağı Proses Yazılım.",
+        "Logo GO Wings ile KOBİ'ler için web üzerinden kullanılabilen, tam kapsamlı ve esnek ERP çözümü. Bursa Logo çözüm ortağı Proses Yazılım.",
       keywords: [
-        "Logo Go 3",
+        "Logo GO Wings",
         "KOBİ ERP",
-        "Logo Go Plus",
+        "web tabanlı ERP",
+        "bulut ERP",
         "küçük işletme ERP",
-        "uygun fiyatlı ERP",
         "Logo yazılım",
         "Bursa ERP",
         "muhasebe programı",
+        "Logo Go Wings",
       ],
     },
     color: "#6366f1",
@@ -324,56 +361,60 @@ export const solutions: Solution[] = [
   {
     slug: "logo-crm",
     name: "Logo CRM",
-    headline: "Müşteri İlişkilerinizi Güçlendirin, Satışlarınızı Artırın",
+    headline: "Satış Öncesinde ve Sonrasında Süreçleriniz Elinizin Altında!",
     description:
-      "Logo CRM, müşteri ilişkilerinizi merkezi bir platformda yönetmenizi sağlayan kapsamlı bir CRM çözümüdür. Potansiyel müşteri takibinden satış hunisi yönetimine, kampanya planlamasından servis taleplerinin takibine kadar tüm müşteri süreçlerinizi dijitalleştirin.\n\nSatış ekibinizin performansını gerçek zamanlı olarak izleyebilir, müşteri segmentasyonuyla hedefli kampanyalar oluşturabilir ve teklif süreçlerinizi otomatikleştirebilirsiniz. Logo Tiger 3 ve Go 3 ile entegre çalışarak ERP verilerinizle CRM süreçlerinizi birleştirir.\n\nProses Yazılım olarak Logo CRM kurulumunda sektöre özel özelleştirmeler yapıyor, satış ekiplerinize uygulamalı eğitim veriyoruz. Doğru CRM stratejisiyle müşteri memnuniyetinizi ve satış dönüşüm oranlarınızı artırmanıza yardımcı oluyoruz.",
+      "Tüm şirketler, müşterilerle doğru iletişimi kurarak mevcut müşterilerinin sadakatını artırmayı ve potansiyel müşterilerine ulaşabilmeyi hedefliyor. Yeni nesil teknolojilerle geliştirilen Logo CRM ile pazarlama, satış ve müşteri hizmetleri süreçlerini uçtan uca yönetin, müşteri ilişkilerinde başarıyı yakalayın.\n\nLogo CRM güçlü kurumsal hafıza oluşturarak potansiyel ve aktif müşterilerinizi, bayilerinizi, tedarikçilerinizi kolayca tanımlayıp gruplamanızı sağlıyor. Fırsatlardan aktivitelere, dokümanlardan sözleşmelere kadar tüm ilişkili kayıtları tek noktadan yönetin. Otomatik görevler ile müşterilerinizin özel gün kutlamalarından sözleşme bitiş tarihlerine kadar tüm süreçlerin size zamanında bildirilmesini sağlayın.\n\nWeb tabanlı yapısı sayesinde her an her yerden erişilebilen Logo CRM'in mobil uygulaması da ürünün web arayüzündeki tüm modül ve fonksiyonları kapsıyor. Yakınımdakiler özelliği ile bulunulan bölgedeki müşterileri harita üzerinde görüntüleyin, Check-in/Check-out ile saha çalışanlarınızı takip edin. Proses Yazılım olarak Logo CRM kurulumunda sektöre özel özelleştirmeler yapıyor, satış ekiplerinize uygulamalı eğitim veriyoruz.",
     shortDescription:
-      "Potansiyel müşteri, satış hunisi ve kampanya yönetimi için kapsamlı CRM çözümü.",
+      "Pazarlama, satış ve müşteri hizmetleri süreçlerini uçtan uca yöneten, web tabanlı ve mobil uyumlu CRM çözümü.",
     logo: "/logocrm.webp",
     targetAudience:
-      "Satış ekipleri olan orta ve büyük ölçekli işletmeler, B2B firmalar",
+      "Her ölçekten satış ve müşteri ilişkileri odaklı işletmeler",
     features: [
       {
-        title: "Potansiyel Müşteri Yönetimi (Lead)",
+        title: "Güçlü Kurumsal Hafıza",
         description:
-          "Potansiyel müşterileri kaynaklarına göre sınıflandırın, otomatik atama kurallarıyla satış ekibine yönlendirin ve dönüşüm oranlarını takip edin.",
+          "Potansiyel ve aktif müşterilerinizi, bayilerinizi, tedarikçilerinizi kolayca tanımlayıp gruplayın. Kişiler, fırsatlar, takvim etkinlikleri, aktiviteler, dokümanlar ve sözleşmeler gibi tüm ilişkili kayıtları tek noktadan yönetin.",
       },
       {
-        title: "Satış Hunisi ve Fırsat Yönetimi",
+        title: "Satış ve Fırsat Yönetimi",
         description:
-          "Satış fırsatlarınızı aşama aşama izleyin, tahmini gelir analizleri yapın ve satış hedeflerinize ulaşma oranınızı artırın.",
+          "Satış fırsatlarınızı aşama aşama izleyin, teklif süreçlerini yönetin ve satış hedeflerinize ulaşma oranınızı artırın. Kampanya yönetimi ile hedefli pazarlama faaliyetleri planlayın ve ROI analizi yapın.",
       },
       {
-        title: "Kampanya Yönetimi",
+        title: "Satış Sonrası Destek",
         description:
-          "E-posta, SMS ve sosyal medya kampanyalarını planlayın, yürütün ve ROI analiziyle kampanya etkinliğinizi ölçün.",
+          "Özelleştirilebilen Satış Sonrası Destek modülü ile destek taleplerini, müşteri memnuniyetini, şikâyet yönetimini ve IP santralinizle entegre çağrı merkezi süreçlerinizi yönetin. E-posta ile gelen talepleri otomatik olarak sisteme aktarın.",
       },
       {
-        title: "Servis ve Destek Takibi",
+        title: "Otomatik Görevler ve Bildirimler",
         description:
-          "Müşteri şikâyetleri ve servis taleplerini kaydedin, SLA sürelerini izleyin ve müşteri memnuniyetini ölçümleyin.",
+          "Otomatik gönderim yönetim sistemi ile müşteri özel gün kutlamalarından sözleşme bitiş tarihlerine, verilen tekliflerin durumundan satış sonrası süreçlere kadar tüm işlemlerin zamanında bildirilmesini sağlayın.",
       },
       {
-        title: "360° Müşteri Görünümü",
+        title: "Mobil Uygulama ve Saha Takibi",
         description:
-          "Müşteri iletişim geçmişi, satın alma davranışları, açık teklifler ve destek talepleri gibi tüm bilgileri tek ekranda görüntüleyin.",
+          "Web tabanlı yapı ile her yerden erişim sağlayın. Mobil uygulamadaki Yakınımdakiler özelliği ile müşterileri harita üzerinde görün, Check-in/Check-out ile saha ekiplerini takip edin ve rota optimizasyonu yapın.",
       },
       {
-        title: "Logo ERP Entegrasyonu",
+        title: "ERP ve Flow Entegrasyonu",
         description:
-          "Tiger 3 ve Go 3 ile çift yönlü veri senkronizasyonu sayesinde cari hesap, sipariş ve fatura bilgilerine CRM üzerinden erişin.",
+          "Tiger 3 ve GO Wings ile çift yönlü veri senkronizasyonu sayesinde cari hesap, sipariş ve fatura bilgilerine CRM üzerinden erişin. Logo Flow entegrasyonu ile iş akışlarına CRM içinden doğrudan ulaşın.",
       },
     ],
     modules: [
-      "Lead Yönetimi",
+      "Kişi ve Firma Yönetimi",
       "Fırsat Yönetimi",
       "Teklif Yönetimi",
       "Kampanya Yönetimi",
-      "Servis Yönetimi",
+      "Satış Sonrası Destek",
       "Aktivite Yönetimi",
-      "Raporlama ve Analiz",
-      "Müşteri Segmentasyonu",
-      "E-posta Entegrasyonu",
+      "Sözleşme Yönetimi",
+      "Otomatik Görevler",
+      "KPI ve Dashboard",
+      "Raporlama ve Grafik Raporları",
+      "E-posta Yönetimi",
+      "Outlook Eklentisi",
+      "Mobil Uygulama",
     ],
     benefits: [
       {
@@ -381,8 +422,8 @@ export const solutions: Solution[] = [
         label: "Satış dönüşüm oranı artışı",
       },
       {
-        value: "%25",
-        label: "Müşteri memnuniyeti artışı",
+        value: "7/24",
+        label: "Mobil ile her yerden erişim",
       },
       {
         value: "3x",
@@ -391,7 +432,10 @@ export const solutions: Solution[] = [
     ],
     integrations: [
       "Logo Tiger 3 Enterprise",
-      "Logo Go 3",
+      "Logo GO Wings",
+      "Logo Flow İş Akış Yönetimi",
+      "IP Santral Entegrasyonu",
+      "Outlook Eklentisi",
       "e-Posta Sunucuları",
       "SMS Servisleri",
     ],
@@ -399,29 +443,36 @@ export const solutions: Solution[] = [
       {
         question: "Logo CRM hangi ERP ürünleriyle entegre çalışır?",
         answer:
-          "Logo CRM, Logo Tiger 3 Enterprise ve Logo Go 3 ile entegre çalışmaktadır. Cari hesap, sipariş, fatura ve stok bilgileri çift yönlü olarak senkronize edilir.",
+          "Logo CRM, Logo Tiger 3 Enterprise ve Logo GO Wings ile entegre çalışmaktadır. Cari hesap, sipariş, fatura ve stok bilgileri çift yönlü olarak senkronize edilir. Ayrıca Logo Flow entegrasyonu ile iş akışlarına CRM içinden erişim sağlanır.",
       },
       {
-        question: "CRM yazılımı sadece satış ekipleri için mi?",
+        question: "Logo CRM'in paket seçenekleri nelerdir?",
         answer:
-          "Hayır, Logo CRM satış ekiplerinin yanı sıra pazarlama, müşteri hizmetleri ve yönetim ekipleri tarafından da kullanılmaktadır. Kampanya yönetimi, servis takibi ve yönetici raporları gibi modüllerle tüm müşteri odaklı departmanları kapsar.",
+          "Logo CRM; Basic (maks. 6 kullanıcı), Standard (maks. 16 kullanıcı) ve Enterprise (sınırsız kullanıcı) olmak üzere üç farklı pakette sunulmaktadır. Her paket, işletmenizin büyüklüğüne ve ihtiyaçlarına göre farklı modül ve fonksiyonlar içerir.",
       },
       {
         question: "Logo CRM mobil cihazlardan kullanılabilir mi?",
         answer:
-          "Evet, Logo CRM web tabanlı arayüzü sayesinde tablet ve akıllı telefonlardan erişilebilir. Saha satış ekipleri müşteri ziyaretlerinde anlık bilgi güncellemesi yapabilir.",
+          "Evet, Logo CRM web tabanlı yapısı sayesinde her an her yerden erişilebilir. Mobil uygulaması web arayüzündeki tüm modül ve fonksiyonları kapsıyor. Yakınımdakiler özelliği ile müşterileri harita üzerinde görüntüleyebilir, Check-in/Check-out ile saha çalışanlarınızın takibini yapabilirsiniz.",
+      },
+      {
+        question: "CRM yazılımı sadece satış ekipleri için mi?",
+        answer:
+          "Hayır, Logo CRM satış ekiplerinin yanı sıra pazarlama, müşteri hizmetleri ve yönetim ekipleri tarafından da kullanılmaktadır. Kampanya yönetimi, satış sonrası destek, KPI dashboard ve yönetici raporları gibi modüllerle tüm müşteri odaklı departmanları kapsar.",
       },
     ],
     seo: {
       title: "Logo CRM | Müşteri İlişkileri Yönetimi | Proses Yazılım",
       description:
-        "Logo CRM ile müşteri yönetimi, satış hunisi ve kampanya takibi. Logo ERP entegrasyonlu CRM çözümü. Proses Yazılım Bursa.",
+        "Logo CRM ile pazarlama, satış ve müşteri hizmetleri süreçlerini uçtan uca yönetin. Mobil uygulama, ERP entegrasyonu ve otomatik görevler. Proses Yazılım Bursa.",
       keywords: [
         "Logo CRM",
         "müşteri ilişkileri yönetimi",
         "CRM yazılımı",
         "satış yönetimi",
         "müşteri takibi",
+        "saha satış CRM",
+        "mobil CRM",
         "Logo CRM entegrasyon",
         "Bursa CRM",
       ],
@@ -433,44 +484,44 @@ export const solutions: Solution[] = [
   {
     slug: "logo-flow",
     name: "Logo Flow",
-    headline: "İş Süreçlerinizi Otomatikleştirin, Verimliliği Artırın",
+    headline: "İş Akışlarınızı Elektronik Ortama Taşıyın, Hızınızı Katlayın!",
     description:
-      "Logo Flow, iş süreçlerinizi görsel tasarım aracıyla modelleyip otomatikleştirmenizi sağlayan BPM (İş Süreçleri Yönetimi) çözümüdür. Onay akışları, görev atamaları, bildirimler ve SLA takibi gibi ihtiyaçlarınızı kodlama gerektirmeden karşılayabilirsiniz.\n\nSürükle-bırak süreç tasarımcısıyla satın alma onayları, izin talepleri, sözleşme yönetimi ve daha birçok iş akışını kolayca dijitalleştirin. No-code/low-code yaklaşımıyla IT bağımlılığını azaltın, iş birimlerinin kendi süreçlerini yönetmesini sağlayın.\n\nLogo Tiger 3 ve Go 3 ile entegre çalışan Flow, ERP süreçlerinizi de otomatikleştirebilir. Proses Yazılım olarak süreç analizi, tasarım ve devreye alma hizmetlerimizle iş süreçlerinizi en verimli şekilde dijitalleştiriyoruz.",
+      "Logo'nun dijital teknolojilerdeki deneyimi ile iş süreçlerine olan hakimiyetini bir araya getiren Logo Flow İş Akış Yönetimi çözümü, kağıt üzerinde yürütülen tüm süreçleri elektronik ortama taşıyor. İş süreçlerinin oluşturulmasını, takip edilmesini ve sonuçlandırılmasını tamamen dijital ortama taşıyan Logo Flow, iş akışlarının daha verimli ve sorunsuz gerçekleşmesini sağlarken işletme genelinde standardizasyonu artırıyor, maliyetleri ve kayıpları azaltıyor.\n\nSürükle-bırak iş akışı ve form tasarımcısıyla satın alma onayları, masraf onayları, müşteri şikâyet süreçleri, seyahat planlama, yardım masası ve daha birçok iş akışını kolayca dijitalleştirin. Low-code platform yapısıyla IT bağımlılığını azaltın, hazır şablon akışlar ve şablon yönetimi ile hızlı implementasyon sağlayın. iOS ve Android mobil uygulaması sayesinde zaman ve mekandan bağımsız iş akış yönetimi gerçekleştirin.\n\nLogo Tiger 3, GO Wings, İnsan Kaynakları, CRM ve DocPlace ürünleriyle entegre çalışan Logo Flow, ERP süreçlerinizi de otomatikleştirebilir. Proses Yazılım olarak süreç analizi, tasarım ve devreye alma hizmetlerimizle iş süreçlerinizi en verimli şekilde dijitalleştiriyoruz.",
     shortDescription:
-      "Görsel süreç tasarımcısıyla iş akışlarını otomatikleştiren no-code BPM çözümü.",
+      "Kağıt üzerindeki tüm iş süreçlerini elektronik ortama taşıyan, low-code iş akış yönetimi çözümü.",
     logo: "/logoflow.webp",
     targetAudience:
-      "Süreç otomasyonu ihtiyacı olan orta ve büyük ölçekli işletmeler",
+      "Her ölçekten ve sektörden süreç otomasyonu ihtiyacı olan işletmeler",
     features: [
       {
-        title: "Görsel Süreç Tasarımcısı",
+        title: "Sürükle-Bırak Süreç ve Form Tasarımı",
         description:
-          "Sürükle-bırak arayüzle iş akışlarınızı görsel olarak modelleyin. BPMN 2.0 standardına uygun süreç diyagramları oluşturun.",
+          "Sürükle-bırak arayüzle iş akışlarınızı ve formlarınızı görsel olarak tasarlayın. Programlama dili bilmeye gerek duymadan low-code platform üzerinde kolay ve hızlı görsel uyarlama ile süreçlerinizi oluşturun.",
       },
       {
-        title: "Onay Akışları",
+        title: "Otomatik Süreç Başlatma ve Görev Atama",
         description:
-          "Çok seviyeli onay mekanizmaları, paralel ve sıralı onay akışları, yetki devri ve otomatik eskalasyon kuralları tanımlayın.",
+          "Logo çözümlerinde ve diğer uygulamalarda yapılan işlemler arka planda izlenerek otomatik akış başlatılıyor. Başlatılan akışlar belirli kişiler, ekipler ya da departmanlara görev olarak atanabiliyor ve sistem üzerinde görüntülenebiliyor.",
       },
       {
-        title: "Görev ve İş Yönetimi",
+        title: "Yetkilendirme ve Yetki Devretme",
         description:
-          "Otomatik görev atama, önceliklendirme, son tarih takibi ve performans ölçümleriyle ekip verimliliğinizi artırın.",
+          "Bağımsız organizasyon grubu ve hiyerarşi tanımlamaları, yetki devirleri ve vekalet atamaları kolayca yapılabiliyor. KPI anlamında verimlilik artışı sağlanarak insan kaynağı en etkin şekilde yönetiliyor.",
       },
       {
-        title: "SLA İzleme ve Uyarılar",
+        title: "Zaman Aşımı Kontrolü ve Anlık Bilgilendirme",
         description:
-          "Süreç adımları için SLA süreleri belirleyin, gecikmelerde otomatik uyarı ve eskalasyon kurallarıyla hizmet kalitesini koruyun.",
+          "Ayrıntılı yönetim ekranı ve zaman aşımı kontrolü ile görevlerin durumunu anlık izleyin. E-posta bildirim özelliği ve mail üzerinden onay işlemleri sayesinde değişiklikleri anında öğrenin ve aksiyona geçin.",
       },
       {
-        title: "No-Code / Low-Code Yaklaşım",
+        title: "Özelleştirilebilir Dashboard ve Raporlama",
         description:
-          "Teknik bilgi gerektirmeden formlar, kurallar ve süreçler oluşturun. İleri ihtiyaçlar için script desteğiyle genişletin.",
+          "İşletmenizin ihtiyaçlarına göre uyarlanabilen dashboard üzerinden akışları kısayol olarak ekleyin, onay bekleyen işlerin detayına ulaşın. Grafik bileşenleri ile görsel rapor tasarımı ve KPI raporlama ile süreçlerinizi analiz edin.",
       },
       {
-        title: "ERP Entegrasyonu",
+        title: "Mobil Uygulama ve Güvenlik",
         description:
-          "Logo Tiger 3 ve Go 3 verilerini süreçlerde kullanın. ERP işlemlerini süreç adımı olarak tetikleyin, veriye dayalı karar noktaları oluşturun.",
+          "iOS ve Android cihazlarda kullanılabilen mobil uygulama ile her yerden iş akışlarınızı yönetin. Kağıt üzerindeki evrak kaybolma riskini ortadan kaldıran güvenlik odaklı tasarım ile elektronik imza desteği sunuyor.",
       },
     ],
     modules: [
@@ -478,12 +529,16 @@ export const solutions: Solution[] = [
       "Form Tasarımcısı",
       "Görev Yönetimi",
       "Onay Yönetimi",
-      "SLA Yönetimi",
+      "Zaman Aşımı Kontrolü",
       "Bildirim Merkezi",
-      "Raporlama",
+      "Dashboard",
+      "KPI Raporlama",
+      "Özel Akış Raporları",
       "Entegrasyon Modülü",
-      "Doküman Yönetimi",
-      "Mobil Uygulama",
+      "Arşivleme ve Bakım",
+      "Mobil Uygulama (iOS & Android)",
+      "Elektronik İmza",
+      "Barkod Okuma ve Oluşturma",
     ],
     benefits: [
       {
@@ -495,13 +550,16 @@ export const solutions: Solution[] = [
         label: "Onay sürelerinde kısalma",
       },
       {
-        value: "5x",
-        label: "Daha hızlı süreç devreye alma",
+        value: "7/24",
+        label: "Mobil ile her yerden erişim",
       },
     ],
     integrations: [
       "Logo Tiger 3 Enterprise",
-      "Logo Go 3",
+      "Logo GO Wings",
+      "Logo İnsan Kaynakları (HR)",
+      "Logo CRM",
+      "Logo DocPlace",
       "E-posta Sunucuları",
       "Active Directory / LDAP",
       "REST API",
@@ -510,31 +568,37 @@ export const solutions: Solution[] = [
       {
         question: "Logo Flow ile hangi süreçler otomatikleştirilebilir?",
         answer:
-          "Satın alma onayları, izin talepleri, masraf onayları, sözleşme yönetimi, müşteri şikâyet süreçleri, kalite kontrol akışları ve daha birçok iş süreci Logo Flow ile otomatikleştirilebilir.",
+          "Masraf onayları, satın alma sipariş onayları, müşteri şikâyet süreçleri, personel masraf formları, seyahat planlama, yardım masası ve daha birçok iş süreci Logo Flow ile otomatikleştirilebilir. Hazır şablon akışlar sayesinde hızlıca başlayabilirsiniz.",
       },
       {
         question: "Logo Flow kullanmak için yazılım bilgisi gerekli mi?",
         answer:
-          "Hayır, Logo Flow'un sürükle-bırak arayüzü sayesinde teknik bilgi olmadan süreçlerinizi tasarlayabilirsiniz. Proses Yazılım olarak başlangıç eğitimi ile iş birimlerinizin kendi süreçlerini yönetmesini sağlıyoruz.",
+          "Hayır, Logo Flow low-code platform yapısıyla sürükle-bırak arayüzü sayesinde programlama dili bilmeye gerek duymadan süreçlerinizi ve formlarınızı tasarlayabilirsiniz. Şablon yönetimi ile kolay ve hızlı implementasyon sağlanıyor. Proses Yazılım olarak başlangıç eğitimi ile iş birimlerinizin kendi süreçlerini yönetmesini sağlıyoruz.",
+      },
+      {
+        question: "Logo Flow mobil cihazlarda kullanılabilir mi?",
+        answer:
+          "Evet, Logo Flow iOS ve Android cihazlarda kullanılabilen mobil uygulaması sayesinde zaman ve mekandan bağımsız iş akış yönetimi sağlıyor. Mobil ortamda onay verme, görev takibi ve form doldurma işlemlerini rahatlıkla yapabilirsiniz.",
       },
       {
         question: "Flow ile ERP arasında veri aktarımı nasıl yapılır?",
         answer:
-          "Logo Flow, Tiger 3 ve Go 3 ile hazır entegrasyon bağlantılarına sahiptir. Süreç adımlarında ERP verilerini okuyabilir, güncelleyebilir veya yeni kayıt oluşturabilirsiniz.",
+          "Logo Flow; Tiger 3, GO Wings, İnsan Kaynakları, CRM ve DocPlace ürünleriyle entegre çalışabiliyor. Süreç adımlarında ERP verilerini okuyabilir, güncelleyebilir veya yeni kayıt oluşturabilirsiniz. Ayrıca Logo Çözüm Ortaklarının sektöre özel geliştirdiği uygulamalar da sisteme entegre edilebilir.",
       },
     ],
     seo: {
-      title: "Logo Flow BPM | İş Süreçleri Otomasyonu | Proses Yazılım",
+      title: "Logo Flow BPM | İş Akış Yönetimi Çözümü | Proses Yazılım",
       description:
-        "Logo Flow ile iş süreçlerinizi otomatikleştirin. No-code süreç tasarımı, onay akışları ve ERP entegrasyonu. Proses Yazılım Bursa.",
+        "Logo Flow ile iş akışlarınızı elektronik ortama taşıyın. Low-code süreç tasarımı, onay akışları, mobil uygulama ve ERP entegrasyonu. Proses Yazılım Bursa.",
       keywords: [
         "Logo Flow",
-        "iş süreçleri yönetimi",
+        "iş akış yönetimi",
         "BPM yazılımı",
         "süreç otomasyonu",
         "onay akışı",
-        "no-code BPM",
-        "iş akışı yönetimi",
+        "low-code BPM",
+        "iş süreçleri yönetimi",
+        "dijital iş akışı",
         "Bursa BPM",
       ],
     },
@@ -577,7 +641,7 @@ export const solutions: Solution[] = [
       {
         title: "Hazır Logo ERP Bağlantıları",
         description:
-          "Tiger 3, Go 3 ve diğer Logo ürünleriyle önceden tanımlı veri bağlantıları sayesinde kurulum sonrası hemen raporlamaya başlayın.",
+          "Tiger 3, GO Wings ve diğer Logo ürünleriyle önceden tanımlı veri bağlantıları sayesinde kurulum sonrası hemen raporlamaya başlayın.",
       },
       {
         title: "Mobil Erişim",
@@ -611,7 +675,7 @@ export const solutions: Solution[] = [
     ],
     integrations: [
       "Logo Tiger 3 Enterprise",
-      "Logo Go 3",
+      "Logo GO Wings",
       "SQL Server / Oracle",
       "Excel / CSV",
       "REST API",
@@ -693,7 +757,7 @@ export const solutions: Solution[] = [
       {
         title: "ERP Gerçekleşen Veri Entegrasyonu",
         description:
-          "Logo Tiger 3 ve Go 3'ten gerçekleşen muhasebe verilerini otomatik çekerek bütçe karşılaştırmalarınızı güncel tutun.",
+          "Logo Tiger 3 ve GO Wings'ten gerçekleşen muhasebe verilerini otomatik çekerek bütçe karşılaştırmalarınızı güncel tutun.",
       },
       {
         title: "Raporlama ve Sunum",
@@ -727,7 +791,7 @@ export const solutions: Solution[] = [
     ],
     integrations: [
       "Logo Tiger 3 Enterprise",
-      "Logo Go 3",
+      "Logo GO Wings",
       "Logo Mind",
       "Excel İçe/Dışa Aktarma",
     ],
@@ -741,7 +805,7 @@ export const solutions: Solution[] = [
         question:
           "Budget ile ERP arasında gerçekleşen veriler otomatik aktarılır mı?",
         answer:
-          "Evet, Logo Budget Logo Tiger 3 ve Go 3'ten muhasebe gerçekleşen verilerini otomatik olarak çeker. Böylece bütçe-gerçekleşen karşılaştırmalarınız her zaman güncel kalır.",
+          "Evet, Logo Budget Logo Tiger 3 ve GO Wings'ten muhasebe gerçekleşen verilerini otomatik olarak çeker. Böylece bütçe-gerçekleşen karşılaştırmalarınız her zaman güncel kalır.",
       },
       {
         question: "Excel'den Logo Budget'a geçiş zor mu?",
@@ -778,103 +842,152 @@ export const services: Service[] = [
   {
     slug: "e-donusum",
     name: "e-Dönüşüm",
-    headline: "e-Fatura, e-Arşiv, e-İrsaliye ve e-Defter Çözümleri",
+    headline: "e-Fatura, e-Arşiv, e-İrsaliye, e-Defter ve Daha Fazlası",
     description:
-      "Türkiye'nin e-Dönüşüm sürecinde işletmenizin yasal yükümlülüklerini eksiksiz karşılamanızı sağlıyoruz. e-Fatura, e-Arşiv Fatura, e-İrsaliye ve e-Defter entegrasyonlarını Logo ERP altyapınızla sorunsuz şekilde devreye alıyoruz. GİB onaylı entegratör bağlantıları ve Logo yazılımlarının yerleşik e-Dönüşüm modülleriyle yasal uyumluluk ve operasyonel verimlilik bir arada.\n\nProses Yazılım olarak e-Dönüşüm geçiş sürecinizde başvuru, kurulum, test ve devreye alma adımlarının tamamında yanınızdayız. Mevcut iş akışlarınıza entegre edilen çözümlerle kâğıt maliyetlerinizi azaltın, fatura süreçlerinizi hızlandırın.",
+      "Gelir İdaresi Başkanlığı'nın belirlediği standartlara uygun olarak geliştirilen Logo e-Çözümler; e-Fatura, e-Arşiv Fatura, e-Defter, e-İrsaliye, e-Müstahsil Makbuzu, e-Serbest Meslek Makbuzu, e-Dekont ve e-Adisyon gibi pek çok farklı uygulamayı içerir. Logo e-Çözümler sayesinde işletmeler kâğıt, baskı, arşivleme ve iş gücü maliyetlerini düşürür; operasyonel yükü azaltır ve finansal süreçleri hızlandırır.\n\nTüm Logo ERP ürünleriyle (Tiger 3 Enterprise, GO Wings) sorunsuz entegre çalışan e-Çözümler, GİB onaylı altyapı ile yasal uyumluluğunuzu garanti altına alır. e-Mutabakat ve e-Ekstre gibi katma değerli çözümler de dijital dönüşüm yolculuğunuza uçtan uca rehberlik eder.\n\nProses Yazılım olarak e-Dönüşüm geçiş sürecinizde GİB başvurusu, entegratör bağlantısı, test ve devreye alma adımlarının tamamında yanınızdayız. Sınırsız kullanıcı yetkilendirmesi ve saklama hizmeti dahil çözümlerimizle maliyet avantajı sağlıyoruz.",
     features: [
       {
-        title: "e-Fatura Entegrasyonu",
+        title: "e-Fatura",
         description:
-          "GİB'e kayıtlı mükelleflere UBL-TR formatında e-Fatura gönderimi ve alımı. Logo ERP'den tek tıkla e-Fatura oluşturma.",
+          "GİB'e kayıtlı mükelleflere UBL-TR formatında e-Fatura gönderimi ve alımı. Yasal anlamda kâğıt faturayla eş değer faturalama imkânı sunar. Saklama hizmeti pakete dahildir; faturaların kaybolma ve fiziki zarar görmesini engeller. Sınırsız kullanıcı yetkilendirmesi ile her çalışan veya departman için belirlenen yetki çerçevesinde erişim izni verilir. Süreçler otomatik olarak yürütüldüğünden manuel girişten kaynaklı kullanıcı hataları en aza iner. Baskı, posta ve arşivleme masraflarını minimize eder.",
       },
       {
         title: "e-Arşiv Fatura",
         description:
-          "GİB'e kayıtlı olmayan mükelleflere ve bireysel müşterilere e-Arşiv Fatura düzenleme. Otomatik e-posta ve SMS gönderimi.",
+          "GİB'e kayıtlı olmayan mükellefler ve bireysel müşterilere e-Arşiv Fatura düzenleme. 433 sayılı VUK Genel Tebliği'ne uygun şekilde elektronik ortamda düzenlenir. Hazırlanan faturalar otomatik olarak e-posta veya SMS ile alıcılara anında gönderilir. Arşivlenmiş faturaları hızlıca sorgulayarak geçmiş işlem verilerine anında erişim sağlanır. ERP programları ve diğer yazılımlarla kolayca entegre edilir. e-Arşiv kullanan işletmeler ödeme kaydedici cihaz kullanmak zorunda kalmaz.",
       },
       {
         title: "e-İrsaliye",
         description:
-          "Sevk irsaliyelerinizi elektronik ortamda düzenleyin ve GİB üzerinden gönderin. Lojistik süreçlerinizi hızlandırın.",
+          "Kâğıt sevk irsaliyesi ile aynı hukuki niteliğe sahip dijital irsaliye çözümü. Mevcut yazılım sistemlerine sorunsuz adapte olur ve otomatik veri aktarımı sağlar. Belgeleri şirket sunucularında dijital ortamda saklayarak fiziki hasar riskini minimize eder. Elektronik ortamda saklanan irsaliyeler saniyeler içinde bulunur. Saklama hizmeti pakete dahildir. Kâğıt, baskı, posta ve arşivleme maliyetlerini ortadan kaldırır. Brüt satış hasılatı 10 milyon TL ve üzeri olan e-Fatura mükellefleri için zorunludur.",
       },
       {
         title: "e-Defter",
         description:
-          "Yevmiye defteri ve büyük defterin elektronik ortamda oluşturulması, GİB'e berat gönderimi ve arşivleme.",
+          "Muhasebe kayıtlarını dijital ortamda güvenli şekilde saklayan ve yönetebilen elektronik defter çözümü. Şematron kontrolleri ile otomatik olarak hatalı veri oluşumunu engeller. XBRL teknolojisi sayesinde uluslararası standartlarda kolay raporlama ve kaliteli veri elde edilir. e-Defter ve berat dosyaları güvenli ortamda saklanır, internet bağlantısıyla her yerden erişilir. Kâğıt, baskı ve noter onayı giderlerini ortadan kaldırır. Mevzuat değişikliklerine dinamik olarak adapte olur.",
       },
       {
-        title: "Otomatik Belge Eşleştirme",
+        title: "e-Müstahsil Makbuzu",
         description:
-          "Gelen e-Fatura ve e-İrsaliyeleri sipariş ve irsaliyelerle otomatik eşleştirin. Manuel veri girişini minimize edin.",
+          "Vergi mükellefi olmayan çiftçilerden yapılan alımlar için GİB standartlarına uygun elektronik makbuz oluşturma çözümü. Meyve, sebze gibi tarımsal ürün satışlarında fatura yerine kullanılır. e-Arşiv altyapısında GİB'e raporlanır. Düşük maliyet, çevre dostu yaklaşım ve yasal mevzuata tam uyum sağlar. Küçük çiftçileri kayıt altına alarak şeffaf ticaret ortamı oluşturur. Hizmet süresince makbuza kolay erişim imkânı sunar.",
       },
       {
-        title: "Yasal Uyumluluk Takibi",
+        title: "e-Serbest Meslek Makbuzu",
         description:
-          "GİB mevzuat değişikliklerini takip ediyor, sisteminizi güncel tutuyoruz. Yasal son tarihlerde hatırlatma bildirimleri gönderiyoruz.",
+          "Serbest meslek erbabının makbuzlarını elektronik ortamda düzenlemesi, iletmesi ve saklaması için tasarlanmış çözüm. Kullanıcı dostu arayüzü sayesinde makbuzlar kısa sürede oluşturulur. Manuel veri girişi ortadan kalkar, otomatik hesaplama ile hatasız işlem garanti edilir. GİB Portal, özel entegratör ve Logo ERP/İşbaşı ile tam entegre çalışır. e-Posta, SMS veya WhatsApp üzerinden hızlı iletim yapılır. Saklama hizmeti pakete dahildir.",
+      },
+      {
+        title: "e-Dekont",
+        description:
+          "Banka ve ödeme kuruluşları tarafından düzenlenen dekontun elektronik ortamda düzenlenmesi ve muhatabına iletilmesi uygulaması. Kâğıt dekontun tüm hukuki niteliklerine sahiptir. Elektronik sertifika ile imzalanır; SMS, e-posta, FTP veya web uygulaması yöntemleriyle iletilebilir. Para transferleri elektronik ortamda kolayca izlenir ve raporlanır. Geriye dönük dekontlara saniyeler içinde ulaşılır; toplu ibraz ile denetim süreci kısalır.",
+      },
+      {
+        title: "e-Adisyon",
+        description:
+          "Satış noktalarında adisyonların elektronik belge olarak düzenlenmesi çözümü. Perakende işletmeler, restoranlar ve hizmet sektörü için pratik ve yasal uyumlu bir uygulama sunar. Logo'nun kurumsal yazılım ekosistemiyle entegre çalışır. İş süreçlerini hızlandırır ve dijital kayıt tutma imkânı sağlar.",
       },
     ],
     subServices: [
       {
         name: "e-Fatura",
         description:
-          "GİB'e kayıtlı mükellefler arası elektronik fatura gönderimi ve alımı. UBL-TR standardında, yasal geçerliliğe sahip dijital faturalama.",
+          "GİB'e kayıtlı mükellefler arası UBL-TR standardında elektronik fatura gönderimi ve alımı. Yasal geçerliliğe sahip, saklama hizmeti dahil, sınırsız kullanıcı yetkilendirmesi ile dijital faturalama.",
       },
       {
         name: "e-Arşiv Fatura",
         description:
-          "GİB'e kayıtlı olmayan mükellefler ve bireysel müşterilere elektronik fatura düzenleme. E-ticaret ve perakende satışlar için zorunlu çözüm.",
+          "GİB'e kayıtlı olmayan mükellefler ve bireysel müşterilere elektronik fatura düzenleme. Otomatik e-posta/SMS gönderimi, geçmiş veri sorgulama ve ödeme kaydedici cihaz muafiyeti.",
       },
       {
         name: "e-İrsaliye",
         description:
-          "Sevk irsaliyelerinin elektronik ortamda düzenlenmesi ve GİB üzerinden gönderimi. Mal kabul süreçlerinde hız ve şeffaflık.",
+          "Kâğıt irsaliye ile eş hukuki değerde elektronik sevk irsaliyesi. Otomatik veri aktarımı, saklama hizmeti dahil ve sevk süreçlerinde hız artışı.",
       },
       {
         name: "e-Defter",
         description:
-          "Yevmiye defteri ve büyük defterin XBRL formatında elektronik oluşturulması. GİB'e berat gönderimi ve yasal arşivleme.",
+          "XBRL teknolojisiyle yevmiye ve büyük defterin elektronik oluşturulması. Şematron kontrolleri, GİB'e berat gönderimi, her yerden erişim ve noter masrafı tasarrufu.",
+      },
+      {
+        name: "e-Müstahsil Makbuzu",
+        description:
+          "Vergi mükellefi olmayan çiftçilerden yapılan alımlarda GİB'e uygun elektronik makbuz. e-Arşiv altyapısında raporlama ve düşük maliyetli dijital çözüm.",
+      },
+      {
+        name: "e-Serbest Meslek Makbuzu",
+        description:
+          "Serbest meslek erbabı için elektronik makbuz düzenleme. Otomatik hesaplama, çok kanallı gönderim (e-posta, SMS, WhatsApp) ve saklama hizmeti dahil.",
+      },
+      {
+        name: "e-Dekont",
+        description:
+          "Banka ve ödeme kuruluşlarının dekontlarını elektronik ortamda düzenleme ve iletme. Elektronik sertifika ile imza, geriye dönük toplu ibraz imkânı.",
+      },
+      {
+        name: "e-Adisyon",
+        description:
+          "Satış noktalarındaki adisyon belgelerinin elektronik ortamda düzenlenmesi. Perakende, restoran ve hizmet sektörü için dijital çözüm.",
       },
     ],
     faq: [
       {
         question: "e-Fatura'ya geçiş zorunlu mu?",
         answer:
-          "Brüt satış hasılatı belirli bir tutarı aşan mükellefler için e-Fatura zorunludur. GİB her yıl zorunluluk kapsamını genişletmektedir. Güncel zorunluluk limitleri için bizimle iletişime geçebilirsiniz.",
+          "Brüt satış hasılatı belirli bir tutarı aşan mükellefler için e-Fatura zorunludur. GİB her yıl zorunluluk kapsamını genişletmektedir. e-Fatura'ya geçince e-Defter kullanımı da zorunlu hale gelir. Güncel zorunluluk limitleri için bizimle iletişime geçebilirsiniz.",
+      },
+      {
+        question: "e-Fatura ile e-Arşiv Fatura arasındaki fark nedir?",
+        answer:
+          "e-Fatura, GİB'e kayıtlı iki mükellef arasında düzenlenir ve her iki tarafın da e-Fatura mükellefi olması gerekir. e-Arşiv Fatura ise GİB'e kayıtlı olmayan mükelleflere veya bireysel müşterilere kesilen elektronik faturadır. Her iki belge de yasal geçerliliğe sahiptir. e-Fatura mükellefi kâğıt fatura kesemez.",
+      },
+      {
+        question: "e-İrsaliye kimler için zorunludur?",
+        answer:
+          "2022 ve sonraki hesap dönemlerinde brüt satış hasılatı 10 milyon TL ve üzeri olan e-Fatura mükellefleri için e-İrsaliye zorunludur. e-İrsaliye düzenlendiği tarihten itibaren 5 iş günü geçerlidir. Malın fiili sevkinden önce düzenlenmesi zorunludur.",
+      },
+      {
+        question: "e-Serbest Meslek Makbuzu kimler için zorunludur?",
+        answer:
+          "Serbest meslek faaliyeti yürüten tüm mükellefler (avukat, muhasebeci, mühendis, doktor vb.) için zorunludur. Makbuzun tahsilatın yapıldığı anda düzenlenmesi gerekir. Mali mühür bulunması şarttır ancak e-Fatura veya e-Arşiv sistemine dahil olma zorunluluğu yoktur.",
       },
       {
         question: "e-Dönüşüm geçiş süreci ne kadar sürer?",
         answer:
-          "Logo ERP kullanıyorsanız e-Dönüşüm geçişi ortalama 3-5 iş günü içinde tamamlanır. GİB başvurusu, entegratör bağlantısı, test faturaları ve canlıya geçiş adımlarını Proses Yazılım olarak uçtan uca yönetiyoruz.",
+          "Logo ERP kullanıyorsanız e-Dönüşüm geçişi ortalama 3-5 iş günü içinde tamamlanır. GİB başvurusu, entegratör bağlantısı, test belgeleri ve canlıya geçiş adımlarını Proses Yazılım olarak uçtan uca yönetiyoruz.",
       },
       {
-        question: "Hangi e-Dönüşüm entegratörleriyle çalışıyorsunuz?",
+        question: "Hangi e-Dönüşüm uygulamalarını destekliyorsunuz?",
         answer:
-          "Logo yazılımlarının desteklediği tüm GİB onaylı entegratörlerle çalışmaktayız. İşletmenizin ihtiyacına ve mevcut altyapınıza en uygun entegratörü birlikte belirliyoruz.",
+          "e-Fatura, e-Arşiv Fatura, e-İrsaliye, e-Defter, e-Müstahsil Makbuzu, e-Serbest Meslek Makbuzu, e-Dekont ve e-Adisyon uygulamalarının tamamını destekliyoruz. Tüm çözümler Logo ERP ürünleriyle entegre çalışır ve GİB onaylıdır.",
       },
       {
-        question: "e-Fatura ve e-Arşiv Fatura arasındaki fark nedir?",
+        question: "e-Dönüşüm çözümleri hangi Logo ürünleriyle uyumlu?",
         answer:
-          "e-Fatura, GİB'e kayıtlı iki mükellef arasında düzenlenir. e-Arşiv Fatura ise GİB'e kayıtlı olmayan mükelleflere veya bireysel müşterilere kesilen elektronik faturadır. Her iki belge de yasal geçerliliğe sahiptir.",
+          "Logo e-Çözümler; Tiger 3 Enterprise, GO Wings ve diğer Logo ERP ürünleriyle sorunsuz entegre çalışır. On-premise dağıtım modeliyle mevcut ERP altyapınıza ek kurulum gerektirmeden devreye alınabilir.",
       },
     ],
     seo: {
-      title: "e-Dönüşüm Çözümleri | e-Fatura, e-Arşiv, e-İrsaliye | Proses",
+      title: "e-Dönüşüm Çözümleri | e-Fatura, e-Arşiv, e-İrsaliye, e-Defter | Proses",
       description:
-        "e-Fatura, e-Arşiv Fatura, e-İrsaliye ve e-Defter entegrasyonu. Logo ERP ile uyumlu e-Dönüşüm çözümleri. Proses Yazılım Bursa.",
+        "e-Fatura, e-Arşiv Fatura, e-İrsaliye, e-Defter, e-Müstahsil, e-SMM, e-Dekont ve e-Adisyon. Logo ERP uyumlu GİB onaylı e-Dönüşüm çözümleri. Proses Yazılım Bursa.",
       keywords: [
         "e-Fatura",
         "e-Arşiv Fatura",
         "e-İrsaliye",
         "e-Defter",
+        "e-Müstahsil Makbuzu",
+        "e-Serbest Meslek Makbuzu",
+        "e-Dekont",
+        "e-Adisyon",
         "e-Dönüşüm",
-        "Logo e-Fatura",
+        "Logo e-Çözümler",
         "GİB entegrasyon",
         "Bursa e-Fatura",
         "elektronik fatura",
       ],
     },
     icon: FileText,
-    relatedSolutions: ["logo-tiger-3", "logo-go-3"],
+    relatedSolutions: ["logo-tiger-3", "logo-go-wings"],
   },
   {
     slug: "ozel-yazilim",
@@ -948,7 +1061,7 @@ export const services: Service[] = [
       ],
     },
     icon: Code,
-    relatedSolutions: ["logo-tiger-3", "logo-go-3", "logo-crm"],
+    relatedSolutions: ["logo-tiger-3", "logo-go-wings", "logo-crm"],
   },
   {
     slug: "erp-danismanligi",
@@ -992,7 +1105,7 @@ export const services: Service[] = [
       {
         question: "ERP kurulum süreci ne kadar sürer?",
         answer:
-          "Proje kapsamına göre Logo Go 3 için 1-3 hafta, Logo Tiger 3 için 4-12 hafta sürmektedir. Detaylı proje planıyla süreci şeffaf şekilde yönetiyoruz.",
+          "Proje kapsamına göre Logo GO Wings için 1-3 hafta, Logo Tiger 3 için 4-12 hafta sürmektedir. Detaylı proje planıyla süreci şeffaf şekilde yönetiyoruz.",
       },
       {
         question: "Mevcut verileri yeni ERP'ye aktarabilir misiniz?",
@@ -1026,7 +1139,7 @@ export const services: Service[] = [
       ],
     },
     icon: Settings,
-    relatedSolutions: ["logo-tiger-3", "logo-go-3", "logo-flow"],
+    relatedSolutions: ["logo-tiger-3", "logo-go-wings", "logo-flow"],
   },
   {
     slug: "teknik-destek",
@@ -1105,7 +1218,7 @@ export const services: Service[] = [
     icon: Headphones,
     relatedSolutions: [
       "logo-tiger-3",
-      "logo-go-3",
+      "logo-go-wings",
       "logo-crm",
       "logo-flow",
       "logo-mind",
@@ -1124,7 +1237,7 @@ export const regions: Region[] = [
     name: "Bursa ERP Danışmanlığı",
     headline: "Bursa'da Logo ERP Çözüm Ortağınız",
     description:
-      "Proses Yazılım, Bursa Nilüfer merkezli ofisiyle Türkiye'nin dördüncü büyük sanayi şehrine yerinde hizmet sunmaktadır. Otomotiv yan sanayiden tekstile, gıdadan makine imalatına kadar Bursa'nın çeşitli sanayi yapısına özel Logo ERP çözümleri geliştiriyoruz. 15 yılı aşkın yerel deneyimimiz ve 200'den fazla başarılı referansımızla Bursa iş dünyasının güvenilir teknoloji ortağıyız.\n\nBursa'nın dinamik iş ortamında rekabet avantajı elde etmek isteyen işletmelere Logo Tiger 3 Enterprise, Logo Go 3 ve tüm Logo ürün ailesinde danışmanlık, kurulum, eğitim ve teknik destek hizmetleri veriyoruz. Aynı gün yerinde müdahale garantimiz, uzaktan destek altyapımız ve sektörel uzmanlığımızla dijital dönüşüm yolculuğunuzda yanınızdayız.",
+      "Proses Yazılım, Bursa Nilüfer merkezli ofisiyle Türkiye'nin dördüncü büyük sanayi şehrine yerinde hizmet sunmaktadır. Otomotiv yan sanayiden tekstile, gıdadan makine imalatına kadar Bursa'nın çeşitli sanayi yapısına özel Logo ERP çözümleri geliştiriyoruz. 15 yılı aşkın yerel deneyimimiz ve 200'den fazla başarılı referansımızla Bursa iş dünyasının güvenilir teknoloji ortağıyız.\n\nBursa'nın dinamik iş ortamında rekabet avantajı elde etmek isteyen işletmelere Logo Tiger 3 Enterprise, Logo GO Wings ve tüm Logo ürün ailesinde danışmanlık, kurulum, eğitim ve teknik destek hizmetleri veriyoruz. Aynı gün yerinde müdahale garantimiz, uzaktan destek altyapımız ve sektörel uzmanlığımızla dijital dönüşüm yolculuğunuzda yanınızdayız.",
     highlights: [
       "Yerinde destek ve eğitim",
       "Bursa sanayisinde 15+ yıl deneyim",
@@ -1135,7 +1248,7 @@ export const regions: Region[] = [
     seo: {
       title: "Bursa ERP Danışmanlığı | Logo Yazılım Çözüm Ortağı | Proses",
       description:
-        "Bursa'da Logo ERP çözüm ortağı Proses Yazılım. Tiger 3, Go 3 kurulum, danışmanlık ve teknik destek. 200+ yerel referans.",
+        "Bursa'da Logo ERP çözüm ortağı Proses Yazılım. Tiger 3, GO Wings kurulum, danışmanlık ve teknik destek. 200+ yerel referans.",
       keywords: [
         "Bursa ERP",
         "Bursa Logo Yazılım",

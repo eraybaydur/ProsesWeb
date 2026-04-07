@@ -4,14 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, ChevronRight, Database, FileText, Code, Workflow, Phone } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, Database, Code, Workflow, Phone } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { CONTACT } from '@/lib/contact';
 
 const solutionsItems = [
     { id: 'tiger', name: 'Logo Tiger 3', description: 'Kurumsal ERP çözümü', logo: '/tiger.webp', href: '/cozumler/logo-tiger-3' },
-    { id: 'go3', name: 'Logo Go 3', description: 'KOBİ dostu ERP', logo: '/gowings.webp', href: '/cozumler/logo-go-3' },
+    { id: 'go3', name: 'Logo GO Wings', description: 'KOBİ dostu web tabanlı ERP', logo: '/gowings.webp', href: '/cozumler/logo-go-wings' },
     { id: 'crm', name: 'Logo CRM', description: 'Müşteri ilişkileri yönetimi', logo: '/logocrm.webp', href: '/cozumler/logo-crm' },
     { id: 'flow', name: 'Logo Flow', description: 'İş süreçleri otomasyonu', logo: '/logoflow.webp', href: '/cozumler/logo-flow' },
     { id: 'mind', name: 'Logo Mind', description: 'İş zekası platformu', logo: '/logomind.webp', href: '/cozumler/logo-mind' },
@@ -20,7 +20,6 @@ const solutionsItems = [
 
 const servicesItems = [
     { name: 'ERP Danışmanlığı', description: 'Kurulum, eğitim ve süreç analizi', href: '/hizmetler/erp-danismanligi', icon: Database },
-    { name: 'e-Dönüşüm', description: 'e-Fatura, e-Arşiv, e-İrsaliye, e-Defter', href: '/hizmetler/e-donusum', icon: FileText },
     { name: 'Özel Yazılım', description: 'B2B portal, REST API, entegrasyon', href: '/hizmetler/ozel-yazilim', icon: Code },
     { name: 'Teknik Destek', description: '7/24 destek ve bakım hizmeti', href: '/hizmetler/teknik-destek', icon: Workflow },
 ];
@@ -71,8 +70,10 @@ export default function Navbar() {
     };
 
     const closeMobileMenu = () => { setIsMobileMenuOpen(false); setOpenMobileAccordion(null); };
+
     const isSolutionsActive = pathname.startsWith('/cozumler');
-    const isServicesActive = pathname.startsWith('/hizmetler');
+    const isServicesActive = pathname.startsWith('/hizmetler') && !pathname.startsWith('/hizmetler/e-donusum');
+    const isEDonusumActive = pathname.startsWith('/hizmetler/e-donusum');
 
     return (
         <nav
@@ -80,11 +81,10 @@ export default function Navbar() {
             aria-label="Ana navigasyon"
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
                 isScrolled
-                    ? 'bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-md shadow-sm border-b border-slate-200/80 dark:border-white/[0.06]'
+                    ? 'bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-white/[0.06]'
                     : 'bg-transparent'
             }`}
         >
-            {/* Main navbar */}
             <div className="flex items-center justify-between h-16 lg:h-[68px] px-6 xl:px-12">
                 {/* Logo */}
                 <Link href="/" className="shrink-0">
@@ -98,8 +98,8 @@ export default function Navbar() {
                     />
                 </Link>
 
-                {/* Desktop Navigation — ortada, geniş aralıklı */}
-                <div className="hidden md:flex items-center gap-1 lg:gap-2">
+                {/* Desktop Navigation */}
+                <div className="hidden md:flex items-center gap-1">
                     {/* Çözümler */}
                     <div
                         className="relative"
@@ -108,11 +108,10 @@ export default function Navbar() {
                     >
                         <Link
                             href="/cozumler"
-                            aria-current={isSolutionsActive ? 'true' : undefined}
-                            className={`relative flex items-center gap-1 px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
+                            className={`relative flex items-center gap-1 px-4 py-2.5 text-sm font-medium transition-colors ${
                                 isSolutionsActive || openDropdown === 'solutions'
                                     ? 'text-burgundy dark:text-crimson'
-                                    : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
+                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                             }`}
                         >
                             Çözümler
@@ -127,27 +126,24 @@ export default function Navbar() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 4 }}
                                     transition={{ duration: 0.15 }}
-                                    className="absolute top-full left-0 z-50 mt-0 w-[460px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl dark:border-white/[0.08] dark:bg-[#0f0f0f]"
+                                    className="absolute top-full left-0 z-50 mt-0 w-[440px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-white/[0.08] dark:bg-[#0f0f0f]"
                                     role="menu"
                                 >
-                                    <div className="p-3">
+                                    <div className="p-2">
                                         <div className="grid grid-cols-3 gap-1">
                                             {solutionsItems.map((item) => (
                                                 <Link
                                                     key={item.id}
                                                     href={item.href}
                                                     onClick={() => setOpenDropdown(null)}
-                                                    className="group flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors"
+                                                    className="group flex flex-col items-center gap-2 p-3 rounded-md hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors"
                                                 >
-                                                    <div className="relative w-11 h-11 rounded-lg bg-slate-50 dark:bg-white/[0.06] overflow-hidden group-hover:bg-white dark:group-hover:bg-white/10 transition-colors">
+                                                    <div className="relative w-10 h-10 rounded-lg bg-slate-50 dark:bg-white/[0.06] overflow-hidden">
                                                         <Image src={item.logo} alt={item.name} fill className="object-contain p-1.5" />
                                                     </div>
                                                     <div className="text-center">
-                                                        <div className="text-xs font-semibold text-slate-700 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                                        <div className="text-xs font-medium text-slate-700 dark:text-slate-300 group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
                                                             {item.name}
-                                                        </div>
-                                                        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 leading-tight">
-                                                            {item.description}
                                                         </div>
                                                     </div>
                                                 </Link>
@@ -159,6 +155,19 @@ export default function Navbar() {
                         </AnimatePresence>
                     </div>
 
+                    {/* e-Dönüşüm — bağımsız link */}
+                    <Link
+                        href="/hizmetler/e-donusum"
+                        className={`relative px-4 py-2.5 text-sm font-medium transition-colors ${
+                            isEDonusumActive
+                                ? 'text-burgundy dark:text-crimson'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                        }`}
+                    >
+                        e-Dönüşüm
+                        {isEDonusumActive && <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-burgundy dark:bg-crimson rounded-full" />}
+                    </Link>
+
                     {/* Hizmetler */}
                     <div
                         className="relative"
@@ -167,11 +176,10 @@ export default function Navbar() {
                     >
                         <Link
                             href="/hizmetler"
-                            aria-current={isServicesActive ? 'true' : undefined}
                             className={`flex items-center gap-1 px-4 py-2.5 text-sm font-medium transition-colors ${
                                 isServicesActive || openDropdown === 'services'
                                     ? 'text-burgundy dark:text-crimson'
-                                    : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
+                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                             }`}
                         >
                             Hizmetler
@@ -186,10 +194,10 @@ export default function Navbar() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 4 }}
                                     transition={{ duration: 0.15 }}
-                                    className="absolute top-full left-0 z-50 mt-0 w-[320px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl dark:border-white/[0.08] dark:bg-[#0f0f0f]"
+                                    className="absolute top-full left-0 z-50 mt-0 w-[300px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-white/[0.08] dark:bg-[#0f0f0f]"
                                     role="menu"
                                 >
-                                    <div className="p-2">
+                                    <div className="p-1.5">
                                         {servicesItems.map((item) => {
                                             const Icon = item.icon;
                                             return (
@@ -197,13 +205,11 @@ export default function Navbar() {
                                                     key={item.name}
                                                     href={item.href}
                                                     onClick={() => setOpenDropdown(null)}
-                                                    className="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors"
+                                                    className="group flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors"
                                                 >
-                                                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-burgundy/8 dark:bg-burgundy/10 flex items-center justify-center">
-                                                        <Icon className="w-4 h-4 text-burgundy dark:text-crimson" />
-                                                    </div>
+                                                    <Icon className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-burgundy dark:group-hover:text-crimson transition-colors shrink-0" />
                                                     <div className="min-w-0">
-                                                        <div className="text-sm font-medium text-slate-700 dark:text-white group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
+                                                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-burgundy dark:group-hover:text-crimson transition-colors">
                                                             {item.name}
                                                         </div>
                                                         <div className="text-[11px] text-slate-400 dark:text-slate-500 truncate">
@@ -221,11 +227,10 @@ export default function Navbar() {
 
                     <Link
                         href="/bursa-logo-bayi"
-                        aria-current={pathname.startsWith('/bursa-logo-bayi') ? 'page' : undefined}
-                        className={`relative px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
+                        className={`relative px-4 py-2.5 text-sm font-medium transition-colors ${
                             pathname.startsWith('/bursa-logo-bayi')
                                 ? 'text-burgundy dark:text-crimson'
-                                : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         Bursa Logo Bayi
@@ -234,11 +239,10 @@ export default function Navbar() {
 
                     <Link
                         href="/iletisim"
-                        aria-current={pathname.startsWith('/iletisim') ? 'page' : undefined}
-                        className={`relative px-4 lg:px-5 py-2.5 text-sm font-medium transition-colors ${
+                        className={`relative px-4 py-2.5 text-sm font-medium transition-colors ${
                             pathname.startsWith('/iletisim')
                                 ? 'text-burgundy dark:text-crimson'
-                                : 'text-slate-700 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                     >
                         İletişim
@@ -247,19 +251,19 @@ export default function Navbar() {
                 </div>
 
                 {/* Right side */}
-                <div className="hidden md:flex items-center gap-4">
+                <div className="hidden md:flex items-center gap-3">
                     <a
                         href={CONTACT.phoneHref}
-                        className="hidden lg:flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-300 hover:text-burgundy dark:hover:text-crimson transition-colors font-medium"
+                        className="hidden lg:flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                     >
                         <Phone className="w-3.5 h-3.5" />
                         {CONTACT.phone}
                     </a>
-                    <span className="hidden lg:block w-px h-5 bg-slate-200 dark:bg-white/10" />
+                    <span className="hidden lg:block w-px h-4 bg-slate-200 dark:bg-white/10" />
                     <ThemeToggle />
                     <Link
                         href="/iletisim"
-                        className="px-6 py-2.5 rounded-lg bg-burgundy hover:bg-dark-red text-white text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
+                        className="px-5 py-2 rounded-lg bg-burgundy hover:bg-dark-red text-white text-sm font-medium transition-colors"
                     >
                         Demo Talep Et
                     </Link>
@@ -292,7 +296,7 @@ export default function Navbar() {
                         <div className="px-5 py-3 max-h-[75vh] overflow-y-auto">
                             <a
                                 href={CONTACT.phoneHref}
-                                className="flex items-center gap-2.5 py-3 px-4 mb-2 rounded-lg bg-burgundy/5 dark:bg-burgundy/10 text-burgundy dark:text-crimson font-semibold text-sm"
+                                className="flex items-center gap-2.5 py-3 px-4 mb-2 rounded-lg bg-slate-50 dark:bg-white/[0.04] text-slate-700 dark:text-slate-300 font-medium text-sm"
                             >
                                 <Phone className="w-4 h-4" />
                                 {CONTACT.phone}
@@ -338,6 +342,13 @@ export default function Navbar() {
                                 </AnimatePresence>
                             </div>
 
+                            {/* e-Dönüşüm — bağımsız link */}
+                            <Link href="/hizmetler/e-donusum" onClick={closeMobileMenu}
+                                className="flex items-center justify-between py-3.5 text-base font-semibold text-slate-800 dark:text-white border-b border-slate-100 dark:border-white/[0.06]">
+                                e-Dönüşüm
+                                <ChevronRight className="w-4 h-4 text-slate-400" />
+                            </Link>
+
                             {/* Hizmetler */}
                             <div className="border-b border-slate-100 dark:border-white/[0.06]">
                                 <button
@@ -366,7 +377,7 @@ export default function Navbar() {
                                                             onClick={closeMobileMenu}
                                                             className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-white/[0.04] active:bg-slate-100 transition-colors"
                                                         >
-                                                            <Icon className="w-4 h-4 text-burgundy dark:text-crimson shrink-0" />
+                                                            <Icon className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
                                                             <div className="min-w-0">
                                                                 <div className="text-sm font-medium text-slate-800 dark:text-white">{item.name}</div>
                                                                 <div className="text-[11px] text-slate-400 truncate">{item.description}</div>

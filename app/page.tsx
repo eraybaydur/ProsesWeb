@@ -18,11 +18,11 @@ import { buildHomeJsonLd, siteConfig } from "../lib/seo";
 export const metadata: Metadata = {
   title: "Proses Yazılım | Logo Yazılım Çözümleri ve ERP Danışmanlığı",
   description:
-    "Bursa'da Logo Yazılım yetkili iş ortağı Proses ile Tiger 3, GO 3, CRM, e-Dönüşüm, entegrasyon ve kurumsal dijital dönüşüm danışmanlığı alın.",
+    "Bursa'da Logo Yazılım yetkili iş ortağı Proses ile Tiger 3, GO Wings, CRM, e-Dönüşüm, entegrasyon ve kurumsal dijital dönüşüm danışmanlığı alın.",
   keywords: [
     "Logo Yazılım Bursa",
     "Logo Tiger 3",
-    "Logo GO 3",
+    "Logo GO Wings",
     "Logo CRM",
     "ERP danışmanlığı",
     "e-Dönüşüm çözümleri",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Proses | Logo Yazılım Çözümleri ve ERP Danışmanlığı",
     description:
-      "Tiger 3, GO 3, CRM ve e-Dönüşüm projelerinde uçtan uca kurulum, entegrasyon ve destek hizmetleri.",
+      "Tiger 3, GO Wings, CRM ve e-Dönüşüm projelerinde uçtan uca kurulum, entegrasyon ve destek hizmetleri.",
     url: siteConfig.url,
     type: "website",
     locale: "tr_TR",

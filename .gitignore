@@ -49,3 +49,11 @@ Dockerfile
 .dockerignore
 .claude/settings.local.json
 prosesweb/
+.aidesigner/*
+!.aidesigner/.gitkeep
+.agents/
+.aidesigner/
+.claude/agents/
+.claude/commands/
+.claude/skills/
+.mcp.json

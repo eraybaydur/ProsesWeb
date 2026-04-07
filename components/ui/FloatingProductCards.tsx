@@ -6,7 +6,7 @@ import { usePageTransition } from './PageTransition';
 
 const products = [
     { id: 'tiger', name: 'Tiger 3 Enterprise', logo: '/tiger.png', description: 'Kurumsal ERP', delay: 0 },
-    { id: 'go3', name: 'Go 3', logo: '/gowings.png', description: 'KOBİ Çözümü', delay: 0.1 },
+    { id: 'go3', name: 'GO Wings', logo: '/gowings.png', description: 'KOBİ Çözümü', delay: 0.1 },
     { id: 'crm', name: 'Logo CRM', logo: '/logocrm.png', description: 'Müşteri İlişkileri', delay: 0.2 },
     { id: 'mind', name: 'Logo Mind', logo: '/logomind.png', description: 'İş Zekası', delay: 0.3 },
     { id: 'flow', name: 'e-Dönüşüm', logo: '/logoflow.png', description: 'Dijital Fatura', delay: 0.4 },

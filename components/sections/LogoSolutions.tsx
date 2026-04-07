@@ -20,9 +20,9 @@ const solutions = [
     },
     {
         id: 'go3',
-        name: 'Logo Go 3',
+        name: 'Logo GO Wings',
         logo: '/gowings.png',
-        description: "KOBİ'ler için kullanımı kolay ve ekonomik ERP çözümü.",
+        description: "KOBİ'ler için web üzerinden kullanılabilen tam kapsamlı ERP çözümü.",
         color: '#6366f1',
         gradient: 'from-blue-500 via-indigo-500 to-violet-500',
         icon: Zap,

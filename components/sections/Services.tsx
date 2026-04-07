@@ -9,7 +9,7 @@ const services = [
     {
         title: 'Logo ERP Kurulum & Destek',
         description:
-            'Tiger 3, Go 3 ve J-Platform kurulum, eğitim ve destek hizmetleri ile işletmenizin verimliliğini artırın.',
+            'Tiger 3, GO Wings ve J-Platform kurulum, eğitim ve destek hizmetleri ile işletmenizin verimliliğini artırın.',
         icon: Database,
         image: '/images/erp-dashboard.jpg',
         color: '#f97316',

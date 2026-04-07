@@ -390,7 +390,7 @@ export default function Hero() {
                         >
                             Bursa merkezli uzman kadromuzla, işletmenizin dijital dönüşüm yolculuğunda yanınızdayız.
                             <span className="block mt-4 text-slate-500 dark:text-slate-400 text-lg">
-                                Tiger 3, Go 3 ve e-Dönüşüm süreçlerinde profesyonel entegrasyon ve danışmanlık hizmetleri.
+                                Tiger 3, GO Wings ve e-Dönüşüm süreçlerinde profesyonel entegrasyon ve danışmanlık hizmetleri.
                             </span>
                         </motion.p>
 

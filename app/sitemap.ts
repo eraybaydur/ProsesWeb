@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteConfig.url}/cozumler/${s.slug}`,
     lastModified,
     changeFrequency: 'monthly' as const,
-    priority: ['logo-tiger-3', 'logo-go-3', 'logo-crm'].includes(s.slug) ? 0.9 : 0.8,
+    priority: ['logo-tiger-3', 'logo-go-wings', 'logo-crm'].includes(s.slug) ? 0.9 : 0.8,
   }));
 
   const serviceUrls = services.map(s => ({

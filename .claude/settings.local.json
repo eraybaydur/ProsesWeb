@@ -47,7 +47,17 @@
       "WebFetch(domain:www.reactbits.dev)",
       "Bash(python3:*)",
       "Bash(python:*)",
-      "Bash(PYTHONIOENCODING=utf-8 python:*)"
+      "Bash(PYTHONIOENCODING=utf-8 python:*)",
+      "mcp__aidesigner__whoami",
+      "mcp__aidesigner__get_credit_status",
+      "mcp__aidesigner__generate_design",
+      "Bash(where pdftotext:*)",
+      "Bash(where pdftoppm:*)",
+      "Bash(pdftotext \"C:/Users/erayb/OneDrive/Masaüstü/logo-tiger-3-enterprise-tanitim-brosuru-tr.pdf\" -)",
+      "Bash(node -e ':*)",
+      "Bash(pip show:*)",
+      "Bash(pip install:*)",
+      "WebFetch(domain:www.logo.com.tr)"
     ],
     "deny": [],
     "ask": []

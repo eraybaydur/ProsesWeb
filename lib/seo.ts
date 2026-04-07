@@ -214,7 +214,7 @@ export function buildSolutionsIndexJsonLd() {
       numberOfItems: 6,
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Logo Tiger 3 Enterprise", url: `${siteConfig.url}/cozumler/logo-tiger-3` },
-        { "@type": "ListItem", position: 2, name: "Logo Go 3", url: `${siteConfig.url}/cozumler/logo-go-3` },
+        { "@type": "ListItem", position: 2, name: "Logo GO Wings", url: `${siteConfig.url}/cozumler/logo-go-wings` },
         { "@type": "ListItem", position: 3, name: "Logo CRM", url: `${siteConfig.url}/cozumler/logo-crm` },
         { "@type": "ListItem", position: 4, name: "Logo Flow", url: `${siteConfig.url}/cozumler/logo-flow` },
         { "@type": "ListItem", position: 5, name: "Logo Mind", url: `${siteConfig.url}/cozumler/logo-mind` },
